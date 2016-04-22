@@ -2,8 +2,10 @@
   "webpack": {
     "entry": {
       "user-management": "modules/users/module",
+      "facet-management": "modules/facets/module",
       "organization-management": "modules/organization/module",
-      "plugin-management": "modules/plugins/module"
+      "plugin-management": "modules/plugins/module",
+      "form-builder": "modules/form/module"
     }
   }
 }

@@ -41,20 +41,21 @@ class Role implements RoleInterface
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_user"})
+     * @Groups({"api_user", "api_facet_admin"})
      */
     protected $id;
 
     /**
      * @ORM\Column(unique=true)
      * @Assert\NotBlank()
-     * @Groups({"api_user"})
+     * @Groups({"api_user", "api_facet_admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(name="translation_key")
      * @Assert\NotBlank()
+     * @Groups({"api_facet_admin"})
      */
     protected $translationKey;
 

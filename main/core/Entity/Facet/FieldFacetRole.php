@@ -13,6 +13,7 @@ namespace Claroline\CoreBundle\Entity\Facet;
 
 use Doctrine\ORM\Mapping as ORM;
 use Claroline\CoreBundle\Entity\Role;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\FieldFacetRoleRepository")
@@ -24,6 +25,7 @@ class FieldFacetRole
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api_facet_admin"})
      */
     protected $id;
 
@@ -33,6 +35,7 @@ class FieldFacetRole
      *     inversedBy="fieldFacetsRole"
      * )
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @Groups({"api_facet_admin"})
      */
     protected $role;
 
@@ -47,11 +50,13 @@ class FieldFacetRole
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $canOpen = false;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $canEdit = false;
 

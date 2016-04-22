@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\Accessor;
 
 /**
  * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\FieldFacetRepository")
@@ -25,24 +26,29 @@ class FieldFacet
     const STRING_TYPE = 1;
     const FLOAT_TYPE = 2;
     const DATE_TYPE = 3;
+    const RADIO_TYPE = 4;
+    const SELECT_TYPE = 5;
+    const CHECKBOX_TYPE = 6;
+    const COUNTRY_TYPE = 7;
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"admin"})
+     * @Groups({"api_facet_admin"})
      */
     protected $id;
 
     /**
      * @ORM\Column
      * @Assert\NotBlank()
-     * @Groups({"admin"})
+     * @Groups({"api_facet_admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"api_facet_admin"})
      */
     protected $type;
 
@@ -66,6 +72,7 @@ class FieldFacet
 
     /**
      * @ORM\Column(type="integer", name="position")
+     * @Groups({"api_facet_admin"})
      */
     protected $position;
 
@@ -74,18 +81,27 @@ class FieldFacet
      *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacetRole",
      *     mappedBy="fieldFacet"
      * )
+     * @Groups({"api_facet_admin"})
      */
     protected $fieldFacetsRole;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $isVisibleByOwner = true;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $isEditableByOwner = false;
+
+    /**
+     * @Groups({"api_facet_admin"})
+     * @Accessor(getter="getInputType")
+     */
+    protected $translationKey;
 
     public function __construct()
     {
@@ -160,6 +176,10 @@ class FieldFacet
             case self::FLOAT_TYPE: return 'number';
             case self::DATE_TYPE: return 'date';
             case self::STRING_TYPE: return 'text';
+            case self::RADIO_TYPE: return 'radio';
+            case self::SELECT_TYPE: return 'select';
+            case self::CHECKBOX_TYPE: return 'checkbox';
+            case self::COUNTRY_TYPE: return 'country';
             default: return 'error';
         }
     }
@@ -170,6 +190,10 @@ class FieldFacet
             case self::FLOAT_TYPE: return 'number';
             case self::DATE_TYPE: return 'date';
             case self::STRING_TYPE: return 'text';
+            case self::RADIO_TYPE: return 'radio';
+            case self::SELECT_TYPE: return 'select';
+            case self::CHECKBOX_TYPE: return 'checkbox';
+            case self::COUNTRY_TYPE: return 'country';
             default: return 'error';
         }
     }

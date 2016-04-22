@@ -144,7 +144,7 @@ class FacetManager
      * @param string     $name
      * @param int        $type
      */
-    public function addField(PanelFacet $panelFacet, $name, $type)
+    public function addField(PanelFacet $panelFacet, $name, $type, $visible, $editable)
     {
         $this->om->startFlushSuite();
         $fieldFacet = new FieldFacet();
@@ -152,6 +152,8 @@ class FacetManager
         $fieldFacet->setName($name);
         $fieldFacet->setType($type);
         $fieldFacet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\FieldFacet'));
+        $fieldFacet->setIsVisibleByOwner($visible);
+        $fieldFacet->setIsEditableByOwner($editable);
         $this->initFieldPermissions($fieldFacet);
         $this->om->persist($fieldFacet);
         $this->om->endFlushSuite();

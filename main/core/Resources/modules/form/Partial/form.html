@@ -1,0 +1,24 @@
+<div>
+    <div class="form-group-row" ng-repeat="(key, field) in fc.form.fields">
+        <div ng-include="field.type + '.html'"></div>
+    </div>
+
+    <script type="text/ng-template" id="text.html">
+        <label class="control-label" for="{{ fc.form.name }}-{{ field.name }}"> {{ field.label|trans:{}:field.domain }} </label>
+        <input class="form-control" id="{{ fc.form.name }}-{{ field.name }}" type="{{ field.type }}" ng-model="fc.form.model[field.name]"></input>
+    </script>
+
+    <script type="text/ng-template" id="select.html">
+        <label class="control-label" for="{{ fc.form.name }}-{{ field.name }}"> {{ field.label|trans:{}:field.domain }} </label>
+        <select class="form-control" id="{{ fc.form.name }}-{{ field.name }}" ng-model="fc.form.model[field.name]">
+            <option ng-repeat="(key, option) in field.options.values" value="{{ option.value }}" ng-selected="option.default">
+                {{ option.label|trans:{}:field.domain }}
+            </option>
+        </select>
+    </script>
+
+    <script type="text/ng-template" id="checkbox.html">
+        <label class="control-label" for="{{ fc.form.name }}-{{ field.name }}"> {{ field.label|trans:{}:field.domain }} </label>
+        <input type="checkbox" class="control-standalone control-standalone" value="{{ field.name }}" ng-model="fc.form.model[field.name]"></input>
+    </script>
+</div>

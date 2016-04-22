@@ -14,6 +14,8 @@ namespace Claroline\CoreBundle\Entity\Facet;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\PanelFacetRepository")
@@ -25,12 +27,14 @@ class PanelFacet
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api_facet_admin"})
      */
     protected $id;
 
     /**
      * @ORM\Column
      * @Assert\NotBlank()
+     * @Groups({"api_facet_admin"})
      */
     protected $name;
 
@@ -50,16 +54,20 @@ class PanelFacet
      *     cascade={"persist"}
      * )
      * @ORM\OrderBy({"position" = "ASC"})
+     * @Groups({"api_facet_admin"})
+     * @SerializedName("fields")
      */
     protected $fieldsFacet;
 
     /**
      * @ORM\Column(type="integer", name="position")
+     * @Groups({"api_facet_admin"})
      */
     protected $position;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $isDefaultCollapsed = false;
 

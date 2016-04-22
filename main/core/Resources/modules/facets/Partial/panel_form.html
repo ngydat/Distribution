@@ -1,0 +1,15 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="$close()">&times;</button>
+        <h4> {{ 'create_panel'|trans:{}:'platform' }} </h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <form class="form-horizontal" action="#">
+                <formbuilder form="mc.form"></formbuilder>
+                <input type="submit" class="btn btn-primary" aria-hidden="true" value="{{ 'create'|trans:{}:'platform' }}" ng-click="mc.onSubmit()"> </input>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
+            </form>
+        </div>
+    </div>
+</div>

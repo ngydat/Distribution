@@ -16,6 +16,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Claroline\CoreBundle\Entity\Role;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\FacetRepository")
@@ -28,17 +30,20 @@ class Facet
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"api_facet_admin"})
      */
     protected $id;
 
     /**
      * @ORM\Column(unique=true)
      * @Assert\NotBlank()
+     * @Groups({"api_facet_admin"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="integer", name="position")
+     * @Groups({"api_facet_admin"})
      */
     protected $position;
 
@@ -49,6 +54,8 @@ class Facet
      *     cascade={"persist"}
      * )
      * @ORM\OrderBy({"position" = "ASC"})
+     * @Groups({"api_facet_admin"})
+     * @SerializedName("panels")
      */
     protected $panelFacets;
 
@@ -60,16 +67,19 @@ class Facet
      *     inversedBy="facets"
      * )
      * @ORM\JoinTable(name="claro_facet_role")
+     * @Groups({"api_facet_admin"})
      */
     protected $roles;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $isVisibleByOwner = true;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin"})
      */
     protected $forceCreationForm = false;
 
