@@ -73,6 +73,7 @@ export default class FacetController {
         })
 
         modalInstance.result.then(result => {
+            if (!result) return
             var data = this.FormBuilderService.formSerialize('facet', result)
 
             this.$http.post(
@@ -107,6 +108,7 @@ export default class FacetController {
         })
 
         modalInstance.result.then(result => {
+            if (!result) return
             var data = this.FormBuilderService.formSerialize('facet', result)
 
             this.$http.put(
@@ -146,7 +148,15 @@ export default class FacetController {
     }
 
     onSetFacetRoles(facet) {
-
+        const modalInstance = this.$uibModal.open({
+            template: require('../Partial/facet_roles_form.html'),
+            controller: 'FacetRolesController',
+            controllerAs: 'frc',
+            resolve:{
+                facet: () => { return facet },
+                platformRoles: () => { return this.platformRoles }
+            }
+        })
     }
 
     onAddPanelFormRequest(facet)
@@ -161,6 +171,7 @@ export default class FacetController {
         })
 
         modalInstance.result.then(result => {
+            if (!result) return
             var data = this.FormBuilderService.formSerialize('panel', result)
 
             this.$http.post(
@@ -193,6 +204,7 @@ export default class FacetController {
         })
 
         modalInstance.result.then(result => {
+            if (!result) return
             var data = this.FormBuilderService.formSerialize('field', result)
 
             this.$http.post(

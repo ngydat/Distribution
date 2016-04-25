@@ -1,9 +1,11 @@
 export default class FacetRolesController {
-    constructor($uibModalInstance) {
+    constructor($uibModalInstance, platformRoles, facet) {
         this.$uibModalInstance = $uibModalInstance
+        this.platformRoles = platformRoles
+        this.facet = facet
     }
 
     onSubmit() {
-        this.$uibModalInstance.close(this.form.model)
+        this.$uibModalInstance.close()
     }
 }

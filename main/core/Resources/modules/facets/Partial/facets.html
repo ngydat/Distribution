@@ -15,7 +15,7 @@
                         <li class="divider"></li>
                         <li role="presentation"><i role="menuitem" ng-click="fc.onEditFacetFormRequest(facet)" class="fa fa-pencil"> {{ "edit"|trans:{}:'platform' }}</i></li>
                         <li role="presentation"><i role="menuitem" ng-click="fc.onDeleteFacet(facet)" class="fa fa-trash-o"> {{ "delete"|trans:{}:'platform' }}</i></li>
-                        <li role="presentation"><i role="menuitem" class="fa fa-user"> {{ "roles"|trans:{}:'platform' }}</i></li>
+                        <li role="presentation"><i role="menuitem" ng-click="fc.onSetFacetRoles(facet)" class="fa fa-user"> {{ "roles"|trans:{}:'platform' }}</i></li>
                     </ul>
                 </div>
             </a>
