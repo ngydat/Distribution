@@ -189,12 +189,14 @@ class FacetManager
      *
      * @return FacetPanel
      */
-    public function editPanel(PanelFacet $panel)
+    public function editPanel(PanelFacet $panelFacet, $name, $collapse)
     {
-        $this->om->persist($panel);
+        $panelFacet->setName($name);
+        $panelFacet->setIsDefaultCollapsed($collapse);
+        $this->om->persist($panelFacet);
         $this->om->flush();
 
-        return $panel;
+        return $panelFacet;
     }
 
     /**
@@ -333,10 +335,12 @@ class FacetManager
         }
     }
 
-    public function editField(FieldFacet $fieldFacet, $name, $type)
+    public function editField(FieldFacet $fieldFacet, $name, $type, $visible, $editable)
     {
         $fieldFacet->setName($name);
         $fieldFacet->setType($type);
+        $fieldFacet->setIsVisibleByOwner($visible);
+        $fieldFacet->setIsEditableByOwner($editable);
         $this->om->persist($fieldFacet);
         $this->om->flush();
 

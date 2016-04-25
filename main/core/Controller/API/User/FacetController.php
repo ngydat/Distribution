@@ -23,6 +23,7 @@ use FOS\RestBundle\Controller\Annotations\Delete;
 use Symfony\Component\HttpFoundation\Request;
 use Claroline\CoreBundle\Entity\Facet\Facet;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
+use Claroline\CoreBundle\Entity\Facet\FieldFacet;
 
 /**
  * @NamePrefix("api_")
@@ -103,6 +104,30 @@ class FacetController extends FOSRestController
 
     /**
      * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/panel/{panel}", name="put_panel_facet", options={ "method_prefix" = false })
+     */
+    public function editFacetPanelAction(PanelFacet $panel)
+    {
+        $data = $this->request->request->get('panel');
+
+        //there should be a facet validation here
+
+        return $this->facetManager->editPanel($panel, $data['name'], isset($data['collapse']));
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Delete("facet/panel/{panel}", name="delete_panel_facet", options={ "method_prefix" = false })
+     */
+    public function deletePanelFacetAction(PanelFacet $panel)
+    {
+        $this->facetManager->removePanel($panel);
+
+        return [];
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
      * @Post("facet/panel/{panel}/field/create", name="post_field_facet", options={ "method_prefix" = false })
      */
     public function createFieldFacetAction(PanelFacet $panel)
@@ -118,6 +143,36 @@ class FacetController extends FOSRestController
             isset($field['visible']),
             isset($field['editable'])
         );
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/panel/field/{field}", name="put_field_facet", options={ "method_prefix" = false })
+     */
+    public function editFieldFacetAction(FieldFacet $field)
+    {
+        $data = $this->request->request->get('field');
+
+        //there should be a facet validation here
+
+        return $this->facetManager->editField(
+            $field,
+            $data['name'],
+            $data['type'],
+            isset($data['visible']),
+            isset($data['editable'])
+        );
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Delete("facet/panel/field/{field}", name="delete_field_facet", options={ "method_prefix" = false })
+     */
+    public function deleteFieldFacetAction(FieldFacet $field)
+    {
+        $this->facetManager->removeField($field);
+
+        return [];
     }
 
     public function getAvailableFieldTypesAction()

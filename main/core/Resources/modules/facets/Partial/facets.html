@@ -63,8 +63,8 @@
                                         <ul class="list-group list-fields" id="lu-panel-{{ panel.id }}">
                                             <li ng-repeat="(key, field) in panel.fields" class="list-group-item" id="field-{{ field.id }}">
                                                 <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a> -
-                                                <a ng-click="fc.onDeleteField(field)" href="#"> {{ "roles"|trans:{}:'platform' }} </a>
-                                                <a class="close remove-field-facet" href="#" aria-hidden="true">&times;</a>
+                                                <a href="#"> {{ "roles"|trans:{}:'platform' }} </a>
+                                                <a class="close" ng-click="fc.onDeleteField(field)" href="#" aria-hidden="true">&times;</a>
                                             </li>
 
                                         </ul>

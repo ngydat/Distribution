@@ -117,10 +117,7 @@ export default class FacetController {
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
             ).then(
                 d => {},
-                d => {
-                    //put backup where is should be
-                    alert('an error occured')
-                }
+                d => alert('an error occured')
             );
         })
     }
@@ -166,7 +163,9 @@ export default class FacetController {
             controller: 'ModalController',
             controllerAs: 'mc',
             resolve:{
-                form: () => { return this.formPanel }
+                form: () => { return this.formPanel },
+                title: () => { return 'create_panel'},
+                submit: () => { return 'create'}
             }
         })
 
@@ -178,18 +177,58 @@ export default class FacetController {
                 Routing.generate('api_post_panel_facet', {facet: facet.id}),
                 data,
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-            ).then(d => console.log(d));
+            ).then(
+                d => facet.panels.push(d.data),
+                d => alert('error')
+            );
         })
     }
 
     onEditPanelFormRequest(panel)
     {
-        alert('edit panel')
+        //for error handling
+        const backup = angular.copy(panel)
+        this.formPanel.model = panel
+
+        const modalInstance = this.$uibModal.open({
+            template: require('../Partial/panel_form.html'),
+            controller: 'ModalController',
+            controllerAs: 'mc',
+            resolve:{
+                form: () => { return this.formPanel },
+                title: () => { return 'edit_panel'},
+                submit: () => { return 'edit'}
+            }
+        })
+
+        modalInstance.result.then(result => {
+            if (!result) return
+            var data = this.FormBuilderService.formSerialize('panel', result)
+
+            this.$http.put(
+                Routing.generate('api_put_panel_facet', {panel: panel.id}),
+                data,
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+            ).then(
+                d => {},
+                d => alert('an error occured')
+            );
+        })
     }
 
     onDeletePanel(panel)
     {
-        alert('delete panel')
+        const url = Routing.generate('api_delete_panel_facet', {panel: panel.id})
+
+        this.ClarolineAPIService.confirm(
+            {url, method: 'DELETE'},
+            function() {
+                alert('meh')
+                //this.ClarolineAPIService.removeElements(facet, this.facets)
+            }.bind(this),
+            Translator.trans('delete_panel', {}, 'platform'),
+            Translator.trans('delete_panel_confirm', 'platform')
+        )
     }
 
     onAddFieldFormRequest(panel)
@@ -199,7 +238,9 @@ export default class FacetController {
             controller: 'ModalController',
             controllerAs: 'mc',
             resolve:{
-                form: () => { return this.formField }
+                form: () => { return this.formField },
+                title: () => { return 'create_field'},
+                submit: () => { return 'create'}
             }
         })
 
@@ -211,17 +252,56 @@ export default class FacetController {
                 Routing.generate('api_post_field_facet', {panel: panel.id}),
                 data,
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-            ).then(d => console.log(d));
+            ).then(
+                d => panel.fields.push(d.data)
+            );
         })
     }
 
     onEditFieldFormRequest(field)
     {
-        alert('edit field')
+        //for error handling
+        const backup = angular.copy(field)
+        this.formField.model = field
+
+        const modalInstance = this.$uibModal.open({
+            template: require('../Partial/field_form.html'),
+            controller: 'ModalController',
+            controllerAs: 'mc',
+            resolve:{
+                form: () => { return this.formField },
+                title: () => { return 'edit_field'},
+                submit: () => { return 'edit'}
+            }
+        })
+
+        modalInstance.result.then(result => {
+            if (!result) return
+            var data = this.FormBuilderService.formSerialize('field', result)
+
+            this.$http.put(
+                Routing.generate('api_put_field_facet', {field: field.id}),
+                data,
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+            ).then(
+                d => {},
+                d => alert('an error occured')
+            );
+        })
     }
 
     onDeleteField(field)
     {
-        alert('delete field')
+        const url = Routing.generate('api_delete_field_facet', {field: field.id})
+
+        this.ClarolineAPIService.confirm(
+            {url, method: 'DELETE'},
+            function() {
+                alert('meh')
+                //this.ClarolineAPIService.removeElements(facet, this.facets)
+            }.bind(this),
+            Translator.trans('delete_field', {}, 'platform'),
+            Translator.trans('delete_field_confirm', 'platform')
+        )
     }
 }
