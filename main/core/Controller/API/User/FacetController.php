@@ -12,6 +12,7 @@
 namespace Claroline\CoreBundle\Controller\API\User;
 
 use JMS\DiExtraBundle\Annotation as DI;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
@@ -91,6 +92,20 @@ class FacetController extends FOSRestController
 
     /**
      * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/{facet}/roles", name="put_facet_roles", options={ "method_prefix" = false })
+     * @EXT\ParamConverter(
+     *     "roles",
+     *     class="ClarolineCoreBundle:Role",
+     *     options={"multipleIds" = true}
+     * )
+     */
+    public function setFacetRolesAction(Facet $facet, array $roles)
+    {
+        return $this->facetManager->setFacetRoles($facet, $roles);
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
      * @Post("facet/{facet}/panel/create", name="post_panel_facet", options={ "method_prefix" = false })
      */
     public function createFacetPanelAction(Facet $facet)
@@ -99,7 +114,7 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->addPanel($facet, $panel['name'], isset($panel['collapse']));
+        return $this->facetManager->addPanel($facet, $panel['name'], isset($panel['is_default_collapsed']));
     }
 
     /**
@@ -112,7 +127,7 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->editPanel($panel, $data['name'], isset($data['collapse']));
+        return $this->facetManager->editPanel($panel, $data['name'], isset($data['is_default_collapsed']));
     }
 
     /**
@@ -140,8 +155,8 @@ class FacetController extends FOSRestController
             $panel,
             $field['name'],
             $field['type'],
-            isset($field['visible']),
-            isset($field['editable'])
+            isset($field['is_visible_by_owner']),
+            isset($field['is_editable_by_owner'])
         );
     }
 
@@ -159,8 +174,8 @@ class FacetController extends FOSRestController
             $field,
             $data['name'],
             $data['type'],
-            isset($data['visible']),
-            isset($data['editable'])
+            isset($data['is_visible_by_owner']),
+            isset($data['is_editable_by_owner'])
         );
     }
 
@@ -175,7 +190,13 @@ class FacetController extends FOSRestController
         return [];
     }
 
-    public function getAvailableFieldTypesAction()
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/panel/field/{field}/roles", name="put_field_roles", options={ "method_prefix" = false })
+     */
+    public function setFieldsRoleAction(FieldFacet $field)
     {
+        $params = $this->request->request->all();
+        //return $this->facetManager->setFacetRoles($facet, $roles);
     }
 }

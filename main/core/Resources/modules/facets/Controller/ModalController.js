@@ -1,12 +1,14 @@
 export default class ModalController {
-    constructor(form, title, submit, $uibModalInstance) {
-        this.form = form
-        this.title = title
-        this.submit = submit
-        this.$uibModalInstance = $uibModalInstance
-    }
+  constructor (form, title, submit, model, $uibModalInstance) {
+    this.form = form
+    this.title = title
+    this.submit = submit
+    this.model = model
+    this.$uibModalInstance = $uibModalInstance
+  }
 
-    onSubmit() {
-        this.$uibModalInstance.close(this.form.model)
-    }
+  onSubmit (form) {
+      console.log('submit')
+    if (form.$valid) this.$uibModalInstance.close(this.model)
+  }
 }

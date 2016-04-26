@@ -59,14 +59,12 @@
                                     aria-labelledby="facet-panel-{{ panel.id }}"
                                 >
                                     <div class="panel-body">
-
                                         <ul class="list-group list-fields" id="lu-panel-{{ panel.id }}">
                                             <li ng-repeat="(key, field) in panel.fields" class="list-group-item" id="field-{{ field.id }}">
                                                 <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a> -
-                                                <a href="#"> {{ "roles"|trans:{}:'platform' }} </a>
+                                                <a href="#" ng-click="fc.onSetFieldRoles(field)"> {{ "roles"|trans:{}:'platform' }} </a>
                                                 <a class="close" ng-click="fc.onDeleteField(field)" href="#" aria-hidden="true">&times;</a>
                                             </li>
-
                                         </ul>
                                     </div>
                                 </div>

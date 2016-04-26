@@ -7,6 +7,7 @@ import Interceptors from '../interceptorsDefault'
 import FacetManagementDirective from './Directive/FacetManagementDirective'
 import ModalController from './Controller/ModalController'
 import FacetRolesController from './Controller/FacetRolesController'
+import FieldRolesController from './Controller/FieldRolesController'
 import FormBuilder from '../form/module'
 import ClarolineAPI from '../services/module'
 
@@ -19,4 +20,5 @@ angular.module('FacetManager', [
   .directive('facetManagement', () => new FacetManagementDirective)
   .controller('ModalController', ModalController)
   .controller('FacetRolesController', FacetRolesController)
+  .controller('FieldRolesController', FieldRolesController)
   .config(Interceptors)

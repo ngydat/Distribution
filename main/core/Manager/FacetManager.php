@@ -431,6 +431,8 @@ class FacetManager
         $facet->setRoles($roles);
         $this->om->persist($facet);
         $this->om->flush();
+
+        return $facet;
     }
 
     public function initFieldPermissions(FieldFacet $field)

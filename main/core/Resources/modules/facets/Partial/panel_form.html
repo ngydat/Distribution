@@ -6,7 +6,7 @@
     <div class="modal-body">
         <div>
             <form class="form-horizontal" action="#">
-                <formbuilder form="mc.form"></formbuilder>
+                <formbuilder form="mc.form" ng-model="mc.model"></formbuilder>
                 <input type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}" ng-click="mc.onSubmit()"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
             </form>

@@ -1,0 +1,5 @@
+<div ng-switch="fic.field.type">
+    <form-text ng-switch-when="text" field="fic.field" ng-model="fic.ngModel" form-name="fic.formName" form-ctrl="fic.formCtrl"></form-text>
+    <form-select ng-switch-when="select" field="fic.field" ng-model="fic.ngModel" form-name="fic.formName" form-ctrl="fic.formCtrl"></form-select>
+    <form-checkbox ng-switch-when="checkbox" field="fic.field" ng-model="fic.ngModel" form-name="fic.formName" form-ctrl="fic.formCtrl"></form-checkbox>
+</div>
