@@ -305,7 +305,7 @@ $(document).ready(function () {
 
                 $("#actionReturnReceipt").removeClass("disabled"); // Ne pas pouvoir modifier cette ligne
                 $("#actionReturnReceipt2").removeClass("disabled"); // Ne pas pouvoir modifier cette ligne
-            });          
+            });
 
         if (checkOneAtLeast == false) {
             $("#actionReturnReceipt").addClass("disabled"); // Ne pas pouvoir modifier cette ligne
@@ -331,11 +331,11 @@ $(document).ready(function () {
                     arrayDocsId.push($(this).attr('id'));
                     arrayDropsId.push($(this).attr("data-drop_id"));
                 }
-            });          
+            });
 
         $.ajax({
             url: Routing.generate('innova_collecticiel_add_more_comments',
-                { 
+                {
                     dropzoneId: dropzoneId,
                 }),
             method: "GET",
@@ -387,7 +387,7 @@ $(document).ready(function () {
         var row = "row_"+$(this).attr("data-document_id"); // Extract info from data-* attributes
         var documentId = $(this).attr("data-document_id");
         var button = document.getElementById("delete_" + documentId);
-        
+
         $(button).hide();
 
         $(selector).prop('checked', true); // Cocher la case "Valider"
@@ -485,7 +485,7 @@ $(document).ready(function () {
     // Ajout pour le traitement de la modal de choix du type d'accusÃ© de rÃ©ception
     $('#modal_confirm_return_receipt').on('click', function(event) {
         event.preventDefault();
- 
+
         var returnReceiptId;
         if (document.getElementById('choix0').checked) {
             returnReceiptId = document.getElementById('choix0').value;
@@ -523,7 +523,7 @@ $(document).ready(function () {
                     if (splitChaine[2] != '0') {
                         arrayDocsId.push($(this).attr('id'));
                     }
-            });          
+            });
         }
         else
         {
@@ -534,7 +534,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: Routing.generate('innova_collecticiel_return_receipt',
-                { 
+                {
                 dropzoneId: dropzoneId,
                 returnReceiptId: returnReceiptId,
                 }),
@@ -563,7 +563,7 @@ $(document).ready(function () {
     // Mise Ã  jour de la colonne "validate"
     $('.document_validate').on('click', function(event) {
     });
-    
+
     // InnovaERV
     // Ajout pour le traitement de la case à cocher lors de la soumission de documents
     $('#validate-cancel-modal').on('show.bs.modal', function (event) {
@@ -642,7 +642,7 @@ $(document).ready(function () {
 
         $.ajax({
             url: Routing.generate('innova_collecticiel_back_link',
-                { 
+                {
                 dropzoneId: dropzoneId,
                 }),
             method: "GET",
@@ -665,7 +665,7 @@ $(document).ready(function () {
     $('#submitTitle').on('click', function(event) {
 
         var text = null;
-        
+
         // Input
         text = document.getElementById('innova_collecticiel_document_file_form_text').value;
 
@@ -679,7 +679,6 @@ $(document).ready(function () {
             return true;
 
         } else {
-             console.log("text non vide");  
              document.getElementById("innova_collecticiel_document_file_form_text").setCustomValidity('');
         }
 
@@ -693,7 +692,7 @@ $(document).ready(function () {
         } else {
             document.getElementById("innova_collecticiel_document_file_form_document").setCustomValidity('');
         }
-        
+
     });
 
     // Pour changer et traduire le message "Veuillez renseigner ce champ."

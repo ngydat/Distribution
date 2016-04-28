@@ -1264,7 +1264,7 @@ class DropController extends DropzoneBaseController
         $userNbAdressedRequests = array();
 
         foreach ($dropzone->getDrops() as $drop) {
-            /** InnovaERV : ajout pour calculer les 2 zones **/
+            /* InnovaERV : ajout pour calculer les 2 zones **/
 
             // Nombre de documents déposés/ Repo : Document
             $nbDocDropped = $this->getDoctrine()
@@ -1336,6 +1336,7 @@ class DropController extends DropzoneBaseController
      *      options={"expose"=true}
      * )
      * @Template()
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function returnReceiptAction()
@@ -1454,6 +1455,7 @@ class DropController extends DropzoneBaseController
      *      options={"expose"=true}
      * )
      * @Template()
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function backLinkAction()
