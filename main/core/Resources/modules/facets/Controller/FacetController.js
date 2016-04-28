@@ -18,7 +18,7 @@ export default class FacetController {
             label: 'name',
             options: {
                 validators: {
-                    'not-blank': {'max': 8}
+                    'not-blank': {}
                 }
             }
         },
@@ -37,7 +37,16 @@ export default class FacetController {
     this.formField = {
       translation_domain: 'platform',
       fields: [
-        { type: 'text', name: 'name', label: 'name' },
+        {
+            type: 'text',
+            name: 'name',
+            label: 'name',
+            options: {
+                validators: {
+                    'not-blank': {}
+                }
+            } 
+        },
         {
           type: 'select',
           name: 'type',

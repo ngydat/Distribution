@@ -7,17 +7,24 @@ Render a form
 
 ```
     this.formField = {
-      name: 'field-facet',
       translation_domain: 'platform',
       fields: [
-        { type: 'text', name: 'name', label: 'name' },
+        {
+            type: 'text',
+            name: 'name',
+            label: 'name',
+            options: {
+                validators: {
+                    'not-blank': {}
+                }
+            }
+        },
         {
           type: 'select',
           name: 'type',
           label: 'type',
           options: {
             values: [
-              // these values currently come from the Entity/Facet/FieldFacet class
               { value: 1, label: 'text'},
               { value: 2, label: 'number'},
               { value: 3, label: 'date'},
@@ -35,29 +42,12 @@ Render a form
 ```
 
 ```
-    <formbuilder form="mc.form" ng-model="mc.model"></formbuilder>
+    <form class="form-horizontal" name="myFormCtrl" ng-submit="onSubmit(myFormCtrl)">
+        <formbuilder form="myForm" ng-model="myModel" form-ctrl="myFormCtrl"></formbuilder>
+        <input data-ng-disabled="!myFormCtrl.$valid" type="submit"> </input>
+    </form>
 ```
 
-Render a text field
---------------------
-```
-    <form-text field="field" ng-model="model" form-name="my_name"></form-text>
-```
-
-Render a select field
---------------------
-```
-    <form-select field="field" ng-model="model" form-name="my_name"></form-select>
-```
-
-Render a checkbox field
---------------------
-```
-    <form-checkbox field="field" ng-model="model" form-name="my_name"></form-checkbox>
-```
-
-Form submission
-----------------
 
 ```
     const data = this.FormBuilderService.formSerialize('myFormName', myModel)
@@ -94,7 +84,3 @@ There is a directive for handling checkboxes array (no form field yet)
 
 - checklist-value is the value of the input
 - checklist-model is the model array
-
-TODO
-=====
-- Form validation

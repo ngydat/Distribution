@@ -1,16 +1,16 @@
 import 'angular/angular.min'
 import translation from 'angular-ui-translation/angular-translation'
 
-import './Field/Checkbox/module'
-import './Field/Checkboxes/module'
-import './Field/Select/module'
-import './Field/Text/module'
+import './Field/Field/Checkbox/module'
+import './Field/Field/Checkboxes/module'
+import './Field/Field/Select/module'
+import './Field/Field/Text/module'
 
 import './Validator/NotBlank/module'
 
-import FormDirective from './Form/Form/FormDirective'
-import FormBuilderService from './Form/Form/FormBuilderService'
-import FieldDirective from './Form/Field/FieldDirective'
+import FormDirective from './FormDirective'
+import FormBuilderService from './FormBuilderService'
+import FieldDirective from './FieldDirective'
 
 angular.module('FormBuilder', [
   'ui.translation',

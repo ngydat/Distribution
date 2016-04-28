@@ -1,0 +1,10 @@
+<div>
+    <label class="control-label" for="{{ cc.field.name }}"> {{ cc.field.label|trans:{}:cc.field.domain }} </label>
+    <input
+        ng-model="cc.ngModel"
+        type="checkbox"
+        class="control-standalone control-standalone"
+        name="{{ cc.field.name }}"
+        value="{{ cc.field.name }}">
+    </input>
+</div>

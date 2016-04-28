@@ -8,9 +8,9 @@
             {{ 'visible_facet_form_explanation'|trans:{}:'platform' }}
         </div>
         <div>
-            <form class="form-horizontal" name="facetForm" action="#" ng-submit="mc.onSubmit(facetForm)">
+            <form class="form-horizontal" name="facetForm" ng-submit="mc.onSubmit(facetForm)">
                 <formbuilder form="mc.form" ng-model="mc.model" form-ctrl="facetForm"></formbuilder>
-                <input type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}"> </input>
+                <input data-ng-disabled="!facetForm.$valid" type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true">
                     {{ 'cancel'|trans:{}:'platform '}}
                 </button>

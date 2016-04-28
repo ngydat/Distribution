@@ -3,6 +3,7 @@
     <!-- http://www.gurustop.net/blog/2014/01/28/common-problems-and-solutions-when-using-select-elements-with-angular-js-ng-options-initial-selection/ -->
     <select
         class="form-control"
+        name="{{ sc.field.name }}"
         ng-model="sc._ngModel"
         ng-options="option.label|trans:{}:'platform' for option in sc.field.options.values track by option.value"
         ng-init="sc._ngModel = {value: sc.ngModel}"
