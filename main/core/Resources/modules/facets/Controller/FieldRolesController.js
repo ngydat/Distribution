@@ -15,7 +15,7 @@ export default class FacetRolesController {
         })
         return !found
     }).forEach(element => {
-        fieldFacetRoles.push({is_visible: false, is_editable: false, role: element})
+        fieldFacetRoles.push({can_open: false, can_edit: false, role: element})
     })
   }
 

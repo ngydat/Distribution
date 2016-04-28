@@ -45,7 +45,7 @@ export default class FacetController {
                 validators: {
                     'not-blank': {}
                 }
-            } 
+            }
         },
         {
           type: 'select',
@@ -73,8 +73,8 @@ export default class FacetController {
       name: 'field-role',
       translation_domain: 'platform',
       fields: [
-        { type: 'checkbox', name: 'is_visible', label: ''},
-        { type: 'checkbox', name: 'is_ediable', label: ''}
+        { type: 'checkbox', name: 'can_open', label: ''},
+        { type: 'checkbox', name: 'can_edit', label: ''}
       ]
     }
   }

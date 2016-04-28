@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Claroline\CoreBundle\Entity\Facet\Facet;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacet;
+use Claroline\CoreBundle\Persistence\ObjectManager;
 
 /**
  * @NamePrefix("api_")
@@ -34,15 +35,18 @@ class FacetController extends FOSRestController
     /**
      * @DI\InjectParams({
      *     "facetManager" = @DI\Inject("claroline.manager.facet_manager"),
-     *     "request"      = @DI\Inject("request")
+     *     "request"      = @DI\Inject("request"),
+     *     "om"           = @DI\Inject("claroline.persistence.object_manager")
      * })
      */
     public function __construct(
         FacetManager $facetManager,
-        Request $request
+        Request $request,
+        ObjectManager $om
     ) {
         $this->facetManager = $facetManager;
         $this->request = $request;
+        $this->om = $om;
     }
 
     /**
@@ -197,6 +201,19 @@ class FacetController extends FOSRestController
     public function setFieldsRoleAction(FieldFacet $field)
     {
         $params = $this->request->request->all();
+        $this->om->startFlushSuite();
+
+        foreach ($params['roles'] as $param) {
+            $role = $this->om->getRepository('ClarolineCoreBundle:Role')->find($param['role']['id']);
+            $canOpen = $param['can_open'] === 'true' ? true : false;
+            $canEdit = $param['can_edit'] === 'true' ? true : false;
+            $this->facetManager->setFieldFacetRole($field, $role, $canOpen, $canEdit);
+        }
+
+        $this->om->endFlushSuite();
+
+        return $field;
+
         //return $this->facetManager->setFacetRoles($facet, $roles);
     }
 }

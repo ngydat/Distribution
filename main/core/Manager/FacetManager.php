@@ -60,6 +60,7 @@ class FacetManager
         $this->authorization = $authorization;
         $this->panelRepo = $om->getRepository('ClarolineCoreBundle:Facet\PanelFacet');
         $this->fieldRepo = $om->getRepository('ClarolineCoreBundle:Facet\FieldFacet');
+        $this->fieldRoleRepo = $om->getRepository('ClarolineCoreBundle:Facet\FieldFacetRole');
     }
 
     /**
@@ -452,65 +453,20 @@ class FacetManager
         $this->om->endFlushSuite();
     }
 
-    /**
-     * This function will allow to set on of the boolean property of FieldFacetRole
-     * for a fieldFacet and an array of roles.
-     *
-     * @param FieldFacet $fieldFacet
-     * @param array      $roles
-     * @param $property (canOpen | canEdit)
-     */
-    public function setFieldBoolProperty(FieldFacet $fieldFacet, array $roles, $property)
+    public function setFieldFacetRole(FieldFacet $fieldFacet, Role $role, $canOpen, $canEdit)
     {
+        $fieldFacetRole = $this->fieldRoleRepo->findOneBy(array('role' => $role, 'fieldFacet' => $fieldFacet));
 
-        //find each fields sharing the same role as $fieldFacet
-        $fieldFacetsRole = $fieldFacet->getFieldFacetsRole();
-
-        //get the correct setter
-        $setterFunc = 'set'.ucfirst($property);
-
-        //initialize an array of roles wich are not linked to the field
-        $unknownRoles = array();
-        //initialize an array of fieldFacetRoles wich are going to have their property to true
-        $fieldFacetRolesToChange = array();
-
-        //initialize each of field facets property to false
-        foreach ($fieldFacetsRole as $fieldFacetRole) {
-            $fieldFacetRole->$setterFunc(false);
+        if (!$fieldFacetRole) {
+            $fieldFacetRole = new FieldFacetRole();
+            $fieldFacetRole->setRole($role);
+            $fieldFacetRole->setFieldFacet($fieldFacet);
         }
 
-        //find roles wich are not linked to a field
-        foreach ($roles as $role) {
-            $found = false;
+        $fieldFacetRole->setCanEdit($canEdit);
+        $fieldFacetRole->setCanOpen($canOpen);
 
-            foreach ($fieldFacetsRole as $fieldFacetRole) {
-                if ($fieldFacetRole->getRole()->getId() === $role->getId()) {
-                    $found = true;
-                    $fieldFacetRolesToChange[] = $fieldFacetRole;
-                }
-            }
-
-            if (!$found) {
-                $unknownRoles[] = $role;
-            }
-        }
-
-        //create a new FieldFacetRole for each missing role
-        foreach ($unknownRoles as $unknownRole) {
-            $ffr = new FieldFacetRole();
-            $ffr->setRole($unknownRole);
-            $ffr->setFieldFacet($fieldFacet);
-
-            //add the new fieldFacetRole to the list of retrieved fieldFacetRoles at the beginning
-            $fieldFacetRolesToChange[] = $ffr;
-        }
-
-        //set the property correctly
-        foreach ($fieldFacetRolesToChange as $ffr) {
-            $ffr->$setterFunc(true);
-            $this->om->persist($ffr);
-        }
-
+        $this->om->persist($fieldFacetRole);
         $this->om->flush();
     }
 

@@ -8,8 +8,8 @@ import FacetManagementDirective from './Directive/FacetManagementDirective'
 import ModalController from './Controller/ModalController'
 import FacetRolesController from './Controller/FacetRolesController'
 import FieldRolesController from './Controller/FieldRolesController'
-import FormBuilder from '../form/module'
-import ClarolineAPI from '../services/module'
+import '../form/module'
+import '../services/module'
 
 angular.module('FacetManager', [
   'ui.bootstrap',

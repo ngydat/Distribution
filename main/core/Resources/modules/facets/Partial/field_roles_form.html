@@ -7,7 +7,7 @@
         <div class="well">
             {{ 'roles_fields_form_explanation'|trans:{}:'platform' }}
         </div>
-        <form class="form-horizontal" action="#">
+        <form class="form-horizontal">
             <table class="table table-striped table-bordered table-condensed">
                 <thead>
                 <tr>
@@ -16,12 +16,11 @@
                     <th> {{ 'edit'|trans:{}:'platform' }} </th>
                 </tr>
                 </thead>
-                {{ firc.field.field_facets_role }}
                 <tbody>
                     <tr ng-repeat="(key, fieldFacetRole) in firc.field.field_facets_role">
                         <td> {{ fieldFacetRole.role.translation_key }} </td>
-                        <td> <form-checkbox field="firc.form.fields[0]" ng-model="fieldFacetRole.is_visible"></form-checkbox> </td>
-                        <td> <form-checkbox field="firc.form.fields[1]" ng-model="fieldFacetRole.is_editable"></form-checkbox> </td>
+                        <td> <form-checkbox field="firc.form.fields[0]" ng-model="fieldFacetRole.can_open"></form-checkbox> </td>
+                        <td> <form-checkbox field="firc.form.fields[1]" ng-model="fieldFacetRole.can_edit"></form-checkbox> </td>
                     </tr>
                 </tbody>
             </table>
