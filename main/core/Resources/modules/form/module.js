@@ -1,10 +1,10 @@
 import 'angular/angular.min'
 import translation from 'angular-ui-translation/angular-translation'
 
-import './Field/Field/Checkbox/module'
-import './Field/Field/Checkboxes/module'
-import './Field/Field/Select/module'
-import './Field/Field/Text/module'
+import './Field/Checkbox/module'
+import './Field/Checkboxes/module'
+import './Field/Select/module'
+import './Field/Text/module'
 
 import './Validator/NotBlank/module'
 
