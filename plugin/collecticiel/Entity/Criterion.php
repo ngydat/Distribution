@@ -2,8 +2,9 @@
 /**
  * Created by : Vincent SAISSET
  * Date: 21/08/13
- * Time: 16:06.
+ * Time: 16:06
  */
+
 namespace Innova\CollecticielBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -12,8 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="innova_collecticielbundle_criterion")
  */
-class Criterion
-{
+class Criterion {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -82,8 +82,7 @@ class Criterion
     }
 
     /**
-     * Proxy dropzone.
-     *
+     * Proxy dropzone
      * @return mixed
      */
     public function getTotalCriteriaColumn()
@@ -92,8 +91,7 @@ class Criterion
     }
 
     /**
-     * Proxy dropzone.
-     *
+     * Proxy dropzone
      * @param mixed
      */
     public function setTotalCriteriaColumn($value)
@@ -102,8 +100,7 @@ class Criterion
     }
 
     /**
-     * Proxy dropzone.
-     *
+     * Proxy dropzone
      * @return mixed
      */
     public function getAllowCommentInCorrection()
@@ -112,8 +109,7 @@ class Criterion
     }
 
     /**
-     * Proxy dropzone.
-     *
+     * Proxy dropzone
      * @param mixed
      */
     public function setAllowCommentInCorrection($value)

@@ -1,5 +1,4 @@
 <?php
-
 namespace Innova\CollecticielBundle\Controller;
 
 use Claroline\CoreBundle\Entity\Resource\Directory;
@@ -11,17 +10,22 @@ use Innova\CollecticielBundle\Entity\Drop;
 use Innova\CollecticielBundle\Entity\Dropzone;
 use Innova\CollecticielBundle\Event\Log\LogDocumentCreateEvent;
 use Innova\CollecticielBundle\Event\Log\LogDocumentDeleteEvent;
+use Innova\CollecticielBundle\Event\Log\LogDropzoneManualRequestSentEvent;
 use Innova\CollecticielBundle\Event\Log\LogDocumentOpenEvent;
 use Innova\CollecticielBundle\Form\DocumentDeleteType;
 use Innova\CollecticielBundle\Form\DocumentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Innova\CollecticielBundle\Event\Log\LogDropzoneValidateDocumentEvent;
 use Innova\CollecticielBundle\Event\Log\LogDropzoneAddDocumentEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
+use Innova\CollecticielBundle\Event\Log\LogDropzoneReturnReceiptEvent;
 
 class DocumentController extends DropzoneBaseController
 {
@@ -53,7 +57,7 @@ class DocumentController extends DropzoneBaseController
                 null,
                 array(
                     'ROLE_WS_MANAGER' => array('open' => true, 'export' => true, 'create' => array(),
-                        'role' => $role, ),
+                        'role' => $role)
                 )
             );
 
@@ -76,11 +80,11 @@ class DocumentController extends DropzoneBaseController
             $slugify = new Slugify();
 
             $user = $drop->getUser();
-            $str = $user->getFirstName().'-'.$user->getLastName();
+            $str = $user->getFirstName() . "-" . $user->getLastName();
             $str = $slugify->slugify($str, ' ');
 
             $name = $this->get('translator')->trans('Copy n°%number%', array('%number%' => $drop->getNumber()), 'innova_collecticiel');
-            $name .= ' - '.$str;
+            $name .= " - " . $str;
             $hiddenDropDirectory->setName($name);
 
             $parent = $this->getDropZoneHiddenDirectory($dropzone);
@@ -91,6 +95,8 @@ class DocumentController extends DropzoneBaseController
 
             $resourceManager = $this->get('claroline.manager.resource_manager');
 
+
+
             $resourceManager->create(
                 $hiddenDropDirectory,
                 $resourceManager->getResourceTypeByName('directory'),
@@ -100,7 +106,7 @@ class DocumentController extends DropzoneBaseController
                 null,
                 array(
                     'ROLE_WS_MANAGER' => array('open' => true, 'export' => true, 'create' => array(),
-                        'role' => $role, ),
+                        'role' => $role)
                 )
             );
 
@@ -122,7 +128,7 @@ class DocumentController extends DropzoneBaseController
         $extension = pathinfo($fileName, PATHINFO_EXTENSION);
         $size = filesize($tmpFile);
         $mimeType = $tmpFile->getClientMimeType();
-        $hashName = $this->container->get('claroline.utilities.misc')->generateGuid().'.'.$extension;
+        $hashName = $this->container->get('claroline.utilities.misc')->generateGuid() . "." . $extension;
         $tmpFile->move($this->container->getParameter('claroline.param.files_directory'), $hashName);
         $file->setSize($size);
         $file->setName($fileName);
@@ -201,14 +207,14 @@ class DocumentController extends DropzoneBaseController
             $data = $form->getData();
             $url = $data['document'];
             $document->setUrl($url);
-        } elseif ($documentType == 'file') {
+        } else if ($documentType == 'file') {
             $file = $form['document'];
             $node = $this->createFile($dropzone, $drop, $file->getData());
-        } elseif ($documentType == 'text') {
+        } else if ($documentType == 'text') {
             $data = $form->getData();
             // #272 : Maintenant, on insère le TITRE qui est saisi.
             $node = $this->createText($dropzone, $drop, $data['document'], $data['title']);
-        } elseif ($documentType == 'resource') {
+        } else if ($documentType == 'resource') {
             $data = $form->getData();
             $node = $this->createResource($dropzone, $drop, $data['document']);
         } else {
@@ -218,11 +224,11 @@ class DocumentController extends DropzoneBaseController
 
         // #19. Ajout de la valorisation de la Date. InnovaERV.
         $document->setDocumentDate(new \DateTime());
-
+        
         $sender = $this->get('security.token_storage')->getToken()->getUser();
-
+        
         $canEdit = $dropzoneVoter->checkEditRight($dropzone);
-
+  
 // #267 : dès que l'enseignant dépose un document dans son collecticiel ou dans un collecticiel partagé,
 // une demande de commentaire est automatiquement adressé, ce qui ne devrait pas être le cas.  
 //        if ($canEdit) {
@@ -259,6 +265,7 @@ class DocumentController extends DropzoneBaseController
      */
     public function documentAction($dropzone, $documentType, $drop)
     {
+
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $dropzoneManager = $this->get('innova.manager.dropzone_manager');
 
@@ -266,15 +273,15 @@ class DocumentController extends DropzoneBaseController
             if (!$dropzone->getAllowUrl()) {
                 throw new AccessDeniedException();
             }
-        } elseif ($documentType == 'file') {
+        } else if ($documentType == 'file') {
             if (!$dropzone->getAllowUpload()) {
                 throw new AccessDeniedException();
             }
-        } elseif ($documentType == 'resource') {
+        } else if ($documentType == 'resource') {
             if (!$dropzone->getAllowWorkspaceResource()) {
                 throw new AccessDeniedException();
             }
-        } elseif ($documentType == 'text') {
+        } else if ($documentType == 'text') {
             if (!$dropzone->getAllowRichText()) {
                 throw new AccessDeniedException();
             }
@@ -296,16 +303,18 @@ class DocumentController extends DropzoneBaseController
                 //$userAddDocument = $this->get('security.context')->getToken()->getUser()->getId(); 
                 $userDropDocument = $drop->getUser()->getId();
                 $userSenderDocument = $newDocument->getSender()->getId();
-
+            
                 if ($userCreator == $userSenderDocument) {
                     // Ici avertir l'étudiant qui a travaillé sur ce collecticiel
                     $usersIds[] = $userDropDocument;
-                } else {
+                }
+                else {
                     // Ici avertir celui a qui créé le collecticiel
                     $usersIds[] = $userCreator;
                 }
                 $event = new LogDropzoneAddDocumentEvent($dropzone, $dropzone->getManualState(), $usersIds);
                 $this->get('event_dispatcher')->dispatch('log', $event);
+
 
 /*
 InnoERV : demande de JJQ dans son document d'août 2015
@@ -319,7 +328,7 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
                         'innova_collecticiel_drop_switch',
                         array(
                             'resourceId' => $dropzone->getId(),
-                            'userId' => $drop->getUser()->getId(),
+                            'userId' => $drop->getUser()->getId()
                              )
                     )
                 );
@@ -358,6 +367,7 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
      */
     public function deleteDocumentAction(Dropzone $dropzone, $user, Drop $drop, Document $document)
     {
+
         $dropzoneManager = $this->get('innova.manager.dropzone_manager');
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $canEdit = $this->get('innova.manager.dropzone_voter')->checkEditRight($dropzone);
@@ -394,13 +404,13 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
                         'innova_collecticiel_drop_switch',
                         array(
                             'resourceId' => $dropzone->getId(),
-                            'userId' => $drop->getUser()->getId(),
+                            'userId' => $drop->getUser()->getId()
                         )
                     )
                 );
             }
         }
-
+      
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
 
         $view = 'InnovaCollecticielBundle:Document:deleteDocument.html.twig';
@@ -444,7 +454,7 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
             || $document->getType() == 'resource'
             || $document->getType() == 'file'
         ) {
-            /* Issue #27 "il se produit un plantage au niveau de "temporary_access_resource_manager" InnovaERV */
+            /** Issue #27 "il se produit un plantage au niveau de "temporary_access_resource_manager" InnovaERV */
             $this->get('innova.temporary_access_resource_manager')->addTemporaryAccess($document->getResourceNode(), $user);
 
             $event = new LogDocumentOpenEvent($dropzone, $document->getDrop(), $document);
@@ -452,7 +462,7 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
 
             if ($document->getResourceNode()->getResourceType()->getName() == 'file') {
                 return $this->redirect(
-                    $this->generateUrl('claro_resource_download').'?ids[]='.$document->getResourceNode()->getId()
+                    $this->generateUrl('claro_resource_download') . '?ids[]=' . $document->getResourceNode()->getId()
                 );
             } else {
                 return $this->redirect(
@@ -460,7 +470,7 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
                         'claro_resource_open',
                         array(
                             'resourceType' => $document->getResourceNode()->getResourceType()->getName(),
-                            'node' => $document->getResourceNode()->getId(),
+                            'node' => $document->getResourceNode()->getId()
                         )
                     )
                 );
@@ -478,15 +488,14 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
      * @ParamConverter("document", class="InnovaCollecticielBundle:Document", options={"id" = "documentId"})
      * @Template()
      */
-    public function ajaxValidateDocumentAction(Document $document)
-    {
+    public function ajaxValidateDocumentAction(Document $document) {
 
         // Appel pour accés base         
         $em = $this->getDoctrine()->getManager();
 
         // Recherche en base des données du document à mettre à jour
         $doc = $this->getDoctrine()->getRepository('InnovaCollecticielBundle:Document')->find($document->getId());
-
+        
         // Mise à jour du booléen de Validation de false à true
         $doc->setvalidate(true);
 
@@ -512,19 +521,21 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
         // Ici, on récupère le créateur du collecticiel = l'admin
         if ($document->getType() == 'url') {
             $userCreator = $document->getDrop()->getDropzone()->getResourceNode()->getCreator()->getId();
-        } else {
+        }
+        else {
             $userCreator = $document->getResourceNode()->getCreator()->getId();
         }
-
+ 
         // Ici, on récupère celui qui vient de déposer le nouveau document
         //$userAddDocument = $this->get('security.context')->getToken()->getUser()->getId(); 
         $userDropDocument = $document->getDrop()->getUser()->getId();
         $userSenderDocument = $document->getSender()->getId();
-
+    
         if ($userCreator == $userSenderDocument) {
             // Ici avertir l'étudiant qui a travaillé sur ce collecticiel
             $usersIds[] = $userDropDocument;
-        } else {
+        }
+        else {
             // Ici avertir celui a qui créé le collecticiel
             $usersIds[] = $userCreator;
         }
@@ -534,11 +545,11 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
         $this->get('event_dispatcher')->dispatch('log', $event);
 
         // Ajout afin d'afficher la partie du code avec "Demande transmise"
-        $template = $this->get('templating')->
+        $template = $this->get("templating")->
         render('InnovaCollecticielBundle:Document:documentIsValidate.html.twig',
                 array('document' => $document,
                       'collecticielOpenOrNot' => $collecticielOpenOrNot,
-                      'dropzone' => $dropzones[0],
+                      'dropzone' => $dropzones[0]
                     )
                );
 
@@ -556,15 +567,14 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
      * @ParamConverter("document", class="InnovaCollecticielBundle:Document", options={"id" = "documentId"})
      * @Template()
      */
-    public function ajaxUnvalidateDocumentAction(Document $document)
-    {
-
+    public function ajaxUnvalidateDocumentAction(Document $document) {
+        
         // Appel pour accés base
         $em = $this->getDoctrine()->getManager();
 
         // Recherche en base des données du document à mettre à jour
         $doc = $this->getDoctrine()->getRepository('InnovaCollecticielBundle:Document')->find($document->getId());
-
+        
         // Mise à jour du booléen de Validation de true à false
         $doc->setvalidate(false);
 
@@ -588,12 +598,12 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
         $adminInnova = $this->get('request')->query->get('adminInnova');
 
         // Ajout afin d'afficher la partie du code avec "Demande transmise"
-        $template = $this->get('templating')->
+        $template = $this->get("templating")->
         render('InnovaCollecticielBundle:Document:documentIsValidate.html.twig',
                 array('document' => $document,
                       'collecticielOpenOrNot' => $collecticielOpenOrNot,
                       'adminInnova' => $adminInnova,
-                      'dropzone' => $dropzones[0], )
+                      'dropzone' => $dropzones[0])
                );
 
         // Retour du template actualisé à l'Ajax et non plus du Json.
@@ -623,4 +633,5 @@ Travail effectué : changement de route et ajout d'un paramètre pour cette nouv
 
         return array('value' => $id);
     }
+
 }

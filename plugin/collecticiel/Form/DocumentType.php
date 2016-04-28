@@ -5,6 +5,7 @@ namespace Innova\CollecticielBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DocumentType extends AbstractType
 {
@@ -12,19 +13,22 @@ class DocumentType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         if ($options['documentType'] == 'text') {
             $this->setName('innova_collecticiel_document_file_form_text');
 
             $builder->add('title', 'text', array(
-                          'required' => true, )
+                          'required' => true)
                         );
             $builder->add('document', 'tinymce', array(
-                          'required' => true,
+                          'required' => true
                         ));
-        } elseif ($options['documentType'] == 'file') {
+
+        } else if ($options['documentType'] == 'file') {
             $this->setName('innova_collecticiel_document_file_form_file');
             $builder->add('document', 'file', array('required' => true, 'label' => 'file document'));
-        } elseif ($options['documentType'] == 'resource') {
+
+        } else if ($options['documentType'] == 'resource') {
             $this->setName('innova_collecticiel_document_file_form_resource');
             $builder->add(
                 'document',
@@ -32,14 +36,15 @@ class DocumentType extends AbstractType
                 array(
                     'required' => true,
                     'label' => '',
-                    'label_attr' => array('style' => 'display: none;'),
+                    'label_attr' => array('style' => 'display: none;')
                 )
             );
+
         } else {
             $this->setName('innova_collecticiel_document_file_form_url');
             $builder->add('document', 'url', array(
                           'required' => true,
-                          'label' => 'url document', )
+                          'label' => 'url document')
                          );
         }
     }

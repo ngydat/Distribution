@@ -1,10 +1,12 @@
 <?php
 /**
  * Created by : VINCENT Eric
- * Date: 10/05/2015.
+ * Date: 10/05/2015
 */
+
 namespace Innova\CollecticielBundle\Entity;
 
+use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -12,8 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity(repositoryClass="Innova\CollecticielBundle\Repository\ReturnReceiptRepository")
  * @ORM\Table(name="innova_collecticielbundle_return_receipt")
  */
-class ReturnReceipt
-{
+class ReturnReceipt {
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -22,8 +24,8 @@ class ReturnReceipt
     protected $id;
 
     /**
-     * Lien avec la table Document.
-     */
+     * Lien avec la table Document
+    */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Innova\CollecticielBundle\Entity\Document"
@@ -33,8 +35,8 @@ class ReturnReceipt
     protected $document;
 
     /**
-     * Lien avec la table User.
-     */
+     * Lien avec la table User
+    */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Claroline\CoreBundle\Entity\User"
@@ -44,8 +46,8 @@ class ReturnReceipt
     protected $user;
 
     /**
-     * Lien avec la table Dropzone.
-     */
+     * Lien avec la table Dropzone
+    */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Innova\CollecticielBundle\Entity\Dropzone"
@@ -61,8 +63,8 @@ class ReturnReceipt
     protected $returnReceiptDate;
 
     /**
-     * Lien avec la table ReturnReceiptType.
-     */
+     * Lien avec la table ReturnReceiptType
+    */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Innova\CollecticielBundle\Entity\ReturnReceiptType",
@@ -72,10 +74,11 @@ class ReturnReceipt
      */
     protected $returnReceiptType;
 
+
     /**
-     * Get id.
+     * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -83,7 +86,7 @@ class ReturnReceipt
     }
 
     /**
-     * Set returnReceiptDate.
+     * Set returnReceiptDate
      *
      * @param \DateTime $returnReceiptDate
      *
@@ -97,7 +100,7 @@ class ReturnReceipt
     }
 
     /**
-     * Get returnReceiptDate.
+     * Get returnReceiptDate
      *
      * @return \DateTime
      */
@@ -107,7 +110,7 @@ class ReturnReceipt
     }
 
     /**
-     * Set document.
+     * Set document
      *
      * @param \Innova\CollecticielBundle\Entity\Document $document
      *
@@ -121,7 +124,7 @@ class ReturnReceipt
     }
 
     /**
-     * Get document.
+     * Get document
      *
      * @return \Innova\CollecticielBundle\Entity\Document
      */
@@ -131,7 +134,7 @@ class ReturnReceipt
     }
 
     /**
-     * Set user.
+     * Set user
      *
      * @param \Claroline\CoreBundle\Entity\User $user
      *
@@ -145,7 +148,7 @@ class ReturnReceipt
     }
 
     /**
-     * Get user.
+     * Get user
      *
      * @return \Claroline\CoreBundle\Entity\User
      */
@@ -155,7 +158,7 @@ class ReturnReceipt
     }
 
     /**
-     * Set dropzone.
+     * Set dropzone
      *
      * @param \Innova\CollecticielBundle\Entity\Dropzone $dropzone
      *
@@ -169,7 +172,7 @@ class ReturnReceipt
     }
 
     /**
-     * Get dropzone.
+     * Get dropzone
      *
      * @return \Innova\CollecticielBundle\Entity\Dropzone
      */
@@ -179,7 +182,7 @@ class ReturnReceipt
     }
 
     /**
-     * Set returnReceiptType.
+     * Set returnReceiptType
      *
      * @param \Innova\CollecticielBundle\Entity\ReturnReceiptType $returnReceiptType
      *
@@ -193,7 +196,7 @@ class ReturnReceipt
     }
 
     /**
-     * Get returnReceiptType.
+     * Get returnReceiptType
      *
      * @return \Innova\CollecticielBundle\Entity\ReturnReceiptType
      */

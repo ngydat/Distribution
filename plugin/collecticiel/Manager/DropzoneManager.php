@@ -1,5 +1,4 @@
 <?php
-
 namespace Innova\CollecticielBundle\Manager;
 
 use Claroline\CoreBundle\Manager\MaskManager;
@@ -7,8 +6,10 @@ use Claroline\CoreBundle\Entity\User;
 use Claroline\AgendaBundle\Entity\Event;
 use Innova\CollecticielBundle\Entity\Dropzone;
 use Innova\CollecticielBundle\Entity\Drop;
+use DateTime;
 use JMS\DiExtraBundle\Annotation as DI;
 use Claroline\CoreBundle\Repository\ResourceNodeRepository;
+use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 
 /**
  * @DI\Service("innova.manager.dropzone_manager")
@@ -38,10 +39,8 @@ class DropzoneManager
     /**
      *  Getting the user that have the 'open' rights.
      *  Excluded the admin profil.
-     *
-     * @param \Innova\CollecticielBundle\Entity\Dropzone $dropzone
-     *
-     * @return array UserIds.
+     * @param  \Innova\CollecticielBundle\Entity\Dropzone $dropzone
+     * @return array                                      UserIds.
      */
     public function getDropzoneUsersIds(Dropzone $dropzone)
     {
@@ -107,10 +106,8 @@ class DropzoneManager
      *  percent : rounded progress in percent
      *  nbCorrection : corrections made by the user in this evaluation.
      *   *
-     *
      * @param Dropzone dropzone
      * @param Drop drop
-     *
      * @return array (states, currentState,percent,nbCorrection)
      **/
     public function getDropzoneProgressByUser($dropzone, $user)
@@ -126,6 +123,7 @@ class DropzoneManager
     }
 
     /**
+     *
      * STATES  FOR NORMAL ARE :
      *  0 : not started
      *  1 : Waiting for drop
@@ -147,11 +145,10 @@ class DropzoneManager
      *  percent : rounded progress in percent
      *  nbCorrection : corrections made by the user in this evaluation.
      *
-     * @param \Innova\CollecticielBundle\Entity\Dropzone                                     $dropzone
-     * @param \Innova\CollecticielBundle\Entity\Drop|\Innova\CollecticielBundle\Manager\Drop $drop
-     * @param int                                                                            $nbCorrection number of correction the user did.
-     *
-     * @return array (states, currentState,percent,nbCorrection)
+     * @param  \Innova\CollecticielBundle\Entity\Dropzone                                     $dropzone
+     * @param  \Innova\CollecticielBundle\Entity\Drop|\Innova\CollecticielBundle\Manager\Drop $drop
+     * @param  int                                                                            $nbCorrection number of correction the user did.
+     * @return array                                                                          (states, currentState,percent,nbCorrection)
      */
     public function getDrozponeProgress(Dropzone $dropzone, Drop $drop = null, $nbCorrection = 0)
     {
@@ -179,7 +176,7 @@ class DropzoneManager
             /* --------------------- SPECIAL CASE  END ------------------------------*/
 
             if (!$allow_user_to_not_have_expected_corrections && $drop != null && !$drop->isUnlockedDrop()) {
-                for ($i = 0; $i < $expectedCorrections; ++$i) {
+                for ($i = 0; $i < $expectedCorrections; $i++) {
                     array_push($states, 'correction n°%nb_correction%/%expected_correction%');
                 }
             }
@@ -189,10 +186,10 @@ class DropzoneManager
 
             // if no drop, state is 0 as default.
             if (!empty($drop)) {
-                ++$currentState;
+                $currentState++;
 
                 if ($drop->getFinished()) {
-                    ++$currentState;
+                    $currentState++;
                 }
                 // @TODO manage invalidated corrections.
                 //  update the state with the correction number.
@@ -203,20 +200,20 @@ class DropzoneManager
                 if (!$allow_user_to_not_have_expected_corrections && !$drop->isUnlockedDrop()) {
                     $currentState += $nbCorrection;
                     if ($nbCorrection >= $expectedCorrections) {
-                        ++$currentState;
+                        $currentState++;
                     }
                 } else {
-                    ++$currentState;
+                    $currentState++;
                 }
 
                 if ($drop->countFinishedCorrections() >= $expectedCorrections) {
-                    ++$currentState;
+                    $currentState++;
 
                     if ($allow_user_to_not_have_expected_corrections) {
-                        ++$currentState;
+                        $currentState++;
                     }
                 } elseif ($drop->isUnlockedDrop()) {
-                    ++$currentState;
+                    $currentState++;
                 }
 
                 // admin case ( can correct more than expected )
@@ -229,13 +226,13 @@ class DropzoneManager
             $states = array_merge($states, $end_states);
             // if no drop, state is 0 as default.
             if (!empty($drop)) {
-                ++$currentState;
+                $currentState++;
 
                 if ($drop->getFinished()) {
                     $currentState += 2;
                 }
                 if ($drop->countFinishedCorrections() >= $expectedCorrections) {
-                    ++$currentState;
+                    $currentState++;
                 }
             }
         }
@@ -249,9 +246,8 @@ class DropzoneManager
      *  Test to detect the special case where the peerReview end whereas user didnt had time to make the expected
      *  number of correction.
      *
-     * @param Dropzone $dropzone
+     * @param  Dropzone $dropzone
      * @param $nbCorrection
-     *
      * @return bool
      */
     public function isPeerReviewEndedOrManualStateFinished(Dropzone $dropzone, $nbCorrection)
@@ -269,26 +265,30 @@ class DropzoneManager
     }
 
     /**
-     * To know if a collecticiel is open or not (close) InnovaERV.
+     * To know if a collecticiel is open or not (close) InnovaERV
      */
     public function collecticielOpenOrNot(Dropzone $dropzone)
     {
+
         $open = false;
 
-        /*
+        /**
          * "Manuellement" InnovaERV
          */
-        if ($dropzone->getManualPlanning() == 1 && $dropzone->getManualState() == Dropzone::MANUAL_STATE_ALLOW_DROP) {
+        if ($dropzone->getManualPlanning() == 1 && $dropzone->getManualState() == Dropzone::MANUAL_STATE_ALLOW_DROP)
+        {
             $open = true;
         }
 
-        /*
+        /**
          * "Par dates" InnovaERV
          */
-        if ($dropzone->getManualPlanning() == 0) {
+        if ($dropzone->getManualPlanning() == 0)
+        {
             $now = new \DateTime();
             if (($dropzone->getStartAllowDrop()->getTimestamp() < $now->getTimestamp())
-            && ($now->getTimestamp() < $dropzone->getEndAllowDrop()->getTimestamp())) {
+            && ($now->getTimestamp() < $dropzone->getEndAllowDrop()->getTimestamp() ))
+            {
                 $open = true;
             }
         }
@@ -299,7 +299,6 @@ class DropzoneManager
     /**
      * if the dropzone option 'autocloseOpenDropsWhenTimeIsUp' is activated, and evalution allowToDrop time is over,
      *  this will close all drop not closed yet.
-     *
      * @param Dropzone $dropzone
      * @param bool     $force
      */
@@ -313,10 +312,8 @@ class DropzoneManager
     }
 
     /**
-     * Check if dropzone  options are ok in order to autoclose Drops.
-     *
-     * @param Dropzone $dropzone
-     *
+     * Check if dropzone  options are ok in order to autoclose Drops
+     * @param  Dropzone $dropzone
      * @return bool
      */
     private function isDropzoneDropTimeIsUp(Dropzone $dropzone)
@@ -348,10 +345,8 @@ class DropzoneManager
 
     /**
      * Handle events when modifying dropzone
-     * Delete useless events (if manualPlanning) & update/create (if datePlanning).
-     *
-     * @param Dropzone $dropzone
-     *
+     * Delete useless events (if manualPlanning) & update/create (if datePlanning)
+     * @param  Dropzone $dropzone
      * @return bool
      */
     public function handleEvents(Dropzone $dropzone, User $user)
@@ -371,7 +366,7 @@ class DropzoneManager
                 $agendaManager->deleteEvent($event);
                 $dropzone->setEventCorrection(null);
             }
-        } elseif ($dropzone->getStartAllowDrop() != null && $dropzone->getEndAllowDrop() != null) {
+        } elseif ($dropzone->getStartAllowDrop() != NULL && $dropzone->getEndAllowDrop() != NULL) {
             if ($dropzone->getEventDrop() != null) {
                 // update event
                 $eventDrop = $dropzone->getEventDrop();
@@ -392,7 +387,7 @@ class DropzoneManager
     }
 
     /**
-     * Return allowed document types for a Dropzone.
+     * Return allowed document types for a Dropzone
      */
     public function getAllowedTypes(Dropzone $dropzone)
     {
@@ -437,15 +432,14 @@ class DropzoneManager
     }
 
     /**
-     * Update published column for a Dropzone.
-     *
+     * Update published column for a Dropzone
      * @param  ResourceId (id)
      * @param  Published (boolean)
-     *
-     * @return resource
+     * @return Resource
      */
     public function updatePublished($resourceId, $published)
     {
+
         $resourceNodes = $this->resourceNodeRepo->findBy(array('id' => $resourceId));
 
         foreach ($resourceNodes as $resourceNode) {
@@ -456,4 +450,5 @@ class DropzoneManager
 
         return $resourceNodes;
     }
+
 }

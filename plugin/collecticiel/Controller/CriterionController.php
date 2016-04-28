@@ -2,8 +2,9 @@
 /**
  * Created by : Vincent SAISSET
  * Date: 22/08/13
- * Time: 09:30.
+ * Time: 09:30
  */
+
 namespace Innova\CollecticielBundle\Controller;
 
 use Innova\CollecticielBundle\Entity\Criterion;
@@ -21,7 +22,7 @@ class CriterionController extends DropzoneBaseController
 {
     /**
      * @Route(
-     *      "/{resourceId}/edit/addcriterion/{page}/{criterionId}",
+     *      "/{resourceId}/edit/addcriterion/{page}/{criterionId}/{adminInnova}/{collecticielOpenOrNot}",
      *      name="innova_collecticiel_edit_add_criterion",
      *      requirements={"resourceId" = "\d+", "criterionId" = "\d+", "page" = "\d+"},
      *      defaults={"criterionId" = 0}
@@ -29,8 +30,9 @@ class CriterionController extends DropzoneBaseController
      * @ParamConverter("dropzone", class="InnovaCollecticielBundle:Dropzone", options={"id" = "resourceId"})
      * @Template()
      */
-    public function editAddCriterionAction($dropzone, $page, $criterionId)
+    public function editAddCriterionAction($dropzone, $page, $criterionId, $adminInnova, $collecticielOpenOrNot)
     {
+
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $this->get('innova.manager.dropzone_voter')->isAllowToEdit($dropzone);
 
@@ -48,6 +50,7 @@ class CriterionController extends DropzoneBaseController
         $form = $this->createForm(new CriterionType(), $criterion);
 
         if ($this->getRequest()->isXMLHttpRequest()) {
+var_dump("ici isXMLHttpRequest");
             return $this->render(
                 'InnovaCollecticielBundle:Criterion:editAddCriterionModal.html.twig',
                 array(
@@ -56,11 +59,12 @@ class CriterionController extends DropzoneBaseController
                     'dropzone' => $dropzone,
                     'form' => $form->createView(),
                     'criterion' => $criterion,
-                    'page' => $page,
+                    'page' => $page
                 )
             );
         }
 
+var_dump("avant return array");
         return array(
             'workspace' => $dropzone->getResourceNode()->getWorkspace(),
             '_resource' => $dropzone,
@@ -68,6 +72,7 @@ class CriterionController extends DropzoneBaseController
             'form' => $form->createView(),
             'criterion' => $criterion,
             'page' => $page,
+            'adminInnova' => $adminInnova
         );
     }
 
@@ -120,9 +125,9 @@ class CriterionController extends DropzoneBaseController
             $em->flush();
 
             $event = null;
-            if ($edit === true) {
+            if($edit === true) {
                 $event = new LogCriterionUpdateEvent($dropzone, $dropzoneChangeSet, $criterion, $criterionChangeSet);
-            } else {
+            } else{
                 $event = new LogCriterionCreateEvent($dropzone, $dropzoneChangeSet, $criterion);
             }
 
@@ -133,7 +138,7 @@ class CriterionController extends DropzoneBaseController
                     'innova_collecticiel_edit_criteria_paginated',
                     array(
                         'resourceId' => $dropzone->getId(),
-                        'page' => $page,
+                        'page' => $page
                     )
                 )
             );
@@ -145,9 +150,10 @@ class CriterionController extends DropzoneBaseController
             'dropzone' => $dropzone,
             'form' => $form->createView(),
             'criterion' => $criterion,
-            'page' => $page,
+            'page' => $page
         );
     }
+
 
     /**
      * @Route(
@@ -173,6 +179,7 @@ class CriterionController extends DropzoneBaseController
             ->countByDropzone($dropzone->getId());
 
         if ($this->getRequest()->isXMLHttpRequest()) {
+
             return $this->render(
                 'InnovaCollecticielBundle:Criterion:editDeleteCriterionModal.html.twig',
                 array(
@@ -241,7 +248,7 @@ class CriterionController extends DropzoneBaseController
                     'innova_collecticiel_edit_criteria_paginated',
                     array(
                         'resourceId' => $dropzone->getId(),
-                        'page' => $page,
+                        'page' => $page
                     )
                 )
             );
@@ -253,7 +260,7 @@ class CriterionController extends DropzoneBaseController
             'dropzone' => $dropzone,
             'criterion' => $criterion,
             'form' => $form->createView(),
-            'page' => $page,
+            'page' => $page
         );
     }
 }
