@@ -172,8 +172,7 @@ class CorrectionRepository extends EntityRepository
         $query = $this->_em->createQuery($dql);
 
         $query->setParameter('dropzoneId', $dropzone->getId());
-        //var_dump($query);
-       // die;
+
         return $query;
     }
 

@@ -2385,7 +2385,7 @@ class CorrectionController extends DropzoneBaseController
                         $comment->setDocument($document);
                         $comment->setCommentText($commentText);
                         $comment->setUser($user);
-//                        var_dump($documentId);
+
                         // Insertion en base du commentaire
                         $em->persist($comment);
 

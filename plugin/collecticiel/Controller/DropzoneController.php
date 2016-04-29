@@ -45,9 +45,6 @@ class DropzoneController extends DropzoneBaseController
      */
     public function editCommonAction(Dropzone $dropzone, $user)
     {
-        var_dump('');
-        var_dump('editCommonAction');
-        var_dump('');
         $em = $this->getDoctrine()->getManager();
         $dropzoneVoter = $this->get('innova.manager.dropzone_voter');
         $dropzoneManager = $this->get('innova.manager.dropzone_manager');
@@ -121,8 +118,6 @@ class DropzoneController extends DropzoneBaseController
             $em->flush();
 
             $stayHere = $form->get('stayHere')->getData();
-            var_dump('stayHere');
-            var_dump($stayHere);
 
             if ($stayHere == 1) {
                 if ($dropzone->hasCriteria() === false) {
@@ -204,9 +199,6 @@ class DropzoneController extends DropzoneBaseController
      */
     public function editAppreciationAction(Dropzone $dropzone, $user)
     {
-        var_dump('');
-        var_dump('editAppreciationAction');
-        var_dump('');
         $em = $this->getDoctrine()->getManager();
         $dropzoneVoter = $this->get('innova.manager.dropzone_voter');
         $dropzoneManager = $this->get('innova.manager.dropzone_manager');
@@ -234,8 +226,6 @@ class DropzoneController extends DropzoneBaseController
 
 //            $dropzone = $form->getData();
 //            $form = $this->handleFormErrors($form, $dropzone);
-
-//            var_dump($this->getRequest()->request->all());
 
             // see if manual planification option has changed.
             $oldManualPlanning = $dropzone->getManualPlanning();
@@ -334,9 +324,7 @@ class DropzoneController extends DropzoneBaseController
     {
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $this->get('innova.manager.dropzone_voter')->isAllowToEdit($dropzone);
-        var_dump('');
-        var_dump('editCriteriaActionInnova');
-        var_dump('');
+
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('InnovaCollecticielBundle:Criterion');
         $query = $repository

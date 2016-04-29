@@ -49,8 +49,6 @@ class CriterionController extends DropzoneBaseController
         $form = $this->createForm(new CriterionType(), $criterion);
 
         if ($this->getRequest()->isXMLHttpRequest()) {
-            var_dump('ici isXMLHttpRequest');
-
             return $this->render(
                 'InnovaCollecticielBundle:Criterion:editAddCriterionModal.html.twig',
                 array(
@@ -63,8 +61,6 @@ class CriterionController extends DropzoneBaseController
                 )
             );
         }
-
-        var_dump('avant return array');
 
         return array(
             'workspace' => $dropzone->getResourceNode()->getWorkspace(),
