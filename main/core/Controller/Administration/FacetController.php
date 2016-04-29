@@ -23,9 +23,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\ProfileProperty;
 use Claroline\CoreBundle\Entity\Facet\Facet;
-use Claroline\CoreBundle\Entity\Facet\FieldFacet;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
-use Claroline\CoreBundle\Form\Administration\PanelFacetType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -184,165 +182,6 @@ class FacetController extends Controller
     }
 
     /**
-     * Returns the facet role edition in a modal.
-     *
-     * @EXT\Route("/{facet}/roles/form",
-     *      name="claro_admin_facet_role_form",
-     *      options = {"expose"=true}
-     * )
-     *
-     * @EXT\Template()
-     */
-    public function facetRolesFormAction(Facet $facet)
-    {
-        $roles = $facet->getRoles();
-        $platformRoles = $this->roleManager->getPlatformNonAdminRoles(true);
-
-        return array('roles' => $roles, 'facet' => $facet, 'platformRoles' => $platformRoles);
-    }
-
-    /**
-     * @EXT\Route("/{facet}/roles/edit",
-     *      name="claro_admin_facet_role_edit",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function editFacetRolesAction(Facet $facet)
-    {
-        $roles = $this->getRolesFromRequest('role-');
-        $this->facetManager->setFacetRoles($facet, $roles);
-
-        return new JsonResponse(array(), 204);
-    }
-
-    /**
-     * Returns the field role edition in a modal.
-     *
-     * @EXT\Route("/field/{field}/roles/form",
-     *      name="claro_admin_field_role_form",
-     *      options = {"expose"=true}
-     * )
-     *
-     * @EXT\Template()
-     */
-    public function fieldRolesFormAction(FieldFacet $field)
-    {
-        $fieldFacetsRole = $field->getFieldFacetsRole();
-        $platformRoles = $this->roleManager->getPlatformNonAdminRoles(true);
-
-        return array('fieldFacetsRole' => $fieldFacetsRole, 'field' => $field, 'platformRoles' => $platformRoles);
-    }
-
-    /**
-     * @EXT\Route("/field/{field}/roles/edit",
-     *      name="claro_admin_field_role_edit",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function editFieldRolesAction(FieldFacet $field)
-    {
-        $roles = $this->getRolesFromRequest('open-role-');
-        $this->facetManager->setFieldBoolProperty($field, $roles, 'canOpen');
-        $roles = $this->getRolesFromRequest('edit-role-');
-        $this->facetManager->setFieldBoolProperty($field, $roles, 'canEdit');
-
-        return new JsonResponse(array(), 204);
-    }
-
-    /**
-     * @EXT\Route("/edit/general",
-     *      name="claro_admin_facet_general_edit",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function editGeneralFacet()
-    {
-        $configs = array();
-
-        foreach ($this->request->request->all() as $key => $value) {
-            $arr = explode('-role-', $key);
-            $roleId = (int) $arr[1];
-            $configs[$roleId][$arr[0]] = true;
-        }
-
-        foreach ($configs as $key => $config) {
-            $this->facetManager->setProfilePreference(
-                isset($config['basedata']),
-                isset($config['mail']),
-                isset($config['phone']),
-                isset($config['sendmail']),
-                isset($config['sendmessage']),
-                $this->roleManager->getRole($key)
-            );
-        }
-
-        return new JsonResponse($this->request->request->all(), 200);
-    }
-
-    /**
-     * Returns the panel creation edition in a modal.
-     *
-     * @EXT\Route("/edit/panel/facet/{panelFacet}/form",
-     *      name="claro_admin_panel_facet_edit_form",
-     *      options = {"expose"=true}
-     * )
-     *
-     * @EXT\Template()
-     */
-    public function editPanelFacetFormAction(PanelFacet $panelFacet)
-    {
-        $form = $this->formFactory->create(new PanelFacetType(), $panelFacet);
-
-        return array('form' => $form->createView(), 'panelFacet' => $panelFacet);
-    }
-
-    /**
-     * Returns the panel creation edition in a modal.
-     *
-     * @EXT\Route("/edit/panel/facet/{panelFacet}",
-     *      name="claro_admin_panel_facet_edit",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function editPanelFacetAction(PanelFacet $panelFacet)
-    {
-        $form = $this->formFactory->create(new PanelFacetType(), $panelFacet);
-        $form->handleRequest($this->request);
-
-        if ($form->isValid()) {
-            $panel = $this->facetManager->editPanel($panelFacet);
-
-            return new JsonResponse(
-                array(
-                    'id' => $panelFacet->getId(),
-                    'name' => $panelFacet->getName(),
-                    'facet_id' => $panelFacet->getId(),
-                )
-            );
-        }
-
-        return $this->render(
-            'ClarolineCoreBundle:Administration\Facet:editPanelFacetForm.html.twig',
-            array('form' => $form->createView(), 'panelFacet' => $panelFacet)
-        );
-    }
-
-    /**
-     * Removes a panel.
-     *
-     * @EXT\Route("/remove/panel/facet/{panelFacet}",
-     *      name="claro_admin_remove_panel_facet",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function removePanelFacetAction(PanelFacet $panelFacet)
-    {
-        $this->facetManager->removePanel($panelFacet);
-
-        return new Response('success', 204);
-    }
-
-    /**
      * Reorder panels.
      *
      * @EXT\Route("/order/panels/facet/{facet}",
@@ -362,24 +201,5 @@ class FacetController extends Controller
         $this->facetManager->orderPanels($ids, $facet);
 
         return new Response('success');
-    }
-
-    private function getRolesFromRequest($prefix)
-    {
-        $params = $this->request->request->all();
-        $roleIds = [];
-
-        foreach ($params as $key => $value) {
-            $key = '_'.$key;
-            if (strpos($key, $prefix)) {
-                if ('on' === $value) {
-                    $roleIds[] = (int) str_replace('_'.$prefix, '', $key);
-                }
-            }
-        }
-
-        $roles = $this->roleManager->getRolesByIds($roleIds);
-
-        return $roles;
     }
 }

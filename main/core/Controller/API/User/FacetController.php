@@ -198,7 +198,7 @@ class FacetController extends FOSRestController
      * @View(serializerGroups={"api_facet_admin"})
      * @Put("facet/panel/field/{field}/roles", name="put_field_roles", options={ "method_prefix" = false })
      */
-    public function setFieldsRoleAction(FieldFacet $field)
+    public function putFieldsRoleAction(FieldFacet $field)
     {
         $params = $this->request->request->all();
         $this->om->startFlushSuite();
@@ -213,7 +213,39 @@ class FacetController extends FOSRestController
         $this->om->endFlushSuite();
 
         return $field;
+    }
 
-        //return $this->facetManager->setFacetRoles($facet, $roles);
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Get("facet/profile/preferences", name="get_profile_preferences", options={ "method_prefix" = false })
+     */
+    public function getProfilePreferencesAction()
+    {
+        return $this->facetManager->getProfilePreferences();
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/profile/preferences", name="put_profile_preferences", options={ "method_prefix" = false })
+     */
+    public function putProfilePreferencesAction()
+    {
+        $params = $this->request->request->all();
+        $this->om->startFlushSuite();
+
+        foreach ($params['preferences'] as $param) {
+            $role = $this->om->getRepository('ClarolineCoreBundle:Role')->find($param['role']['id']);
+            $baseData = $param['base_data'] === 'true' ? true : false;
+            $mail = $param['mail'] === 'true' ? true : false;
+            $phone = $param['phone'] === 'true' ? true : false;
+            //old param. Not used anymore but it could be used again "soon"
+            $sendMail = false;
+            $sendMessage = $param['send_message'] === 'true' ? true : false;
+            $this->facetManager->setProfilePreference($baseData, $mail, $phone, $sendMail, $sendMessage, $role);
+        }
+
+        $this->om->endFlushSuite();
+
+        return $this->facetManager->getProfilePreferences();
     }
 }

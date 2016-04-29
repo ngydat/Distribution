@@ -8,7 +8,6 @@ export default class ModalController {
   }
 
   onSubmit (form) {
-      console.log('submit')
     if (form.$valid) this.$uibModalInstance.close(this.model)
   }
 }

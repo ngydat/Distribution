@@ -6,21 +6,43 @@ export default class FacetController {
     this.ClarolineAPIService = ClarolineAPIService
     this.facets = []
     this.platformRoles = []
+    this.profilePreferences = []
     $http.get(Routing.generate('api_get_facets')).then(d => this.facets = d.data)
     $http.get(Routing.generate('api_get_platform_roles')).then(d => this.platformRoles = d.data)
+    // build the profile preferences array. This could be done on the server side.
+    $http.get(Routing.generate('api_get_profile_preferences')).then(d => {
+      const missingRoles = this.platformRoles.filter(element => {
+        let found = false
+        d.data.forEach(profilePreference => {
+          if (element.id === profilePreference.role.id) found = true
+        })
+        return !found
+      }).forEach(element => {
+        d.data.push(
+          {
+            base_data: false,
+            mail: false,
+            phone: false,
+            send_message: false,
+            role: element
+          }
+        )
+      })
+      this.profilePreferences = d.data
+    })
 
     this.formFacet = {
       translation_domain: 'platform',
       fields: [
         {
-            type: 'text',
-            name: 'name',
-            label: 'name',
-            options: {
-                validators: {
-                    'not-blank': {}
-                }
+          type: 'text',
+          name: 'name',
+          label: 'name',
+          options: {
+            validators: {
+              'not-blank': {}
             }
+          }
         },
         { type: 'checkbox', name: 'force_creation_form', label: 'display_at_registration'}
       ]
@@ -38,14 +60,14 @@ export default class FacetController {
       translation_domain: 'platform',
       fields: [
         {
-            type: 'text',
-            name: 'name',
-            label: 'name',
-            options: {
-                validators: {
-                    'not-blank': {}
-                }
+          type: 'text',
+          name: 'name',
+          label: 'name',
+          options: {
+            validators: {
+              'not-blank': {}
             }
+          }
         },
         {
           type: 'select',
@@ -70,11 +92,20 @@ export default class FacetController {
     }
 
     this.formFieldRole = {
-      name: 'field-role',
       translation_domain: 'platform',
       fields: [
         { type: 'checkbox', name: 'can_open', label: ''},
         { type: 'checkbox', name: 'can_edit', label: ''}
+      ]
+    }
+
+    this.formProfilePreference = {
+      translation_domain: 'platform',
+      fields: [
+        { type: 'checkbox', name: 'base_data', label: ''},
+        { type: 'checkbox', name: 'mail', label: ''},
+        { type: 'checkbox', name: 'phone', label: ''},
+        { type: 'checkbox', name: 'send_message', label: ''}
       ]
     }
   }
@@ -99,7 +130,7 @@ export default class FacetController {
 
     modalInstance.result.then(result => {
       if (!result) return
-      var data = this.FormBuilderService.formSerialize('facet', result)
+      const data = this.FormBuilderService.formSerialize('facet', result)
 
       this.$http.post(
         Routing.generate('api_post_facet'),
@@ -219,7 +250,7 @@ export default class FacetController {
 
     modalInstance.result.then(result => {
       if (!result) return
-      var data = this.FormBuilderService.formSerialize('panel', result)
+      const data = this.FormBuilderService.formSerialize('panel', result)
 
       this.$http.post(
         Routing.generate('api_post_panel_facet', {facet: facet.id}),
@@ -259,7 +290,7 @@ export default class FacetController {
 
     modalInstance.result.then(result => {
       if (!result) return
-      var data = this.FormBuilderService.formSerialize('panel', result)
+      const data = this.FormBuilderService.formSerialize('panel', result)
 
       this.$http.put(
         Routing.generate('api_put_panel_facet', {panel: panel.id}),
@@ -307,8 +338,7 @@ export default class FacetController {
 
     modalInstance.result.then(result => {
       if (!result) return
-      console.log(result)
-      var data = this.FormBuilderService.formSerialize('field', result)
+      const data = this.FormBuilderService.formSerialize('field', result)
 
       this.$http.post(
         Routing.generate('api_post_field_facet', {panel: panel.id}),
@@ -348,7 +378,7 @@ export default class FacetController {
 
     modalInstance.result.then(result => {
       if (!result) return
-      var data = this.FormBuilderService.formSerialize('field', result)
+      const data = this.FormBuilderService.formSerialize('field', result)
 
       this.$http.put(
         Routing.generate('api_put_field_facet', {field: field.id}),
@@ -392,21 +422,37 @@ export default class FacetController {
     })
 
     modalInstance.result.then(field => {
-        var data = this.FormBuilderService.formSerialize('roles', field.field_facets_role)
-        console.log(data)
+      const data = this.FormBuilderService.formSerialize('roles', field.field_facets_role)
 
-        this.$http.put(
-          Routing.generate('api_put_field_roles', {field: field.id}),
-          data,
-          {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-        ).then(
-          d => {
-            alert('it worked !')
-          },
-          d => {
-            alert('error handling')
-          }
-        )
+      this.$http.put(
+        Routing.generate('api_put_field_roles', {field: field.id}),
+        data,
+        {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+      ).then(
+        d => {
+          alert('it worked !')
+        },
+        d => {
+          alert('error handling')
+        }
+      )
     })
+  }
+
+  onSubmitProfilePreferences(form) {
+    const data = this.FormBuilderService.formSerialize('preferences', this.profilePreferences)
+
+    this.$http.put(
+      Routing.generate('api_put_profile_preferences'),
+      data,
+      {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+    ).then(
+      d => {
+        alert('it worked !')
+      },
+      d => {
+        alert('error handling')
+      }
+    )
   }
 }

@@ -13,7 +13,7 @@ export default class CheckListDirective {
     // here we create a default ng-model attribute
     tAttrs.$set('ngModel', 'checked')
 
-    return this.postLinkFn(this)
+    return this.postLinkFn.bind(this)
   }
 
   add (arr, item) {

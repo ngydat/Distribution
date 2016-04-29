@@ -8,6 +8,7 @@ export default class FacetRolesController {
     //now we initialize the field_facet_roles array
     const fieldFacetRoles = field.field_facets_role
 
+    //build the fieldFacetRoles array. This could be done on the server side.
     const missingRoles = this.platformRoles.filter(element => {
         let found = false
         fieldFacetRoles.forEach(fieldFacetRole => {
