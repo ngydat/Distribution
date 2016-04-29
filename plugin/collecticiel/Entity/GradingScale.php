@@ -1,20 +1,19 @@
 <?php
 /**
  * Created by : Eric VINCENT
- * Date: 04/2016
+ * Date: 04/2016.
  */
 
 namespace Innova\CollecticielBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Innova\CollecticielBundle\Repository\GradingScaleRepository")
  * @ORM\Table(name="innova_collecticielbundle_grading_scale")
  */
-class GradingScale {
-
+class GradingScale
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,8 +27,8 @@ class GradingScale {
     protected $scaleName;
 
     /**
-     * Lien avec la table Dropzone
-    */
+     * Lien avec la table Dropzone.
+     */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Innova\CollecticielBundle\Entity\Dropzone",
@@ -40,9 +39,9 @@ class GradingScale {
     protected $dropzone;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -56,9 +55,9 @@ class GradingScale {
     {
         $this->id = $id;
     }
-    
+
     /**
-     * Set scaleName
+     * Set scaleName.
      *
      * @param string $scaleName
      *
@@ -72,7 +71,7 @@ class GradingScale {
     }
 
     /**
-     * Get scaleName
+     * Get scaleName.
      *
      * @return string
      */
@@ -96,7 +95,6 @@ class GradingScale {
     /**
      * @return Dropzone
      */
-
     public function getDropzone()
     {
         return $this->dropzone;
@@ -106,5 +104,4 @@ class GradingScale {
     {
         return $this->dropzone();
     }
-    
 }

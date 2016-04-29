@@ -9,7 +9,7 @@
  * Modifiey by : Eric VINCENT InnovaERV Add EvaluationType Column (02/02/2016)
  * Modifiey by : Eric VINCENT InnovaERV Add MaximumNotation Column (16/03/2016)
  * Modifiey by : Eric VINCENT InnovaERV Add ArrayCollection GradingScale (04/2016)
- * Modifiey by : Eric VINCENT InnovaERV Add ArrayCollection GradingCriteria (04/2016)
+ * Modifiey by : Eric VINCENT InnovaERV Add ArrayCollection GradingCriteria (04/2016).
 */
 
 namespace Innova\CollecticielBundle\Entity;
@@ -26,22 +26,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Dropzone extends AbstractResource
 {
-    const MANUAL_STATE_NOT_STARTED = "notStarted";
-    const MANUAL_STATE_PEER_REVIEW = "peerReview";
-    const MANUAL_STATE_ALLOW_DROP = "allowDrop";
-    const MANUAL_STATE_ALLOW_DROP_AND_PEER_REVIEW = "allowDropAndPeerReview";
-    const MANUAL_STATE_FINISHED = "finished";
+    const MANUAL_STATE_NOT_STARTED = 'notStarted';
+    const MANUAL_STATE_PEER_REVIEW = 'peerReview';
+    const MANUAL_STATE_ALLOW_DROP = 'allowDrop';
+    const MANUAL_STATE_ALLOW_DROP_AND_PEER_REVIEW = 'allowDropAndPeerReview';
+    const MANUAL_STATE_FINISHED = 'finished';
 
-    const AUTO_CLOSED_STATE_WAITING = "waiting";
-    const AUTO_CLOSED_STATE_CLOSED = "autoClosed";
+    const AUTO_CLOSED_STATE_WAITING = 'waiting';
+    const AUTO_CLOSED_STATE_CLOSED = 'autoClosed';
 
-    const EVALUATION_TYPE = "noEvaluation";
+    const EVALUATION_TYPE = 'noEvaluation';
 
     /**
      * 1 = common
      * 2 = criteria
      * 3 = participant
-     * 4 = finished
+     * 4 = finished.
      *
      * @ORM\Column(name="edition_state", type="smallint", nullable=false)
      */
@@ -157,6 +157,7 @@ class Dropzone extends AbstractResource
 
     /**
      * Rendre le champ de commentaire dans la correction obligatoire.
+     *
      * @var bool
      *
      * @ORM\Column(name="force_comment_in_correction",type="boolean",nullable=false)
@@ -169,7 +170,6 @@ class Dropzone extends AbstractResource
      *
      * @var bool
      * @ORM\Column(name="diplay_corrections_to_learners",type="boolean",nullable=false)
-     *
      */
     protected $diplayCorrectionsToLearners = false;
 
@@ -224,7 +224,7 @@ class Dropzone extends AbstractResource
     protected $autoCloseOpenedDropsWhenTimeIsUp = 0;
 
     /**
-     * @var String
+     * @var string
      * @ORM\Column(name="auto_close_state",type="string",nullable=false,options={"default" = "waiting"})
      */
     protected $autoCloseState = self::AUTO_CLOSED_STATE_WAITING;
@@ -240,7 +240,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var bool
-     * Notify Evaluation admins when a someone made a drop
+     *           Notify Evaluation admins when a someone made a drop
      *
      * @ORM\Column(name="notify_on_drop",type="boolean",nullable=false,options={"default" = false})
      */
@@ -248,7 +248,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var bool
-     * Return recept admins
+     *           Return recept admins
      *
      * @ORM\Column(name="return_receipt",type="boolean",nullable=false,options={"default" = false})
      */
@@ -256,7 +256,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var bool
-     * Evaluation admins
+     *           Evaluation admins
      *
      * @ORM\Column(name="evaluation",type="boolean",nullable=false,options={"default" = false})
      */
@@ -264,7 +264,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var bool
-     * Display or not picture value
+     *           Display or not picture value
      *
      * @ORM\Column(name="picture",type="boolean",nullable=false,options={"default" = false})
      */
@@ -272,7 +272,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var bool
-     * Display or not username value
+     *           Display or not username value
      *
      * @ORM\Column(name="username",type="boolean",nullable=false,options={"default" = false})
      */
@@ -290,7 +290,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var Event
-     * Event for Workspace Agenda linked to DROP phase
+     *            Event for Workspace Agenda linked to DROP phase
      *
      * @ORM\OneToOne(
      *    targetEntity="Claroline\AgendaBundle\Entity\Event",cascade={"remove"})
@@ -301,7 +301,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @var Event
-     * Event for Workspace Agenda linked to Correction phase.
+     *            Event for Workspace Agenda linked to Correction phase.
      *
      * @ORM\OneToOne(
      *    targetEntity="Claroline\AgendaBundle\Entity\Event",cascade={"remove"})
@@ -427,8 +427,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * when there is no comment allowed, the comment can't be mandatory
-     * @param boolean $forceCommentInCorrection
+     * when there is no comment allowed, the comment can't be mandatory.
+     *
+     * @param bool $forceCommentInCorrection
      */
     public function setForceCommentInCorrection($forceCommentInCorrection)
     {
@@ -440,7 +441,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getForceCommentInCorrection()
     {
@@ -753,6 +754,7 @@ class Dropzone extends AbstractResource
 
     /**
      * @param $diplayCorrectionsToLearners
+     *
      * @internal param bool $displayNotationToLearners
      */
     public function setDiplayCorrectionsToLearners($diplayCorrectionsToLearners)
@@ -938,9 +940,10 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Add criterion
+     * Add criterion.
      *
-     * @param  \Innova\CollecticielBundle\Entity\Criterion $criterion
+     * @param \Innova\CollecticielBundle\Entity\Criterion $criterion
+     *
      * @return Dropzone
      */
     public function addCriterion(Criterion $criterion)
@@ -952,7 +955,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * @param boolean $autoCloseOpenedDropsWhenTimeIsUp
+     * @param bool $autoCloseOpenedDropsWhenTimeIsUp
      */
     public function setAutoCloseOpenedDropsWhenTimeIsUp($autoCloseOpenedDropsWhenTimeIsUp)
     {
@@ -960,7 +963,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getAutoCloseOpenedDropsWhenTimeIsUp()
     {
@@ -969,18 +972,19 @@ class Dropzone extends AbstractResource
 
     /**
      * Param that indicate if all drop have already been auto closed or not.
-     * @param String $autoCloseState
+     *
+     * @param string $autoCloseState
      */
     public function setAutoCloseState($autoCloseState)
     {
-        $authorizedValues = array(self::AUTO_CLOSED_STATE_CLOSED,self::AUTO_CLOSED_STATE_WAITING);
+        $authorizedValues = array(self::AUTO_CLOSED_STATE_CLOSED, self::AUTO_CLOSED_STATE_WAITING);
         if (in_array($autoCloseState, $authorizedValues)) {
             $this->autoCloseState = $autoCloseState;
         }
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function getAutoCloseState()
     {
@@ -988,7 +992,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * @param boolean $notifyOnDrop
+     * @param bool $notifyOnDrop
      */
     public function setNotifyOnDrop($notifyOnDrop)
     {
@@ -996,7 +1000,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getNotifyOnDrop()
     {
@@ -1004,9 +1008,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -1014,9 +1018,10 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Add drops
+     * Add drops.
      *
-     * @param  \Innova\CollecticielBundle\Entity\Drop $drops
+     * @param \Innova\CollecticielBundle\Entity\Drop $drops
+     *
      * @return Dropzone
      */
     public function addDrop(\Innova\CollecticielBundle\Entity\Drop $drops)
@@ -1027,7 +1032,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Remove drops
+     * Remove drops.
      *
      * @param \Innova\CollecticielBundle\Entity\Drop $drops
      */
@@ -1037,9 +1042,10 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Add peerReviewCriteria
+     * Add peerReviewCriteria.
      *
-     * @param  \Innova\CollecticielBundle\Entity\Criterion $peerReviewCriteria
+     * @param \Innova\CollecticielBundle\Entity\Criterion $peerReviewCriteria
+     *
      * @return Dropzone
      */
     public function addPeerReviewCriterium(\Innova\CollecticielBundle\Entity\Criterion $peerReviewCriteria)
@@ -1050,7 +1056,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Remove peerReviewCriteria
+     * Remove peerReviewCriteria.
      *
      * @param \Innova\CollecticielBundle\Entity\Criterion $peerReviewCriteria
      */
@@ -1060,9 +1066,10 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set resourceNode
+     * Set resourceNode.
      *
-     * @param  \Claroline\CoreBundle\Entity\Resource\ResourceNode $resourceNode
+     * @param \Claroline\CoreBundle\Entity\Resource\ResourceNode $resourceNode
+     *
      * @return Dropzone
      */
     public function setResourceNode(\Claroline\CoreBundle\Entity\Resource\ResourceNode $resourceNode = null)
@@ -1073,7 +1080,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get resourceNode
+     * Get resourceNode.
      *
      * @return \Claroline\CoreBundle\Entity\Resource\ResourceNode
      */
@@ -1083,9 +1090,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set returnReceipt
+     * Set returnReceipt.
      *
-     * @param boolean $returnReceipt
+     * @param bool $returnReceipt
      *
      * @return Dropzone
      */
@@ -1097,9 +1104,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get returnReceipt
+     * Get returnReceipt.
      *
-     * @return boolean
+     * @return bool
      */
     public function getReturnReceipt()
     {
@@ -1107,9 +1114,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set evaluation
+     * Set evaluation.
      *
-     * @param boolean $evaluation
+     * @param bool $evaluation
      *
      * @return Dropzone
      */
@@ -1121,9 +1128,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get evaluation
+     * Get evaluation.
      *
-     * @return boolean
+     * @return bool
      */
     public function getEvaluation()
     {
@@ -1131,9 +1138,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set picture
+     * Set picture.
      *
-     * @param boolean $picture
+     * @param bool $picture
      *
      * @return Dropzone
      */
@@ -1145,9 +1152,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get picture
+     * Get picture.
      *
-     * @return boolean
+     * @return bool
      */
     public function getPicture()
     {
@@ -1155,9 +1162,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set username
+     * Set username.
      *
-     * @param boolean $username
+     * @param bool $username
      *
      * @return Dropzone
      */
@@ -1169,9 +1176,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get username
+     * Get username.
      *
-     * @return boolean
+     * @return bool
      */
     public function getUsername()
     {
@@ -1179,7 +1186,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set evaluationType
+     * Set evaluationType.
      *
      * @param string $evaluationType
      *
@@ -1193,7 +1200,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get evaluationType
+     * Get evaluationType.
      *
      * @return string
      */
@@ -1203,9 +1210,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Set maximumNotation
+     * Set maximumNotation.
      *
-     * @param integer $maximumNotation
+     * @param int $maximumNotation
      *
      * @return Dropzone
      */
@@ -1217,9 +1224,9 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get maximumNotation
+     * Get maximumNotation.
      *
-     * @return integer
+     * @return int
      */
     public function getMaximumNotation()
     {
@@ -1227,7 +1234,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Add gradingScale
+     * Add gradingScale.
      *
      * @param \Innova\CollecticielBundle\Entity\GradingScale $gradingScale
      *
@@ -1241,7 +1248,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Remove gradingScale
+     * Remove gradingScale.
      *
      * @param \Innova\CollecticielBundle\Entity\GradingScale $gradingScale
      */
@@ -1251,7 +1258,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get gradingScales
+     * Get gradingScales.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -1268,9 +1275,8 @@ class Dropzone extends AbstractResource
         $this->gradingScales = $gradingScales;
     }
 
-
     /**
-     * Add gradingCriteria
+     * Add gradingCriteria.
      *
      * @param \Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria
      *
@@ -1284,7 +1290,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Remove gradingCriteria
+     * Remove gradingCriteria.
      *
      * @param \Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria
      */
@@ -1294,7 +1300,7 @@ class Dropzone extends AbstractResource
     }
 
     /**
-     * Get gradingCriterias
+     * Get gradingCriterias.
      *
      * @return \Doctrine\Common\Collections\Collection
      */

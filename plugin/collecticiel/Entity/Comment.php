@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by : VINCENT Eric
- * Date: 10/05/2015
+ * Date: 10/05/2015.
 */
 
 namespace Innova\CollecticielBundle\Entity;
@@ -9,14 +9,14 @@ namespace Innova\CollecticielBundle\Entity;
 use Claroline\CoreBundle\Entity\Resource\ResourceNode;
 use Doctrine\ORM\Mapping as ORM;
 use Claroline\CoreBundle\Entity\User;
-use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="Innova\CollecticielBundle\Repository\CommentRepository")
  * @ORM\Table(name="innova_collecticielbundle_comment")
  */
-class Comment {
+class Comment
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -53,8 +53,8 @@ class Comment {
     protected $commentDate;
 
     /**
-     * Lien avec la table CommentRead
-    */
+     * Lien avec la table CommentRead.
+     */
     /**
      * @ORM\OneToMany(
      *     targetEntity="Innova\CollecticielBundle\Entity\CommentRead",
@@ -169,7 +169,7 @@ class Comment {
         $json = array(
             'id' => $this->getId(),
             'type' => $this->getType(),
-            'url' => $this->getUrl()
+            'url' => $this->getUrl(),
         );
         if ($this->getResourceNode() !== null) {
             $json['resourceNode'] = array(
@@ -181,7 +181,7 @@ class Comment {
         return $json;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -189,9 +189,10 @@ class Comment {
     }
 
     /**
-     * Set commentText
+     * Set commentText.
      *
      * @param string $commentText
+     *
      * @return Comment
      */
     public function setCommentText($commentText)
@@ -202,9 +203,9 @@ class Comment {
     }
 
     /**
-     * Get commentText
+     * Get commentText.
      *
-     * @return string 
+     * @return string
      */
     public function getCommentText()
     {
@@ -212,9 +213,10 @@ class Comment {
     }
 
     /**
-     * Set commentDate
+     * Set commentDate.
      *
      * @param \DateTime $commentDate
+     *
      * @return Comment
      */
     public function setCommentDate($commentDate)
@@ -225,9 +227,9 @@ class Comment {
     }
 
     /**
-     * Get commentDate
+     * Get commentDate.
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCommentDate()
     {
@@ -235,9 +237,10 @@ class Comment {
     }
 
     /**
-     * Set document
+     * Set document.
      *
      * @param \Innova\CollecticielBundle\Entity\Document $document
+     *
      * @return Comment
      */
     public function setDocument(\Innova\CollecticielBundle\Entity\Document $document)
@@ -248,9 +251,9 @@ class Comment {
     }
 
     /**
-     * Get document
+     * Get document.
      *
-     * @return \Innova\CollecticielBundle\Entity\Document 
+     * @return \Innova\CollecticielBundle\Entity\Document
      */
     public function getDocument()
     {
@@ -258,9 +261,10 @@ class Comment {
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \Claroline\CoreBundle\Entity\User $user
+     *
      * @return Comment
      */
     public function setUser(\Claroline\CoreBundle\Entity\User $user)
@@ -271,9 +275,9 @@ class Comment {
     }
 
     /**
-     * Get user
+     * Get user.
      *
-     * @return \Claroline\CoreBundle\Entity\User 
+     * @return \Claroline\CoreBundle\Entity\User
      */
     public function getUser()
     {
@@ -281,9 +285,10 @@ class Comment {
     }
 
     /**
-     * Add comments
+     * Add comments.
      *
      * @param \Innova\CollecticielBundle\Entity\CommentRead $comments
+     *
      * @return Comment
      */
     public function addComment(\Innova\CollecticielBundle\Entity\CommentRead $comments)
@@ -294,7 +299,7 @@ class Comment {
     }
 
     /**
-     * Remove comments
+     * Remove comments.
      *
      * @param \Innova\CollecticielBundle\Entity\CommentRead $comments
      */
@@ -304,9 +309,9 @@ class Comment {
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {

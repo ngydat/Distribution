@@ -2,7 +2,7 @@
 /**
  * Created by : Vincent SAISSET
  * Date: 22/08/13
- * Time: 09:30
+ * Time: 09:30.
  */
 
 namespace Innova\CollecticielBundle\Controller;
@@ -32,7 +32,6 @@ class CriterionController extends DropzoneBaseController
      */
     public function editAddCriterionAction($dropzone, $page, $criterionId, $adminInnova, $collecticielOpenOrNot)
     {
-
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $this->get('innova.manager.dropzone_voter')->isAllowToEdit($dropzone);
 
@@ -50,7 +49,8 @@ class CriterionController extends DropzoneBaseController
         $form = $this->createForm(new CriterionType(), $criterion);
 
         if ($this->getRequest()->isXMLHttpRequest()) {
-var_dump("ici isXMLHttpRequest");
+            var_dump('ici isXMLHttpRequest');
+
             return $this->render(
                 'InnovaCollecticielBundle:Criterion:editAddCriterionModal.html.twig',
                 array(
@@ -59,12 +59,13 @@ var_dump("ici isXMLHttpRequest");
                     'dropzone' => $dropzone,
                     'form' => $form->createView(),
                     'criterion' => $criterion,
-                    'page' => $page
+                    'page' => $page,
                 )
             );
         }
 
-var_dump("avant return array");
+        var_dump('avant return array');
+
         return array(
             'workspace' => $dropzone->getResourceNode()->getWorkspace(),
             '_resource' => $dropzone,
@@ -72,7 +73,7 @@ var_dump("avant return array");
             'form' => $form->createView(),
             'criterion' => $criterion,
             'page' => $page,
-            'adminInnova' => $adminInnova
+            'adminInnova' => $adminInnova,
         );
     }
 
@@ -125,9 +126,9 @@ var_dump("avant return array");
             $em->flush();
 
             $event = null;
-            if($edit === true) {
+            if ($edit === true) {
                 $event = new LogCriterionUpdateEvent($dropzone, $dropzoneChangeSet, $criterion, $criterionChangeSet);
-            } else{
+            } else {
                 $event = new LogCriterionCreateEvent($dropzone, $dropzoneChangeSet, $criterion);
             }
 
@@ -138,7 +139,7 @@ var_dump("avant return array");
                     'innova_collecticiel_edit_criteria_paginated',
                     array(
                         'resourceId' => $dropzone->getId(),
-                        'page' => $page
+                        'page' => $page,
                     )
                 )
             );
@@ -150,10 +151,9 @@ var_dump("avant return array");
             'dropzone' => $dropzone,
             'form' => $form->createView(),
             'criterion' => $criterion,
-            'page' => $page
+            'page' => $page,
         );
     }
-
 
     /**
      * @Route(
@@ -179,7 +179,6 @@ var_dump("avant return array");
             ->countByDropzone($dropzone->getId());
 
         if ($this->getRequest()->isXMLHttpRequest()) {
-
             return $this->render(
                 'InnovaCollecticielBundle:Criterion:editDeleteCriterionModal.html.twig',
                 array(
@@ -248,7 +247,7 @@ var_dump("avant return array");
                     'innova_collecticiel_edit_criteria_paginated',
                     array(
                         'resourceId' => $dropzone->getId(),
-                        'page' => $page
+                        'page' => $page,
                     )
                 )
             );
@@ -260,7 +259,7 @@ var_dump("avant return array");
             'dropzone' => $dropzone,
             'criterion' => $criterion,
             'form' => $form->createView(),
-            'page' => $page
+            'page' => $page,
         );
     }
 }

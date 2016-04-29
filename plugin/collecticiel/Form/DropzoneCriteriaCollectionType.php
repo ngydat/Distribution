@@ -11,11 +11,9 @@ class DropzoneCriteriaCollectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('gradingCriterias', 'collection',
-                array
-                    (
+                array(
                     'type' => new GradingCriteriaType(),
                     'allow_add' => true,
                     'allow_delete' => true,
@@ -39,7 +37,7 @@ class DropzoneCriteriaCollectionType extends AbstractType
                 'translation_domain' => 'innova_collecticiel',
                 'data_class' => 'Innova\CollecticielBundle\Entity\Dropzone',
                 'cascade_validation' => true,
-                'date_format'     => DateType::HTML5_FORMAT,
+                'date_format' => DateType::HTML5_FORMAT,
             )
         );
     }

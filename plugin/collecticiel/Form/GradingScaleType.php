@@ -5,13 +5,11 @@ namespace Innova\CollecticielBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class GradingScaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $builder
             ->add('scaleName', 'text',
                 array(
@@ -31,7 +29,6 @@ class GradingScaleType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
         $resolver->setDefaults(
                 array(
                     'language' => 'fr',

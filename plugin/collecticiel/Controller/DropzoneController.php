@@ -1,4 +1,5 @@
 <?php
+
 namespace Innova\CollecticielBundle\Controller;
 
 use Innova\CollecticielBundle\Entity\Dropzone;
@@ -17,8 +18,6 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Innova\CollecticielBundle\Form\DropzoneAppreciationType;
-
-use Innova\CollecticielBundle\Entity\GradingScale;
 
 class DropzoneController extends DropzoneBaseController
 {
@@ -46,21 +45,21 @@ class DropzoneController extends DropzoneBaseController
      */
     public function editCommonAction(Dropzone $dropzone, $user)
     {
-var_dump("");
-var_dump("editCommonAction");
-var_dump("");
-        $em                     = $this->getDoctrine()->getManager();
-        $dropzoneVoter          = $this->get('innova.manager.dropzone_voter');
-        $dropzoneManager        = $this->get('innova.manager.dropzone_manager');
-        $translator             = $this->get('translator');
-        $platformConfigHandler  = $this->get('claroline.config.platform_config_handler');
+        var_dump('');
+        var_dump('editCommonAction');
+        var_dump('');
+        $em = $this->getDoctrine()->getManager();
+        $dropzoneVoter = $this->get('innova.manager.dropzone_voter');
+        $dropzoneManager = $this->get('innova.manager.dropzone_manager');
+        $translator = $this->get('translator');
+        $platformConfigHandler = $this->get('claroline.config.platform_config_handler');
 
         $dropzoneVoter->isAllowToOpen($dropzone);
         $dropzoneVoter->isAllowToEdit($dropzone);
         $dropzoneManager = $this->get('innova.manager.dropzone_manager');
 
         if ($dropzone->getManualState() == 'notStarted') {
-            $dropzone->setManualState("allowDrop");
+            $dropzone->setManualState('allowDrop');
             $em->persist($dropzone);
             $em->flush();
         }
@@ -109,10 +108,8 @@ var_dump("");
             // InnovaERV : ici, on a changé l'état du collecticiel.
             // InnovaERV : j'ajoute une notification.
             // InnovaERV : #171 Bug : lors de la création d'un collecticiel et de la notification
-            if (count($dropzone->getDrops()) > 0)
-            {
-                if ($oldManualPlanningOption != $dropzone->getManualState())
-                {
+            if (count($dropzone->getDrops()) > 0) {
+                if ($oldManualPlanningOption != $dropzone->getManualState()) {
                     // send notification.
                     $usersIds = $dropzoneManager->getDropzoneUsersIds($dropzone);
                     $event = new LogDropzoneManualStateChangedEvent($dropzone, $dropzone->getManualState(), $usersIds);
@@ -124,35 +121,32 @@ var_dump("");
             $em->flush();
 
             $stayHere = $form->get('stayHere')->getData();
-var_dump("stayHere");
-var_dump($stayHere);
+            var_dump('stayHere');
+            var_dump($stayHere);
 
-
-                    if ($stayHere == 1) {
-                        if ($dropzone->hasCriteria() === false) {
-                            $request->getSession()->getFlashBag()->add(
+            if ($stayHere == 1) {
+                if ($dropzone->hasCriteria() === false) {
+                    $request->getSession()->getFlashBag()->add(
                                 'warning',
                                 $this->get('translator')->trans('Warning your peer review offers no criteria on which to base correct copies', array(), 'icap_dropzone')
                             );
-                        }
+                }
 
-                        $request->getSession()->getFlashBag()->add(
+                $request->getSession()->getFlashBag()->add(
                             'success',
                             $this->get('translator')->trans('The evaluation has been successfully saved', array(), 'icap_dropzone')
                         );
-                    } else {
-//                        die("iciiiiiiiiii stayhere=0");
+            } else {
+                //                        die("iciiiiiiiiii stayhere=0");
                         return $this->redirect(
                             $this->generateUrl(
                                 'innova_collecticiel_edit_criteria',
                                 array(
-                                    'resourceId' => $dropzone->getId()
+                                    'resourceId' => $dropzone->getId(),
                                 )
                             )
                         );
-                    }
-
-
+            }
 
             // check if manual state has changed
 //            if ($manualStateChanged) {
@@ -173,7 +167,7 @@ var_dump($stayHere);
         && $this->get('security.token_storage')->getToken()->getUser()->getId() == $user->getId()) {
             $adminInnova = true;
         }
-    
+
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
 
         return array(
@@ -182,15 +176,11 @@ var_dump($stayHere);
             'dropzone' => $dropzone,
             'form' => $form->createView(),
             'adminInnova' => $adminInnova,
-            'collecticielOpenOrNot' => $collecticielOpenOrNot
+            'collecticielOpenOrNot' => $collecticielOpenOrNot,
         );
     }
 
-
-
-
-
-   /**
+    /**
      * @Route(
      *      "/{resourceId}/edit",
      *      name="innova_collecticiel_edit",
@@ -214,14 +204,14 @@ var_dump($stayHere);
      */
     public function editAppreciationAction(Dropzone $dropzone, $user)
     {
-var_dump("");
-var_dump("editAppreciationAction");
-var_dump("");
-        $em                     = $this->getDoctrine()->getManager();
-        $dropzoneVoter          = $this->get('innova.manager.dropzone_voter');
-        $dropzoneManager        = $this->get('innova.manager.dropzone_manager');
-        $translator             = $this->get('translator');
-        $platformConfigHandler  = $this->get('claroline.config.platform_config_handler');
+        var_dump('');
+        var_dump('editAppreciationAction');
+        var_dump('');
+        $em = $this->getDoctrine()->getManager();
+        $dropzoneVoter = $this->get('innova.manager.dropzone_voter');
+        $dropzoneManager = $this->get('innova.manager.dropzone_manager');
+        $translator = $this->get('translator');
+        $platformConfigHandler = $this->get('claroline.config.platform_config_handler');
 
         $dropzoneVoter->isAllowToOpen($dropzone);
         $dropzoneVoter->isAllowToEdit($dropzone);
@@ -229,7 +219,7 @@ var_dump("");
         $gradingScaleManager = $this->get('innova.manager.gradingscale_manager');
 
         if ($dropzone->getManualState() == 'notStarted') {
-            $dropzone->setManualState("allowDrop");
+            $dropzone->setManualState('allowDrop');
             $em->persist($dropzone);
             $em->flush();
         }
@@ -237,9 +227,8 @@ var_dump("");
         $form = $this->createForm(new DropzoneAppreciationType(), $dropzone);
 
         if ($this->getRequest()->isMethod('POST')) {
-
             $tab = $this->getRequest()->request->get('innova_collecticiel_appreciation_form');
-            $manageGradingScales = $gradingScaleManager->manageGradingScales($tab["gradingScales"], $dropzone);
+            $manageGradingScales = $gradingScaleManager->manageGradingScales($tab['gradingScales'], $dropzone);
 
 //            $form->handleRequest($this->getRequest());
 
@@ -277,10 +266,8 @@ var_dump("");
             // InnovaERV : ici, on a changé l'état du collecticiel.
             // InnovaERV : j'ajoute une notification.
             // InnovaERV : #171 Bug : lors de la création d'un collecticiel et de la notification
-            if (count($dropzone->getDrops()) > 0)
-            {
-                if ($oldManualPlanningOption != $dropzone->getManualState())
-                {
+            if (count($dropzone->getDrops()) > 0) {
+                if ($oldManualPlanningOption != $dropzone->getManualState()) {
                     // send notification.
                     $usersIds = $dropzoneManager->getDropzoneUsersIds($dropzone);
                     $event = new LogDropzoneManualStateChangedEvent($dropzone, $dropzone->getManualState(), $usersIds);
@@ -307,7 +294,7 @@ var_dump("");
         && $this->get('security.token_storage')->getToken()->getUser()->getId() == $user->getId()) {
             $adminInnova = true;
         }
-    
+
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
 
         return array(
@@ -316,37 +303,9 @@ var_dump("");
             'dropzone' => $dropzone,
             'form' => $form->createView(),
             'adminInnova' => $adminInnova,
-            'collecticielOpenOrNot' => $collecticielOpenOrNot
+            'collecticielOpenOrNot' => $collecticielOpenOrNot,
         );
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @Route(
@@ -375,9 +334,9 @@ var_dump("");
     {
         $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
         $this->get('innova.manager.dropzone_voter')->isAllowToEdit($dropzone);
-var_dump("");
-var_dump("editCriteriaActionInnova");
-var_dump("");
+        var_dump('');
+        var_dump('editCriteriaActionInnova');
+        var_dump('');
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('InnovaCollecticielBundle:Criterion');
         $query = $repository
@@ -475,8 +434,8 @@ var_dump("");
             }
         }
 
-        $dropzoneVoter          = $this->get('innova.manager.dropzone_voter');
-        $dropzoneManager        = $this->get('innova.manager.dropzone_manager');
+        $dropzoneVoter = $this->get('innova.manager.dropzone_voter');
+        $dropzoneManager = $this->get('innova.manager.dropzone_manager');
 
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
         $adminInnova = $dropzoneVoter->checkEditRight($dropzone);
@@ -493,7 +452,7 @@ var_dump("");
             'nbCorrection' => $nbCorrection,
             'add_criteria_after' => $add_criteria_after,
             'adminInnova' => $adminInnova,
-            'collecticielOpenOrNot' => $collecticielOpenOrNot
+            'collecticielOpenOrNot' => $collecticielOpenOrNot,
         );
     }
 
@@ -587,5 +546,4 @@ var_dump("");
 
         return $form;
     }
-
 }

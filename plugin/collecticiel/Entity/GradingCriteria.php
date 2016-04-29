@@ -1,20 +1,19 @@
 <?php
 /**
  * Created by : Eric VINCENT
- * Date: 04/2016
+ * Date: 04/2016.
  */
 
 namespace Innova\CollecticielBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Innova\CollecticielBundle\Repository\GradingCriteriaRepository")
  * @ORM\Table(name="innova_collecticielbundle_grading_criteria")
  */
-class GradingCriteria {
-
+class GradingCriteria
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,8 +27,8 @@ class GradingCriteria {
     protected $criteriaName;
 
     /**
-     * Lien avec la table Dropzone
-    */
+     * Lien avec la table Dropzone.
+     */
     /**
      * @ORM\ManyToOne(
      *      targetEntity="Innova\CollecticielBundle\Entity\Dropzone",
@@ -40,9 +39,9 @@ class GradingCriteria {
     protected $dropzone;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -56,9 +55,9 @@ class GradingCriteria {
     {
         $this->id = $id;
     }
-    
+
     /**
-     * Set criteriaName
+     * Set criteriaName.
      *
      * @param string $criteriaName
      *
@@ -72,7 +71,7 @@ class GradingCriteria {
     }
 
     /**
-     * Get criteriaName
+     * Get criteriaName.
      *
      * @return string
      */
@@ -82,7 +81,7 @@ class GradingCriteria {
     }
 
     /**
-     * Set dropzone
+     * Set dropzone.
      *
      * @param \Innova\CollecticielBundle\Entity\Dropzone $dropzone
      *
@@ -96,7 +95,7 @@ class GradingCriteria {
     }
 
     /**
-     * Get dropzone
+     * Get dropzone.
      *
      * @return \Innova\CollecticielBundle\Entity\Dropzone
      */
@@ -104,5 +103,4 @@ class GradingCriteria {
     {
         return $this->dropzone;
     }
-
 }

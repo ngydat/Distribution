@@ -13,13 +13,13 @@ class DropzoneCriteriaType extends AbstractType
     {
         $builder
             ->add('goBack', 'hidden', array(
-                'mapped' => false
+                'mapped' => false,
             ))
 
 // Ajout du nom du critère
             ->add('name', 'text', array(
                 'constraints' => new NotBlank(),
-                'required' => true
+                'required' => true,
             ))
 
 //             ->add('correctionInstruction', 'tinymce', array('required' => false))

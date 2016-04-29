@@ -11,7 +11,6 @@ use Innova\CollecticielBundle\Entity\Dropzone;
  */
 class GradingScaleManager
 {
-
     private $container;
     private $em;
     private $gradingScaleRepo;
@@ -30,22 +29,20 @@ class GradingScaleManager
     }
 
     /**
-     *  To update gradingScale table
+     *  To update gradingScale table.
      *
      * @param tab
-     * @return boolean
+     *
+     * @return bool
      */
     public function manageGradingScales($tab, Dropzone $dropzone)
     {
-
         foreach (array_keys($tab) as $key) {
-            if (empty($tab[$key]["id"])) {
-                $gradingScaleData = $this->insertGradingScale($tab[$key]["scaleName"], $dropzone);
-            }
-            else
-            {
-                $gradingScale = $this->gradingScaleRepo->find($tab[$key]["id"]);
-                $gradingScaleData = $this->updateGradingScale($tab[$key]["scaleName"], $gradingScale);
+            if (empty($tab[$key]['id'])) {
+                $gradingScaleData = $this->insertGradingScale($tab[$key]['scaleName'], $dropzone);
+            } else {
+                $gradingScale = $this->gradingScaleRepo->find($tab[$key]['id']);
+                $gradingScaleData = $this->updateGradingScale($tab[$key]['scaleName'], $gradingScale);
             }
 
             //$em->persist($dropzone);
@@ -58,10 +55,11 @@ class GradingScaleManager
     }
 
     /**
-     *  To insert gradingScale table
+     *  To insert gradingScale table.
      *
      * @param scaleName
      * @param Dropzone
+     *
      * @return gradingScale
      */
     public function insertGradingScale($scaleName, Dropzone $dropzone)
@@ -73,14 +71,14 @@ class GradingScaleManager
         $gradingScale->setDropzone($dropzone);
 
         return $gradingScale;
-
     }
 
     /**
-     *  To update gradingScale table
+     *  To update gradingScale table.
      *
      * @param scaleName
      * @param Dropzone
+     *
      * @return gradingScale
      */
     public function updateGradingScale($scaleName, GradingScale $gradingScale)
@@ -90,5 +88,4 @@ class GradingScaleManager
 
         return $gradingScale;
     }
-
 }
