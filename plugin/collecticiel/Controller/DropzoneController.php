@@ -143,14 +143,6 @@ class DropzoneController extends DropzoneBaseController
                         );
             }
 
-            // check if manual state has changed
-//            if ($manualStateChanged) {
-//                // send notification.
-//                $usersIds = $dropzoneManager->getDropzoneUsersIds($dropzone);
-//                $event = new LogDropzoneManualStateChangedEvent($dropzone, $newManualState, $usersIds);
-//                $this->get('event_dispatcher')->dispatch('log', $event);
-//            }
-
             $event = new LogDropzoneConfigureEvent($dropzone, $changeSet);
             $this->dispatch($event);
 
@@ -222,11 +214,6 @@ class DropzoneController extends DropzoneBaseController
             $tab = $this->getRequest()->request->get('innova_collecticiel_appreciation_form');
             $manageGradingScales = $gradingScaleManager->manageGradingScales($tab['gradingScales'], $dropzone);
 
-//            $form->handleRequest($this->getRequest());
-
-//            $dropzone = $form->getData();
-//            $form = $this->handleFormErrors($form, $dropzone);
-
             // see if manual planification option has changed.
             $oldManualPlanning = $dropzone->getManualPlanning();
             $oldManualPlanningOption = $dropzone->getManualState();
@@ -264,14 +251,6 @@ class DropzoneController extends DropzoneBaseController
                     $this->get('event_dispatcher')->dispatch('log', $event);
                 }
             }
-
-            // check if manual state has changed
-//            if ($manualStateChanged) {
-//                // send notification.
-//                $usersIds = $dropzoneManager->getDropzoneUsersIds($dropzone);
-//                $event = new LogDropzoneManualStateChangedEvent($dropzone, $newManualState, $usersIds);
-//                $this->get('event_dispatcher')->dispatch('log', $event);
-//            }
 
             $event = new LogDropzoneConfigureEvent($dropzone, $changeSet);
             $this->dispatch($event);
@@ -400,7 +379,6 @@ class DropzoneController extends DropzoneBaseController
                 }
                 if ($add_criteria_after) {
                     return new JsonResponse(array('success' => true));
-                    //$this->generateUrl('innova_collecticiel_edit_add_criterion',array('resourceId'=>$dropzone->getId(),'page'=>$page));
                 }
 
                 $goBack = $form->get('goBack')->getData();
@@ -427,9 +405,6 @@ class DropzoneController extends DropzoneBaseController
 
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
         $adminInnova = $dropzoneVoter->checkEditRight($dropzone);
-    /*    if ($this->get('security.context')->isGranted('ROLE_ADMIN' === true)) {
-            $adminInnova = true;
-        }*/
 
         return array(
             'workspace' => $dropzone->getResourceNode()->getWorkspace(),

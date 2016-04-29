@@ -45,7 +45,6 @@ class GradingScaleManager
                 $gradingScaleData = $this->updateGradingScale($tab[$key]['scaleName'], $gradingScale);
             }
 
-            //$em->persist($dropzone);
             $this->em->persist($gradingScaleData);
         }
 
