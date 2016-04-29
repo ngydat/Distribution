@@ -252,38 +252,6 @@ class DropController extends DropzoneBaseController
     }
 
     /**
-     *  Factorised function for lock & unlock users in a dropzone.
-     *
-     * @param Dropzone $dropzone
-     * @param bool     $unlock
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    private function unlockOrLockUsers(Dropzone $dropzone, $unlock = true)
-    {
-        $this->get('innova.manager.dropzone_voter')->isAllowToOpen($dropzone);
-        $this->get('innova.manager.dropzone_voter')->isAllowToEdit($dropzone);
-
-        $dropRepo = $this->getDoctrine()->getManager()->getRepository('InnovaCollecticielBundle:Drop');
-        $drops = $dropRepo->findBy(array('dropzone' => $dropzone->getId(), 'unlockedUser' => !$unlock));
-
-        foreach ($drops as $drop) {
-            $drop->setUnlockedUser($unlock);
-        }
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
-
-        return $this->redirect(
-            $this->generateUrl(
-                'innova_collecticiel_examiners',
-                array(
-                    'resourceId' => $dropzone->getId(),
-                )
-            )
-        );
-    }
-
-    /**
      * @Route(
      *      "/{resourceId}/drops",
      *      name="innova_collecticiel_drops",
