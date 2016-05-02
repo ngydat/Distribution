@@ -309,8 +309,34 @@ class Dropzone extends AbstractResource
      */
     protected $eventCorrection = null;
 
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Innova\CollecticielBundle\Entity\GradingScale",
+     *     mappedBy="dropzone",
+     *     cascade={"all"},
+     *     orphanRemoval=true
+     * )
+     */
+    public $gradingScales;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *     targetEntity="Innova\CollecticielBundle\Entity\GradingCriteria",
+     *     mappedBy="dropzone",
+     *     cascade={"all"},
+     *     orphanRemoval=true
+     * )
+     */
+    public $gradingCriterias;
+
     public function __construct()
     {
+        $this->gradingScales = new ArrayCollection();
+        $this->gradingCriterias = new ArrayCollection();
         $this->drops = new ArrayCollection();
         $this->peerReviewCriteria = new ArrayCollection();
     }
@@ -1157,5 +1183,129 @@ class Dropzone extends AbstractResource
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Set evaluationType.
+     *
+     * @param string $evaluationType
+     *
+     * @return Dropzone
+     */
+    public function setEvaluationType($evaluationType)
+    {
+        $this->evaluationType = $evaluationType;
+
+        return $this;
+    }
+
+    /**
+     * Get evaluationType.
+     *
+     * @return string
+     */
+    public function getEvaluationType()
+    {
+        return $this->evaluationType;
+    }
+
+    /**
+     * Set maximumNotation.
+     *
+     * @param int $maximumNotation
+     *
+     * @return Dropzone
+     */
+    public function setMaximumNotation($maximumNotation)
+    {
+        $this->maximumNotation = $maximumNotation;
+
+        return $this;
+    }
+
+    /**
+     * Get maximumNotation.
+     *
+     * @return int
+     */
+    public function getMaximumNotation()
+    {
+        return $this->maximumNotation;
+    }
+
+    /**
+     * Add gradingScale.
+     *
+     * @param \Innova\CollecticielBundle\Entity\GradingScale $gradingScale
+     *
+     * @return Dropzone
+     */
+    public function addGradingScale(\Innova\CollecticielBundle\Entity\GradingScale $gradingScale)
+    {
+        $this->gradingScales->add($gradingScale);
+
+        return $this;
+    }
+
+    /**
+     * Remove gradingScale.
+     *
+     * @param \Innova\CollecticielBundle\Entity\GradingScale $gradingScale
+     */
+    public function removeGradingScale(\Innova\CollecticielBundle\Entity\GradingScale $gradingScale)
+    {
+        $this->gradingScales->removeElement($gradingScale);
+    }
+
+    /**
+     * Get gradingScales.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGradingScales()
+    {
+        return $this->gradingScales;
+    }
+
+    /**
+     * @param mixed $gradingscales
+     */
+    public function setGradingScales($gradingScales)
+    {
+        $this->gradingScales = $gradingScales;
+    }
+
+    /**
+     * Add gradingCriteria.
+     *
+     * @param \Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria
+     *
+     * @return Dropzone
+     */
+    public function addGradingCriteria(\Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria)
+    {
+        $this->gradingCriterias[] = $gradingCriteria;
+
+        return $this;
+    }
+
+    /**
+     * Remove gradingCriteria.
+     *
+     * @param \Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria
+     */
+    public function removeGradingCriteria(\Innova\CollecticielBundle\Entity\GradingCriteria $gradingCriteria)
+    {
+        $this->gradingCriterias->removeElement($gradingCriteria);
+    }
+
+    /**
+     * Get gradingCriterias.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGradingCriterias()
+    {
+        return $this->gradingCriterias;
     }
 }
