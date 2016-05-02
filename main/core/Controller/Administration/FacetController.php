@@ -23,7 +23,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Claroline\CoreBundle\Entity\User;
 use Claroline\CoreBundle\Entity\ProfileProperty;
 use Claroline\CoreBundle\Entity\Facet\Facet;
-use Claroline\CoreBundle\Entity\Facet\PanelFacet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -157,49 +156,5 @@ class FacetController extends Controller
         $this->facetManager->moveFacetDown($facet);
 
         return new Response('success', 204);
-    }
-
-    /**
-     * Ajax method for ordering fields.
-     *
-     * @EXT\Route("/{panel}/fields/order",
-     *      name="claro_admin_field_facet_order",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function moveFieldFacetsAction(PanelFacet $panel)
-    {
-        $params = $this->request->query->all();
-        $ids = [];
-
-        foreach ($params['ids'] as $value) {
-            $ids[] = (int) str_replace('field-', '', $value);
-        }
-
-        $this->facetManager->orderFields($ids, $panel);
-
-        return new Response('success');
-    }
-
-    /**
-     * Reorder panels.
-     *
-     * @EXT\Route("/order/panels/facet/{facet}",
-     *      name="claro_admin_panel_facet_order",
-     *      options = {"expose" = true}
-     * )
-     */
-    public function orderPanels(Facet $facet)
-    {
-        $params = $this->request->query->all();
-        $ids = [];
-
-        foreach ($params['ids'] as $value) {
-            $ids[] = (int) str_replace('panel-', '', $value);
-        }
-
-        $this->facetManager->orderPanels($ids, $facet);
-
-        return new Response('success');
     }
 }
