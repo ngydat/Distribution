@@ -53,8 +53,7 @@ class LogDropEvaluateListener
     private function sendFinishedLog(Drop $drop)
     {
         if ($drop != null) {
-            if ($drop->getDropzone()->getPeerReview() === false or $drop->countFinishedCorrections() >= $drop->getDropzone()->getExpectedTotalCorrection()) {
-                //                var_dump('pas de peer review ou bien assez de correction');
+            if ($drop->getDropzone()->getPeerReview() === false || $drop->countFinishedCorrections() >= $drop->getDropzone()->getExpectedTotalCorrection()) {
                 $finished = false;
                 if ($drop->getDropzone()->getPeerReview() === true) {
                     $nbCorrections = $this->entityManager

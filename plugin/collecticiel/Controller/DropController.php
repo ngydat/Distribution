@@ -546,6 +546,7 @@ class DropController extends DropzoneBaseController
                                         $this->get('security.token_storage')->getToken()->getUser(),
                                         $documentId
                                     );
+
                     $haveCommentOrNotArray[$documentId] = $commentReadForATeacherOrNot + $commentReadForATeacherOrNot2 + $commentReadForATeacherOrNot3;
                 }
             }
