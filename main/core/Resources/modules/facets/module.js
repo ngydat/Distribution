@@ -2,6 +2,7 @@ import 'angular/angular.min'
 
 import bootstrap from 'angular-bootstrap'
 import translation from 'angular-ui-translation/angular-translation'
+import dragula from 'angular-dragula/dist/angular-dragula'
 
 import Interceptors from '../interceptorsDefault'
 import FacetManagementDirective from './Directive/FacetManagementDirective'
@@ -15,7 +16,8 @@ angular.module('FacetManager', [
   'ui.bootstrap',
   'ui.translation',
   'FormBuilder',
-  'ClarolineAPI'
+  'ClarolineAPI',
+  dragula(angular)
 ])
   .directive('facetManagement', () => new FacetManagementDirective)
   .controller('ModalController', ModalController)

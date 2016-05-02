@@ -1,12 +1,14 @@
 export default class FacetController {
-  constructor ($http, $uibModal, FormBuilderService, ClarolineAPIService) {
+  constructor ($http, $uibModal, FormBuilderService, ClarolineAPIService, dragulaService, $scope) {
     this.$http = $http
     this.$uibModal = $uibModal
     this.FormBuilderService = FormBuilderService
     this.ClarolineAPIService = ClarolineAPIService
+    this.dragulaService = dragulaService
     this.facets = []
     this.platformRoles = []
     this.profilePreferences = []
+    this.$scope = $scope
     $http.get(Routing.generate('api_get_facets')).then(d => this.facets = d.data)
     $http.get(Routing.generate('api_get_platform_roles')).then(d => this.platformRoles = d.data)
     // build the profile preferences array. This could be done on the server side.
@@ -31,6 +33,7 @@ export default class FacetController {
       this.profilePreferences = d.data
     })
 
+    // form definitions
     this.formFacet = {
       translation_domain: 'platform',
       fields: [
@@ -108,6 +111,81 @@ export default class FacetController {
         { type: 'checkbox', name: 'send_message', label: ''}
       ]
     }
+
+    dragulaService.options($scope, 'facet-bag', {
+        moves: function (el, container, handle) {
+          return handle.className === 'handle'
+        }
+    })
+
+    $scope.$on('facet-bag.drop', (e, el) => {
+      console.log(e, el)
+    })
+
+    $scope.$on('panel-bag.drop', (el, target, source, siblings) => {
+        //this is dirty but I can't retrieve the facet list otherwise
+        const facetId = parseInt(source.attr('data-facet-id'))
+        let container = null
+
+        this.facets.forEach(facet => {
+            console.log(facet, facetId)
+            if (facet.id === facetId) container = facet
+        })
+
+        if (container) {
+            const list = []
+            container.panels.forEach(panel => {
+                list.unshift(panel.id)
+            })
+
+            const qs = this.FormBuilderService.generateQueryString(list, 'ids')
+            this.$http.put(Routing.generate('api_put_panels_order', {facet: facetId}) + '?' + qs).then(
+              d => {
+              },
+              d => {
+                alert('error handling')
+              }
+            )
+        }
+    })
+
+    dragulaService.options($scope, 'panel-bag', {
+        //allow nested drag... https://github.com/bevacqua/dragula/issues/31
+        moves: function(el, container, target) {
+          return !target.classList.contains('list-group-item');
+        }
+    })
+
+    $scope.$on('field-bag.drop', (el, target, source, siblings) => {
+      let container = null
+      const panelId = parseInt(target.attr('data-panel-id'))
+
+      this.facets.forEach(facet => {
+          facet.panels.forEach(panel => {
+              if (panel.id === panelId) container = panel
+          })
+      })
+
+      if (container) {
+          //this is dirty but I can't retrieve the facet list otherwise
+          const panelId = parseInt(target.attr('data-panel-id'))
+          const list = []
+
+          container.fields.forEach(field => {
+              list.unshift(field.id)
+          })
+
+          const qs = this.FormBuilderService.generateQueryString(list, 'ids')
+          this.$http.put(Routing.generate('api_put_fields_order', {panel: panelId}) + '?' + qs).then(
+            d => {
+            },
+            d => {
+              alert('error handling')
+            }
+          )
+      }
+
+    })
   }
 
   onAddFacetFormRequest () {
@@ -439,7 +517,7 @@ export default class FacetController {
     })
   }
 
-  onSubmitProfilePreferences(form) {
+  onSubmitProfilePreferences (form) {
     const data = this.FormBuilderService.formSerialize('preferences', this.profilePreferences)
 
     this.$http.put(

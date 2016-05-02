@@ -1,5 +1,5 @@
 <div>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-tabs" dragula='"facet-bag"' dragula-scope="$parent" dragula-model="fc.facets">
         <li id="general-tab-btn" class="active">
             <a href="#general-tab" data-toggle="tab">
                 {{ "general"|trans:{}:'platform' }}
@@ -10,16 +10,12 @@
                 <div class="dropdown">
                     <i class="fa fa-chevron-down pointer-hand" data-toggle="dropdown"></i>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><i role="menuitem" class="fa fa-arrow-left"> {{ "left"|trans:{}:'platform' }}</i></li>
-                        <li role="presentation"><i role="menuitem" class="fa fa-arrow-right"> {{ "right"|trans:{}:'platform' }}</i></li>
-                        <li class="divider"></li>
                         <li role="presentation"><i role="menuitem" ng-click="fc.onEditFacetFormRequest(facet)" class="fa fa-pencil"> {{ "edit"|trans:{}:'platform' }}</i></li>
                         <li role="presentation"><i role="menuitem" ng-click="fc.onDeleteFacet(facet)" class="fa fa-trash-o"> {{ "delete"|trans:{}:'platform' }}</i></li>
                         <li role="presentation"><i role="menuitem" ng-click="fc.onSetFacetRoles(facet)" class="fa fa-user"> {{ "roles"|trans:{}:'platform' }}</i></li>
                     </ul>
                 </div>
             </a>
-
         </li>
         <li id="add-facet-btn">
             <a class="pointer-hand" ng-click="fc.onAddFacetFormRequest()">
@@ -62,8 +58,8 @@
         <div ng-repeat="(key, facet) in fc.facets" class="tab-pane" id="facet-pane-{{ facet.id }}">
             <div class="panel-heading"></div>
             <div class="panel-body">
-                <div class="panel-group" id="facet-panel-group-{{ facet.id }}" role="tablelist" aria-multiselectable="true">
-                    <ul class="sortable-panel" id="sortable-panel-{{ facet.id }}">
+                <div class="panel-group" role="tablelist" aria-multiselectable="true">
+                    <ul dragula='"panel-bag"' dragula-scope="$parent" dragula-model="facet.panels" data-facet-id="{{ facet.id }}">
                         <li ng-repeat="(key, panel) in facet.panels" id="panel-{{ panel.id }}" style="list-style-type: none;">
                             <div class="panel panel-default" id="panel-facet-main-{{ panel.id }}">
                                 <div class="panel-heading" role="tab" id="facet-panel-{{ panel.id }}">
@@ -86,14 +82,12 @@
                                     role="tabpanel"
                                     aria-labelledby="facet-panel-{{ panel.id }}"
                                 >
-                                    <div class="panel-body">
-                                        <ul class="list-group list-fields" id="lu-panel-{{ panel.id }}">
-                                            <li ng-repeat="(key, field) in panel.fields" class="list-group-item" id="field-{{ field.id }}">
-                                                <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a> -
-                                                <a href="#" ng-click="fc.onSetFieldRoles(field)"> {{ "roles"|trans:{}:'platform' }} </a>
-                                                <a class="close" ng-click="fc.onDeleteField(field)" href="#" aria-hidden="true">&times;</a>
-                                            </li>
-                                        </ul>
+                                    <div class="panel-body pointer" dragula='"field-bag"' dragula-scope="$parent" dragula-model="panel.fields">
+                                        <div ng-repeat="(key, field) in panel.fields" class="list-group-item" data-panel-id="{{ panel.id }}}">
+                                            <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a> -
+                                            <a href="#" ng-click="fc.onSetFieldRoles(field)"> {{ "roles"|trans:{}:'platform' }} </a>
+                                            <a class="close" ng-click="fc.onDeleteField(field)" href="#" aria-hidden="true">&times;</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

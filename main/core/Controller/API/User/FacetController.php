@@ -248,4 +248,28 @@ class FacetController extends FOSRestController
 
         return $this->facetManager->getProfilePreferences();
     }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/{facet}/panels/order", name="put_panels_order", options={ "method_prefix" = false })
+     */
+    public function orderPanelsAction(Facet $facet)
+    {
+        $ids = $this->request->query->get('ids');
+        $this->facetManager->orderPanels($ids, $facet);
+
+        return $facet;
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Put("facet/panel/{panel}/fields/order", name="put_fields_order", options={ "method_prefix" = false })
+     */
+    public function orderFieldsAction(PanelFacet $panel)
+    {
+        $ids = $this->request->query->get('ids');
+        $this->facetManager->orderFields($ids, $panel);
+
+        return $panel;
+    }
 }

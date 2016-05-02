@@ -27,6 +27,11 @@
 
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel='stylesheet' type='text/css' href="{{ asset('packages/angular-dragula/dist/dragula.min.css') }}"/>
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ hotAsset('dist/claroline-distribution-main-core-facet-management.js') }}"></script>

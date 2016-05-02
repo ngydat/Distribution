@@ -360,8 +360,8 @@ class FacetManager
 
         foreach ($fields as $field) {
             foreach ($ids as $key => $id) {
-                if ($id === $field->getId()) {
-                    $field->setPosition($key);
+                if ((int) $id === $field->getId()) {
+                    $field->setPosition($key + 1);
                     $this->om->persist($field);
                 }
             }
@@ -382,8 +382,8 @@ class FacetManager
 
         foreach ($panels as $panel) {
             foreach ($ids as $key => $id) {
-                if ($id === $panel->getId()) {
-                    $panel->setPosition($key);
+                if ((int) $id === $panel->getId()) {
+                    $panel->setPosition($key + 1);
                     $this->om->persist($panel);
                 }
             }
