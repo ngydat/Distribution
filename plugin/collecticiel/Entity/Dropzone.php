@@ -309,34 +309,8 @@ class Dropzone extends AbstractResource
      */
     protected $eventCorrection = null;
 
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="Innova\CollecticielBundle\Entity\GradingScale",
-     *     mappedBy="dropzone",
-     *     cascade={"all"},
-     *     orphanRemoval=true
-     * )
-     */
-    public $gradingScales;
-
-    /**
-     * @var ArrayCollection
-     *
-     * @ORM\OneToMany(
-     *     targetEntity="Innova\CollecticielBundle\Entity\GradingCriteria",
-     *     mappedBy="dropzone",
-     *     cascade={"all"},
-     *     orphanRemoval=true
-     * )
-     */
-    public $gradingCriterias;
-
     public function __construct()
     {
-        $this->gradingScales = new ArrayCollection();
-        $this->gradingCriterias = new ArrayCollection();
         $this->drops = new ArrayCollection();
         $this->peerReviewCriteria = new ArrayCollection();
     }

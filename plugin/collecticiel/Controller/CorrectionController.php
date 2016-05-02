@@ -688,12 +688,14 @@ class CorrectionController extends DropzoneBaseController
                         ->findBy(
                             array(
                                 'document' => $documentId,
+    //                            'user' =>$correction->getUser()->getId()
                                  )
                             );
 
                 // Parcours des commentaires des documents sélectionnés
                 foreach ($comments as $comment) {
                     $commentId = $comment->getId();
+    //                echo "Comment = " . $commentId . " - " . $correction->getUser()->getId();
 
                     $comments_read = $this
                             ->getDoctrine()
@@ -708,6 +710,7 @@ class CorrectionController extends DropzoneBaseController
                     // Nombre de lectures du commentaire pour cet utilisateur pour ce commentaire du document
                     $countCommentRead = count($comments_read);
 
+//                    $countCommentRead = 0; // Pour les tests, à enlever
                     // Ce commentaire n'avait pas été lu.
                     // Donc, maintenant, il va l'être,
                     // je dois donc insérer une occurrence dans la table CommentRead";
@@ -740,6 +743,7 @@ class CorrectionController extends DropzoneBaseController
         }
 
         /* @var Correction $correction */
+
         $edit = $state == 'edit';
 
         if ($correction === null) {
@@ -2314,7 +2318,6 @@ class CorrectionController extends DropzoneBaseController
                         $comment->setDocument($document);
                         $comment->setCommentText($commentText);
                         $comment->setUser($user);
-
                         // Insertion en base du commentaire
                         $em->persist($comment);
 

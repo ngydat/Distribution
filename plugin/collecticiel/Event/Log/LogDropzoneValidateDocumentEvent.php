@@ -23,17 +23,11 @@ class LogDropzoneValidateDocumentEvent extends AbstractLogResourceEvent implemen
      */
     public function __construct(Document $document, Dropzone $dropzone, $userIds)
     {
-
-//        $this->resourceNodeId = $dropzone->getDrops()[0]->getUser()->getId();
-
-//        $dropId = $document->getDrop()->getId(); //->getDropzone()->getId();
-
         $this->document = $document;
         $this->type = $dropzone->getResourceNode()->getName();
         $this->userIds = $userIds;
 
         $this->details = array(
-//            'newState'=> $this->newState
         );
 
         // Récupération du nom et du prénom

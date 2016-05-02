@@ -1247,7 +1247,6 @@ class DropController extends DropzoneBaseController
                 // Ici, on récupère le créateur du collecticiel = l'admin
                 $userCreator = $dropzone->getResourceNode()->getCreator()->getId();
                 // Ici, on récupère celui qui vient de déposer le nouveau document
-                //$userAddDocument = $this->get('security.context')->getToken()->getUser()->getId(); 
                 $userDropDocument = $document->getDrop()->getUser()->getId();
                 $userSenderDocument = $document->getSender()->getId();
 

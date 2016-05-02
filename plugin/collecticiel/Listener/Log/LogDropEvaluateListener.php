@@ -54,6 +54,7 @@ class LogDropEvaluateListener
     {
         if ($drop != null) {
             if ($drop->getDropzone()->getPeerReview() === false or $drop->countFinishedCorrections() >= $drop->getDropzone()->getExpectedTotalCorrection()) {
+                //                var_dump('pas de peer review ou bien assez de correction');
                 $finished = false;
                 if ($drop->getDropzone()->getPeerReview() === true) {
                     $nbCorrections = $this->entityManager
@@ -71,6 +72,7 @@ class LogDropEvaluateListener
                     $grade = $drop->getCalculatedGrade();
                     $event = new LogDropEvaluateEvent($drop->getDropzone(), $drop, $grade);
                     $event->setDoer($drop->getUser());
+
                     $this->eventDispatcher->dispatch('log', $event);
                 }
             }
