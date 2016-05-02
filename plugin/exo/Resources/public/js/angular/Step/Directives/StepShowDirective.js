@@ -12,7 +12,8 @@ var StepShowDirective = function StepShowDirective() {
         templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Step/Partials/show.html',
         scope: {
             step      : '=',
-            stepIndex: '@'
+            stepIndex: '@',
+            currentStepTry: "="
         }
     };
 };

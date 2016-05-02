@@ -1,9 +1,9 @@
 <div class="player-container">
     <!-- Player header -->
     <div class="attempts">
-        <span>{{ 'sequence_attempts_infos'|trans:{"1" : exercisePlayerCtrl.step.maxAttempts}:'ujm_sequence'}}.</span>
-        <span>{{ 'sequence_nb_attempts'|trans:{"1" : exercisePlayerCtrl.currentStepTry}:'ujm_sequence' }}</span>
-        <span>/ {{ exercisePlayerCtrl.step.maxAttempts }}</span>
+        <span data-ng-if="exercisePlayerCtrl.exercise.meta.maxAttempts > 0">{{ 'sequence_attempts_infos'|trans:{"1" : exercisePlayerCtrl.exercise.meta.maxAttempts}:'ujm_sequence'}}.</span>
+        <span>{{ 'sequence_nb_attempts'|trans:{"1" : exercisePlayerCtrl.paper.number}:'ujm_sequence' }}</span>
+        <span data-ng-if="exercisePlayerCtrl.exercise.meta.maxAttempts > 0">/ {{ exercisePlayerCtrl.exercise.meta.maxAttempts }}</span>
     </div>
 
     <!-- Step content -->
@@ -30,7 +30,7 @@
         </div>-->
 
         <!-- Display the current Step -->
-        <step-show data-step-index="{{exercisePlayerCtrl.index}}" data-step="exercisePlayerCtrl.step"></step-show>
+        <step-show data-step-index="{{exercisePlayerCtrl.index}}" data-step="exercisePlayerCtrl.step" data-current-step-try="exercisePlayerCtrl.currentStepTry"></step-show>
     </div>
 
     <!-- Player navigation -->
