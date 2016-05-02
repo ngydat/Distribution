@@ -6,7 +6,13 @@
     <div class="modal-body">
         <div>
             <form class="form-horizontal" name="fieldForm" ng-submit="mc.onSubmit(fieldForm)">
-                <formbuilder form="mc.form" ng-model="mc.model" form-ctrl="fieldForm"></formbuilder>
+                <form-field field="mc.form.fields[0]" ng-model="mc.model.name" form-ctrl="fieldForm"></form-field>
+                <form-field field="mc.form.fields[1]" ng-model="mc.model.type" form-ctrl="fieldForm"></form-field>
+                <div ng-if="mc.model.type === 4 || mc.model.type === 5 || mc.model.type === 6">
+                    this is where we're adding more 'stuff'
+                </div>
+                <form-field field="mc.form.fields[2]" ng-model="mc.model.is_visible_by_owner" form-ctrl="fieldForm"></form-field>
+                <form-field field="mc.form.fields[3]" ng-model="mc.model.is_editable_by_owner" form-ctrl="fieldForm"></form-field>
                 <input type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
             </form>
