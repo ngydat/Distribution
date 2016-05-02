@@ -22,9 +22,9 @@ class CriterionController extends DropzoneBaseController
 {
     /**
      * @Route(
-     *      "/{resourceId}/edit/addcriterion/{page}/{criterionId}/{adminInnova}/{collecticielOpenOrNot}",
+     *      "/{resourceId}/edit/addcriterion/{page}/criterion/{criterionId}/admin/adminInnova}/collecticiel/{collecticielOpenOrNot}",
      *      name="innova_collecticiel_edit_add_criterion",
-     *      requirements={"resourceId" = "\d+", "criterionId" = "\d+", "page" = "\d+"},
+     *      requirements={"resourceId" = "\d+", "criterionId" = "\d+", "page" = "\d+", "adminInnova" = "[0-1]", "collecticielOpenOrNot" = "[0-1]"},
      *      defaults={"criterionId" = 0}
      * )
      * @ParamConverter("dropzone", class="InnovaCollecticielBundle:Dropzone", options={"id" = "resourceId"})
