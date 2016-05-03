@@ -13,7 +13,8 @@ var StepShowDirective = function StepShowDirective() {
         scope: {
             step      : '=',
             stepIndex: '@',
-            currentStepTry: "="
+            currentStepTry: "=",
+            solutionShown: "="
         }
     };
 };

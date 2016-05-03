@@ -8,7 +8,8 @@ angular.module('Correction').directive('correctionMatch', [
             templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Correction/Partials/correction.match.html',
             scope: {
                 question: '=',
-                paper: '='
+                paper: '=',
+                player: '='
             },
             link: function (scope, element, attr, correctionMatchCtrl) {
                 correctionMatchCtrl.init(scope.question, scope.paper);

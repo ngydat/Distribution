@@ -71,5 +71,18 @@
                 </div>
             </div>
         </div>
+        <!-- For formative questions, we add the correction if the student used all his attempts -->
+        <div data-ng-if="questionShowCtrl.solutionShown" data-ng-switch="questionShowCtrl.question.type">
+            <!-- Choice correction -->
+            <correction-qcm data-ng-switch-when="application/x.choice+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true" ></correction-qcm>
+            <!-- Match correction -->
+            <correction-match data-ng-switch-when="application/x.match+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true"></correction-match>
+            <!-- Cloze correction -->
+            <correction-cloze data-ng-switch-when="application/x.cloze+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true"></correction-cloze>
+            <!-- Open correction -->
+            <correction-short data-ng-switch-when="application/x.short+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true"></correction-short>
+            <!-- Graphic correction -->
+            <correction-graphic data-ng-switch-when="application/x.graphic+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true"></correction-graphic>
+        </div>
     </div>
 </div>

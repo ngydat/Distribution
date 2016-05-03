@@ -30,7 +30,11 @@
         </div>-->
 
         <!-- Display the current Step -->
-        <step-show data-step-index="{{exercisePlayerCtrl.index}}" data-step="exercisePlayerCtrl.step" data-current-step-try="exercisePlayerCtrl.currentStepTry"></step-show>
+        <step-show 
+            data-step-index="{{exercisePlayerCtrl.index}}" 
+            data-step="exercisePlayerCtrl.step" 
+            data-solution-shown="exercisePlayerCtrl.solutionShown" 
+            data-current-step-try="exercisePlayerCtrl.currentStepTry"></step-show>
     </div>
 
     <!-- Player navigation -->

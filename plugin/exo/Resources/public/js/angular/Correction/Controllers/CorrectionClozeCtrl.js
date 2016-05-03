@@ -11,14 +11,43 @@ angular.module('Correction').controller('CorrectionClozeCtrl', [
         this.paper = {};
         this.answer = "";
 
-        this.init = function (question, paper) {
+        this.init = function (question, paper, player) {
             this.question = question;
             this.paper = paper;
-
-            this.setAnswer(this.question.text);
-
-            this.fillInFields();
-            this.colourUsersAnswers();
+            this.player = player;
+            
+            if (!this.player) {
+                this.setAnswer(this.question.text);
+                
+                this.fillInFields();
+                this.colourUsersAnswers();
+            }
+            else {
+                this.question.solution = this.question.text;
+                
+                this.fillSolutionFields();
+            }
+        };
+        
+        this.fillSolutionFields = function () {
+            for (var i=0; i<this.question.solutions.length; i++) {
+                var rightAnswer;
+                var highScore = 0;
+                for (var j=0; j<this.question.solutions[i].answers.length; j++) {
+                    if (highScore < this.question.solutions[i].answers[j].score) {
+                        highScore = this.question.solutions[i].answers[j].score;
+                        rightAnswer = this.question.solutions[i].answers[j];
+                    }
+                }
+                for (var j=0; j<this.question.solution.length; j++) {
+                    if (this.question.solution.substring(j, j+5) === "id=\"" + this.question.solutions[i].holeId) {
+                        while (this.question.solution.substring(j, j+5) !== "value") {
+                            j++;
+                        }
+                        this.question.solution = this.question.solution.substring(0, j) + "value=\"" + rightAnswer.text + this.question.solution.substring(j+7, this.question.solution.length);
+                    }
+                }
+            }
         };
 
         this.fillInFields = function () {

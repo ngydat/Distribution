@@ -9,11 +9,12 @@ angular.module('Correction').directive('correctionCloze', [
             templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Correction/Partials/correction.cloze.html',
             scope: {
                 question: '=',
-                paper: '='
+                paper: '=',
+                player: '='
             },
             link: function (scope, element, attr, correctionClozeCtrl) {
                 $timeout(function(){
-                    correctionClozeCtrl.init(scope.question, scope.paper);
+                    correctionClozeCtrl.init(scope.question, scope.paper, scope.player);
                 });
             }
         };
