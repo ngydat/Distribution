@@ -386,8 +386,8 @@ export default class FacetController {
   onAddFieldFormRequest (panel) {
     const modalInstance = this.$uibModal.open({
       template: require('../Partial/field_form.html'),
-      controller: 'ModalController',
-      controllerAs: 'mc',
+      controller: 'FieldModalController',
+      controllerAs: 'fmc',
       resolve: {
         form: () => {
           return this.formField},
@@ -426,8 +426,8 @@ export default class FacetController {
 
     const modalInstance = this.$uibModal.open({
       template: require('../Partial/field_form.html'),
-      controller: 'ModalController',
-      controllerAs: 'mc',
+      controller: 'FieldModalController',
+      controllerAs: 'fmc',
       resolve: {
         form: () => {
           return this.formField},

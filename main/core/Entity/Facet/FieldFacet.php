@@ -103,10 +103,20 @@ class FieldFacet
      */
     protected $translationKey;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacetChoice",
+     *     mappedBy="fieldFacet"
+     * )
+     * @Groups({"api_facet_admin"})
+     */
+    protected $fieldFacetChoices;
+
     public function __construct()
     {
         $this->fieldsFacetValue = new ArrayCollection();
         $this->fieldFacetsRole = new ArrayCollection();
+        $this->fieldFacetChoices = new ArrayCollection();
     }
 
     /**

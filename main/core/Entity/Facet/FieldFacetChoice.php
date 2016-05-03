@@ -34,47 +34,36 @@ class FieldFacetChoice
      * @Assert\NotBlank()
      * @Groups({"api_facet_admin"})
      */
-    private $label;
-
-    /**
-     * @ORM\Column
-     * @Assert\NotBlank()
-     * @Groups({"api_facet_admin"})
-     */
-    private $value;
+    private $name;
 
     /**
      * @ORM\ManyToOne(
      *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacet",
-     *     inversedBy="fieldFacetChoice"
+     *     inversedBy="fieldFacetChoices"
      * )
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $fieldFacet;
+
+    /**
+     * @ORM\Column(type="integer", name="position")
+     * @Groups({"api_facet_admin"})
+     */
+    protected $position;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function setLabel($label)
+    public function setName($name)
     {
-        $this->label = $label;
+        $this->name = $name;
     }
 
-    public function getLabel()
+    public function getName()
     {
-        return $this->label;
-    }
-
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
+        return $this->name;
     }
 
     public function setFieldFacet(FieldFacet $ff)
