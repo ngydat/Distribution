@@ -33,7 +33,8 @@ Render a form
             ]
           }
         ],
-        ['is_visible_by_owner', 'checkbox', { label: 'visible'}]['is_editable_by_owner', 'checkbox', { label: 'editable'}]
+        ['is_visible_by_owner', 'checkbox', { label: 'visible'}],
+        ['is_editable_by_owner', 'checkbox', { label: 'editable'}]
       ]
     }
 ```

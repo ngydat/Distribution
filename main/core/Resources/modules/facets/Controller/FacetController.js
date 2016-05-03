@@ -45,7 +45,7 @@ export default class FacetController {
             }
           }
         ],
-        ['force_creation_form',  'checkbox', {label: 'display_at_registration' }]
+        ['force_creation_form', 'checkbox', {label: 'display_at_registration' }]
       ]
     }
 
@@ -83,7 +83,8 @@ export default class FacetController {
             ]
           }
         ],
-        ['is_visible_by_owner', 'checkbox', { label: 'visible'}]['is_editable_by_owner', 'checkbox', { label: 'editable'}]
+        ['is_visible_by_owner', 'checkbox', { label: 'visible'}],
+        ['is_editable_by_owner', 'checkbox', { label: 'editable'}]
       ]
     }
 
