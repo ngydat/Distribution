@@ -547,14 +547,7 @@ class DropController extends DropzoneBaseController
                                         $documentId
                                     );
 
-//                    var_dump("User : " . $this->get('security.token_storage')->getToken()->getUser()->getId());
-//                    var_dump("Document : " . $documentId);
-//                    var_dump("Compteur : créé élève lu admin " . $commentReadForATeacherOrNot .
-//                    "+ élève " . $commentReadForATeacherOrNot2 .
-//                    "+ créé admin lu admin " . $commentReadForATeacherOrNot3)
-                    ;
                     $haveCommentOrNotArray[$documentId] = $commentReadForATeacherOrNot + $commentReadForATeacherOrNot2 + $commentReadForATeacherOrNot3;
-    //                var_dump("Indice : " . $indice);
                 }
             }
 
@@ -588,9 +581,6 @@ class DropController extends DropzoneBaseController
         }
 
         $adminInnova = $dropzoneVoter->checkEditRight($dropzone);
-    /*    if ($this->get('security.context')->isGranted('ROLE_ADMIN' === true)) {
-            $adminInnova = true;
-        }*/
 
         if (count($pager) == 0) {
             $this->getRequest()->getSession()->getFlashBag()->add('success', $translator->trans('No copy waiting for correction', array(), 'innova_collecticiel'));
@@ -1114,7 +1104,6 @@ class DropController extends DropzoneBaseController
         $userManager = $this->get('claroline.manager.user_manager');
         $withPager = false;
         $usersByWorkspaces = $userManager->getUsersByWorkspaces($workspaceArray, $page, 20, $withPager);
-//      var_dump($usersByWorkspaces[0]);
 
         $userWithRights = $userManager->getUsersWithRights($dropzone->getResourceNode());
         // Fin ajout du code pour afficher les élèves inscrits mais qui n'ont pas déposé. InnovaERV.
@@ -1172,11 +1161,6 @@ class DropController extends DropzoneBaseController
         $adminInnova = $dropzoneVoter->checkEditRight($dropzone);
 
         $collecticielOpenOrNot = $dropzoneManager->collecticielOpenOrNot($dropzone);
-
-        /*
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN' === true)) {
-            $adminInnova = true;
-        }*/
 
         $dataToView = $this->addDropsStats($dropzone, array(
             'workspace' => $dropzone->getResourceNode()->getWorkspace(),
@@ -1264,7 +1248,6 @@ class DropController extends DropzoneBaseController
                 // Ici, on récupère le créateur du collecticiel = l'admin
                 $userCreator = $dropzone->getResourceNode()->getCreator()->getId();
                 // Ici, on récupère celui qui vient de déposer le nouveau document
-                //$userAddDocument = $this->get('security.context')->getToken()->getUser()->getId();
                 $userDropDocument = $document->getDrop()->getUser()->getId();
                 $userSenderDocument = $document->getSender()->getId();
 
