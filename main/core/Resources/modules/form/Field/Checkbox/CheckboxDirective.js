@@ -10,9 +10,7 @@ export default class CheckboxDirective {
     this.controllerAs = 'cc'
     this.bindToController = {
         field: '=',
-        ngModel: '=',
-        validators: '=',
-        formCtrl: '='
+        ngModel: '='
     }
   }
 }

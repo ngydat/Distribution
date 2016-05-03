@@ -11,11 +11,7 @@ Render a form
         [
           'name',
           'text',
-          {
-            validators: {
-              'not-blank': {}
-            }
-          }
+          {validators: [new NotBlank()]}
         ],
         [
           'type',

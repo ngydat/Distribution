@@ -13,27 +13,7 @@ export default class TextDirective {
     this.controllerAs = 'tc'
     this.bindToController = {
       field: '=',
-      ngModel: '=',
-      validators: '=',
-      formCtrl: '='
+      ngModel: '='
     }
-  }
-
-  compile (tElem, tAttrs) {
-    return this.postLinkFn.bind(this)
-  }
-
-  postLinkFn (scope, elem, attrs) {
-    const field = this.$parse(attrs.field)(scope.$parent)
-    const options = field[2]
-
-    if (options && options.validators) {
-      Object.keys(options.validators).forEach(attr => {
-        let test = angular.toJson(options.validators[attr])
-        elem.children('input').attr(attr, test)
-      })
-    }
-
-   this.$compile(elem.contents())(scope)
   }
 }

@@ -1,5 +1,5 @@
 <div>
     <label class="control-label"> {{ tc.label|trans:{}:tc.domainTranslation }} </label>
     <input class="form-control" type="text" ng-model="tc.ngModel" name="{{ tc.name }}"></input>
-    <help-block form-ctrl="tc.formCtrl" field-name="{{ tc.name }}"></help-block>
+    <help-block ng-model="tc.ngModel" field="tc.field"></help-block>
 </div>

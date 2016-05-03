@@ -1,3 +1,5 @@
+import NotBlank from '../../form/Validator/NotBlank'
+
 export default class FacetController {
   constructor ($http, $uibModal, FormBuilderService, ClarolineAPIService, dragulaService, $scope) {
     this.$http = $http
@@ -39,11 +41,7 @@ export default class FacetController {
         [
           'name',
           'text',
-          {
-            validators: {
-              'not-blank': {}
-            }
-          }
+          {validators: [new NotBlank()]}
         ],
         ['force_creation_form', 'checkbox', {label: 'display_at_registration' }]
       ]
@@ -61,11 +59,7 @@ export default class FacetController {
         [
           'name',
           'text',
-          {
-            validators: {
-              'not-blank': {}
-            }
-          }
+          {validators: [new NotBlank()]}
         ],
         [
           'type',

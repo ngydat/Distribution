@@ -10,9 +10,7 @@ export default class SelectDirective {
     this.controllerAs = 'sc'
     this.bindToController = {
         field: '=',
-        ngModel: '=',
-        validators: '=',
-        formCtrl: '='
+        ngModel: '='
     }
   }
 }

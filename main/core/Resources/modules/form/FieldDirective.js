@@ -10,8 +10,6 @@ export default class FieldDirective {
     this.controllerAs = 'fic'
     this.bindToController = {
       field: '=',
-      formName: '=',
-      formCtrl: '=',
       ngModel: '='
     }
   }
