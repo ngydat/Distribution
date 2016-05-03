@@ -1,5 +1,5 @@
-<h3 class="panel-title">{{ 'paper_details_table_your_answer'|trans:{}:'ujm_sequence' }}</h3>
-<p data-ng-bind-html="correctionShortCtrl.answer" ></p>
+<h3 data-ng-if="!correctionShortCtrl.player" class="panel-title">{{ 'paper_details_table_your_answer'|trans:{}:'ujm_sequence' }}</h3>
+<p data-ng-if="!correctionShortCtrl.player" data-ng-bind-html="correctionShortCtrl.answer" ></p>
 
 <div data-ng-if="correctionShortCtrl.question.typeOpen !== 'long'" >
     <h3 class="panel-title">{{ 'keys_words'|trans:{}:'ujm_sequence' }}</h3>
@@ -24,7 +24,7 @@
         </tr>
     </table>
 </div>
-<div data-ng-if="correctionShortCtrl.question.typeOpen === 'long'">
+<div data-ng-if="correctionShortCtrl.question.typeOpen === 'long' && !correctionShortCtrl.player">
     <h3 class="panel-title">{{ 'label_exercise_correction'|trans:{}:'ujm_sequence' }}</h3>
     <div data-ng-if="correctionShortCtrl.score === -1">
         <span>{{ 'need_correction'|trans:{}:'ujm_sequence' }}</span><br/>

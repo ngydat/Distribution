@@ -8,10 +8,11 @@ angular.module('Correction').directive('correctionShort', [
             templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Correction/Partials/correction.short.html',
             scope: {
                 question: '=',
-                paper: '='
+                paper: '=',
+                player: '='
             },
             link: function (scope, element, attr, correctionShortCtrl) {
-                correctionShortCtrl.init(scope.question, scope.paper);
+                correctionShortCtrl.init(scope.question, scope.paper, scope.player);
             }
         };
     }

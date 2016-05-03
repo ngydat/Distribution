@@ -13,13 +13,16 @@ angular.module('Correction').controller('CorrectionShortCtrl', [
         this.score = 0;
         this.message = false;
 
-        this.init = function (question, paper) {
+        this.init = function (question, paper, player) {
             this.question = question;
             this.paper = paper;
-            for (var i=0; i<this.paper.questions.length; i++) {
-                if (question.id.toString() === this.paper.questions[i].id) {
-                    this.answer = this.paper.questions[i].answer;
-                    this.score = this.paper.questions[i].score;
+            this.player = player;
+            if (!this.player) {
+                for (var i=0; i<this.paper.questions.length; i++) {
+                    if (question.id.toString() === this.paper.questions[i].id) {
+                        this.answer = this.paper.questions[i].answer;
+                        this.score = this.paper.questions[i].score;
+                    }
                 }
             }
         };
