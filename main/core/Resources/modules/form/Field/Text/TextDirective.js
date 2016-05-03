@@ -25,10 +25,11 @@ export default class TextDirective {
 
   postLinkFn (scope, elem, attrs) {
     const field = this.$parse(attrs.field)(scope.$parent)
+    const options = field[2]
 
-    if (field.options && field.options.validators) {
-      Object.keys(field.options.validators).forEach(attr => {
-        let test = angular.toJson(field.options.validators[attr])
+    if (options && options.validators) {
+      Object.keys(options.validators).forEach(attr => {
+        let test = angular.toJson(options.validators[attr])
         elem.children('input').attr(attr, test)
       })
     }

@@ -35,48 +35,42 @@ export default class FacetController {
 
     // form definitions
     this.formFacet = {
-      translation_domain: 'platform',
       fields: [
-        {
-          type: 'text',
-          name: 'name',
-          label: 'name',
-          options: {
+        [
+          'name',
+          'text',
+          {
             validators: {
               'not-blank': {}
             }
           }
-        },
-        { type: 'checkbox', name: 'force_creation_form', label: 'display_at_registration'}
+        ],
+        ['force_creation_form',  'checkbox', {label: 'display_at_registration' }]
       ]
     }
 
     this.formPanel = {
-      translation_domain: 'platform',
       fields: [
-        { type: 'text', name: 'name', label: 'name' },
-        { type: 'checkbox', name: 'is_default_collapsed', label: 'collapse'}
+        ['name', 'text'],
+        ['is_default_collapsed', 'checkbox', {label: 'collapse'}]
       ]
     }
 
     this.formField = {
-      translation_domain: 'platform',
       fields: [
-        {
-          type: 'text',
-          name: 'name',
-          label: 'name',
-          options: {
+        [
+          'name',
+          'text',
+          {
             validators: {
               'not-blank': {}
             }
           }
-        },
-        {
-          type: 'select',
-          name: 'type',
-          label: 'type',
-          options: {
+        ],
+        [
+          'type',
+          'select',
+          {
             values: [
               // these values currently come from the Entity/Facet/FieldFacet class
               { value: 1, label: 'text'},
@@ -88,34 +82,33 @@ export default class FacetController {
               { value: 7, label: 'country'}
             ]
           }
-        },
-        { type: 'checkbox', name: 'is_visible_by_owner', label: 'visible'},
-        { type: 'checkbox', name: 'is_editable_by_owner', label: 'editable'}
+        ],
+        ['is_visible_by_owner', 'checkbox', { label: 'visible'}]['is_editable_by_owner', 'checkbox', { label: 'editable'}]
       ]
     }
 
     this.formFieldRole = {
       translation_domain: 'platform',
       fields: [
-        { type: 'checkbox', name: 'can_open', label: ''},
-        { type: 'checkbox', name: 'can_edit', label: ''}
+        ['can_open', 'checkbox', {label: ''}],
+        ['can_edit', 'checkbox', {label: ''}]
       ]
     }
 
     this.formProfilePreference = {
       translation_domain: 'platform',
       fields: [
-        { type: 'checkbox', name: 'base_data', label: ''},
-        { type: 'checkbox', name: 'mail', label: ''},
-        { type: 'checkbox', name: 'phone', label: ''},
-        { type: 'checkbox', name: 'send_message', label: ''}
+        [ 'base_data', 'checkbox', {label: ''}],
+        [ 'mail', 'checkbox', {label: ''}],
+        [ 'phone', 'checkbox', {label: ''}],
+        [ 'send_message', 'checkbox', {label: ''}]
       ]
     }
 
     dragulaService.options($scope, 'facet-bag', {
-        moves: function (el, container, handle) {
-          return handle.className === 'handle'
-        }
+      moves: function (el, container, handle) {
+        return handle.className === 'handle'
+      }
     })
 
     $scope.$on('facet-bag.drop', (e, el) => {
@@ -123,37 +116,37 @@ export default class FacetController {
     })
 
     $scope.$on('panel-bag.drop', (el, target, source, siblings) => {
-        //this is dirty but I can't retrieve the facet list otherwise
-        const facetId = parseInt(source.attr('data-facet-id'))
-        let container = null
+      // this is dirty but I can't retrieve the facet list otherwise
+      const facetId = parseInt(source.attr('data-facet-id'))
+      let container = null
 
-        this.facets.forEach(facet => {
-            console.log(facet, facetId)
-            if (facet.id === facetId) container = facet
+      this.facets.forEach(facet => {
+        console.log(facet, facetId)
+        if (facet.id === facetId) container = facet
+      })
+
+      if (container) {
+        const list = []
+        container.panels.forEach(panel => {
+          list.unshift(panel.id)
         })
 
-        if (container) {
-            const list = []
-            container.panels.forEach(panel => {
-                list.unshift(panel.id)
-            })
-
-            const qs = this.FormBuilderService.generateQueryString(list, 'ids')
-            this.$http.put(Routing.generate('api_put_panels_order', {facet: facetId}) + '?' + qs).then(
-              d => {
-              },
-              d => {
-                alert('error handling')
-              }
-            )
-        }
+        const qs = this.FormBuilderService.generateQueryString(list, 'ids')
+        this.$http.put(Routing.generate('api_put_panels_order', {facet: facetId}) + '?' + qs).then(
+          d => {
+          },
+          d => {
+            alert('error handling')
+          }
+        )
+      }
     })
 
     dragulaService.options($scope, 'panel-bag', {
-        //allow nested drag... https://github.com/bevacqua/dragula/issues/31
-        moves: function(el, container, target) {
-          return !target.classList.contains('list-group-item');
-        }
+      // allow nested drag... https://github.com/bevacqua/dragula/issues/31
+      moves: function (el, container, target) {
+        return !target.classList.contains('list-group-item')
+      }
     })
 
     $scope.$on('field-bag.drop', (el, target, source, siblings) => {
@@ -161,30 +154,29 @@ export default class FacetController {
       const panelId = parseInt(target.attr('data-panel-id'))
 
       this.facets.forEach(facet => {
-          facet.panels.forEach(panel => {
-              if (panel.id === panelId) container = panel
-          })
+        facet.panels.forEach(panel => {
+          if (panel.id === panelId) container = panel
+        })
       })
 
       if (container) {
-          //this is dirty but I can't retrieve the facet list otherwise
-          const panelId = parseInt(target.attr('data-panel-id'))
-          const list = []
+        // this is dirty but I can't retrieve the facet list otherwise
+        const panelId = parseInt(target.attr('data-panel-id'))
+        const list = []
 
-          container.fields.forEach(field => {
-              list.unshift(field.id)
-          })
+        container.fields.forEach(field => {
+          list.unshift(field.id)
+        })
 
-          const qs = this.FormBuilderService.generateQueryString(list, 'ids')
-          this.$http.put(Routing.generate('api_put_fields_order', {panel: panelId}) + '?' + qs).then(
-            d => {
-            },
-            d => {
-              alert('error handling')
-            }
-          )
+        const qs = this.FormBuilderService.generateQueryString(list, 'ids')
+        this.$http.put(Routing.generate('api_put_fields_order', {panel: panelId}) + '?' + qs).then(
+          d => {
+          },
+          d => {
+            alert('error handling')
+          }
+        )
       }
-
     })
   }
 

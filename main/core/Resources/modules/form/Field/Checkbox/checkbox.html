@@ -1,10 +1,10 @@
 <div>
-    <label class="control-label" for="{{ cc.field.name }}"> {{ cc.field.label|trans:{}:cc.field.domain }} </label>
+    <label class="control-label" for="{{ this.name }}"> {{ cc.label|trans:{}:this.domainTranslation }} </label>
     <input
         ng-model="cc.ngModel"
         type="checkbox"
         class="control-standalone control-standalone"
-        name="{{ cc.field.name }}"
-        value="{{ cc.field.name }}">
+        name="{{ cc.name }}"
+        value="{{ cc.name }}">
     </input>
 </div>
