@@ -8,9 +8,10 @@ angular.module('Correction').controller('CorrectionQCMCtrl', [
         this.question = {};
         this.paper = {};
 
-        this.init = function (question, paper) {
+        this.init = function (question, paper, player) {
             this.question = question;
             this.paper = paper;
+            this.player = player;
         };
 
         /**
@@ -23,7 +24,7 @@ angular.module('Correction').controller('CorrectionQCMCtrl', [
          */
         this.isChoiceValid = function (question, choice) {
             for (var i = 0; i < question.solutions.length; i++) {
-                if (choice.rightResponse == true) {
+                if (question.solutions[i].id === choice.id && question.solutions[i].score > 0) {
                     return true;
                 }
             }

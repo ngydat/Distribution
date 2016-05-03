@@ -73,6 +73,7 @@
         </div>
         <!-- For formative questions, we add the correction if the student used all his attempts -->
         <div data-ng-if="questionShowCtrl.solutionShown" data-ng-switch="questionShowCtrl.question.type">
+            <h4>{{ 'players_solution'|trans:{}:'ujm_sequence' }}</h4>
             <!-- Choice correction -->
             <correction-qcm data-ng-switch-when="application/x.choice+json" data-question="questionShowCtrl.question" data-paper="questionShowCtrl.questionPaper" data-player="true" ></correction-qcm>
             <!-- Match correction -->

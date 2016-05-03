@@ -3,7 +3,7 @@
         <tr>
             <th class="center-text">{{ 'paper_details_table_choice'|trans:{}:'ujm_sequence' }}</th>
             <th class="center-text">{{ 'paper_details_table_expected_answer'|trans:{}:'ujm_sequence' }}</th>
-            <th class="center-text">{{ 'paper_details_table_your_answer'|trans:{}:'ujm_sequence' }}</th>
+            <th data-ng-if="!correctionQCMCtrl.player" class="center-text">{{ 'paper_details_table_your_answer'|trans:{}:'ujm_sequence' }}</th>
             <th class="center-text">{{ 'paper_details_table_comment'|trans:{}:'ujm_sequence' }}</th>
         </tr>
     </thead>
@@ -18,7 +18,7 @@
             <td class="center-text">
                 <div class="fa text-success fa-check" data-ng-if="correctionQCMCtrl.isChoiceValid(question, choice)"></div>
             </td>
-            <td class="center-text">
+            <td data-ng-if="!correctionQCMCtrl.player" class="center-text">
                 <div data-ng-class="{'text-success fa fa-check' : correctionQCMCtrl.isStudentChoice(question, choice) === 1, 'text-danger fa fa-close': correctionQCMCtrl.isStudentChoice(question, choice) === 2}" title="{{choiceQuestionCtrl.getChoiceFeedback(choice)}}">
                     
                 </div>

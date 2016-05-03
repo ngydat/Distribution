@@ -8,10 +8,11 @@ angular.module('Correction').directive('correctionQcm', [
             templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Correction/Partials/correction.qcm.html',
             scope: {
                 question: '=',
-                paper: '='
+                paper: '=',
+                player: '='
             },
             link: function (scope, element, attr, correctionQCMCtrl) {
-                correctionQCMCtrl.init(scope.question, scope.paper);
+                correctionQCMCtrl.init(scope.question, scope.paper, scope.player);
             }
         };
     }

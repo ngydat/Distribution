@@ -12,7 +12,7 @@ angular.module('Correction').directive('correctionMatch', [
                 player: '='
             },
             link: function (scope, element, attr, correctionMatchCtrl) {
-                correctionMatchCtrl.init(scope.question, scope.paper);
+                correctionMatchCtrl.init(scope.question, scope.paper, scope.player);
             }
         };
     }

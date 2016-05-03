@@ -14,9 +14,10 @@ angular.module('Correction').controller('CorrectionMatchCtrl', [
         this.orphanAnswers = [];
         this.studentErrors = [];
 
-        this.init = function (question, paper) {
+        this.init = function (question, paper, player) {
             this.question = question;
             this.paper = paper;
+            this.player = player;
             this.setCorrectAnswers();
             this.setStudentAnswers();
         };
