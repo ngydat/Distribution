@@ -5,7 +5,7 @@
         class="form-control"
         name="{{ sc.name }}"
         ng-model="sc._ngModel"
-        ng-options="option.label|trans:{}:'platform' for option in sc.field.options.values track by option.value"
+        ng-options="option.label|trans:{}:'platform' for option in sc.field[2].values track by option.value"
         ng-init="sc._ngModel = {value: sc.ngModel}"
         ng-change="sc.ngModel= sc._ngModel.value"
     >
