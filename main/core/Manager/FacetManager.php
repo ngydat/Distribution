@@ -276,7 +276,7 @@ class FacetManager
             case FieldFacet::FLOAT_TYPE:
                 $fieldFacetValue->setFloatValue($value);
                 break;
-            case FieldFacet::STRING_TYPE:
+            case FieldFacet::STRING_TYPE || FieldFacet::COUNTRY_TYPE:
                 $fieldFacetValue->setStringValue($value);
                 break;
             default:

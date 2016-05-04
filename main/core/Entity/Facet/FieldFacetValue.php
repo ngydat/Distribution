@@ -67,7 +67,7 @@ class FieldFacetValue
 
     /**
      * @Groups({"api_user"})
-     * @Accessor(getter="getValue") 
+     * @Accessor(getter="getValue")
      */
     protected $value;
 
@@ -143,7 +143,7 @@ class FieldFacetValue
         switch ($this->getFieldFacet()->getType()) {
             case FieldFacet::FLOAT_TYPE: return $this->getFloatValue();
             case FieldFacet::DATE_TYPE: return $this->getDateValue();
-            case FieldFacet::STRING_TYPE: return $this->getStringValue();
+            case FieldFacet::STRING_TYPE || FieldFacet::COUNTRY_TYPE: return $this->getStringValue();
             default: return 'error';
         }
     }
