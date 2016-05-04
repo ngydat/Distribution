@@ -134,7 +134,7 @@ class FacetController extends FOSRestController
      * @View(serializerGroups={"api_facet_admin"})
      * @Delete("facet/field/choice/{choice}", name="post_facet_field_choice", options={ "method_prefix" = false })
      */
-    public function createFieldOptionsAction(FieldFacetChoice $choice)
+    public function deleteFieldOptionsAction(FieldFacetChoice $choice)
     {
     }
 
