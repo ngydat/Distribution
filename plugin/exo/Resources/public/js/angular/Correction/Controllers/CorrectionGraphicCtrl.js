@@ -8,9 +8,10 @@ angular.module('Correction').controller('CorrectionGraphicCtrl', [
         this.question = {};
         this.paper = {};
 
-        this.init = function (question, paper) {
+        this.init = function (question, paper, player) {
             this.question = question;
             this.paper = paper;
+            this.player = player;
         };
 
         this.getAssetsDir = function () {
@@ -46,24 +47,26 @@ angular.module('Correction').controller('CorrectionGraphicCtrl', [
                 document.getElementById('document-img-container-' + this.question.id).appendChild(elem);
             }
             // add crosshairs
-            for (var i = 0; i < this.paper.questions.length; i++) {
-                var answers = this.paper.questions[i].answer;
+            if (!this.player) {
+                for (var i = 0; i < this.paper.questions.length; i++) {
+                    var answers = this.paper.questions[i].answer;
 
-                if (this.paper.questions[i].id.toString() === this.question.id.toString()) {
-                    for (var j = 0; j < answers.length; j++) {
-                        var elem = document.createElement('img');
-                        elem.setAttribute('src', this.getAssetsDir() + '/bundles/ujmexo/images/graphic/answer.png');
-                        var coords = answers[j].split('-');
-                        if (coords[0] !== 'a' && coords[1] !== 'a') {
-                            var imgPosition = $('#document-img-' + this.question.id).position();
-                            var topValue = imgPosition.top + parseFloat(coords[1]);
-                            var leftValue = imgPosition.left + parseFloat(coords[0]);
-                            var style = '';
-                            style += 'position:absolute;';
-                            style += 'top:' + topValue.toString() + 'px;';
-                            style += 'left:' + leftValue.toString() + 'px;';
-                            elem.setAttribute('style', style);
-                            document.getElementById('document-img-container-' + this.question.id).appendChild(elem);
+                    if (this.paper.questions[i].id.toString() === this.question.id.toString()) {
+                        for (var j = 0; j < answers.length; j++) {
+                            var elem = document.createElement('img');
+                            elem.setAttribute('src', this.getAssetsDir() + '/bundles/ujmexo/images/graphic/answer.png');
+                            var coords = answers[j].split('-');
+                            if (coords[0] !== 'a' && coords[1] !== 'a') {
+                                var imgPosition = $('#document-img-' + this.question.id).position();
+                                var topValue = imgPosition.top + parseFloat(coords[1]);
+                                var leftValue = imgPosition.left + parseFloat(coords[0]);
+                                var style = '';
+                                style += 'position:absolute;';
+                                style += 'top:' + topValue.toString() + 'px;';
+                                style += 'left:' + leftValue.toString() + 'px;';
+                                elem.setAttribute('style', style);
+                                document.getElementById('document-img-container-' + this.question.id).appendChild(elem);
+                            }
                         }
                     }
                 }

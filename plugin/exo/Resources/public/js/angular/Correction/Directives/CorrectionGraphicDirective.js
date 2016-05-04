@@ -9,10 +9,11 @@ angular.module('Correction').directive('correctionGraphic', [
             templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Correction/Partials/correction.graphic.html',
             scope: {
                 question: '=',
-                paper: '='
+                paper: '=',
+                player: '='
             },
             link: function (scope, element, attr, correctionGraphicCtrl) {
-                correctionGraphicCtrl.init(scope.question, scope.paper);
+                correctionGraphicCtrl.init(scope.question, scope.paper, scope.player);
 
                 $timeout(function(){
                     correctionGraphicCtrl.createElements();

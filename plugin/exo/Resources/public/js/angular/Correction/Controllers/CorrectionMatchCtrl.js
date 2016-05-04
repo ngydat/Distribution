@@ -19,7 +19,9 @@ angular.module('Correction').controller('CorrectionMatchCtrl', [
             this.paper = paper;
             this.player = player;
             this.setCorrectAnswers();
-            this.setStudentAnswers();
+            if (!this.player) {
+                this.setStudentAnswers();
+            }
         };
 
 

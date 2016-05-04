@@ -1,7 +1,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th class="center-text" data-ng-if="correctionMatchCtrl.player">{{ 'paper_details_table_choice'|trans:{}:'ujm_sequence' }}</th>
+            <th class="center-text" data-ng-if="!correctionMatchCtrl.player">{{ 'paper_details_table_choice'|trans:{}:'ujm_sequence' }}</th>
             <th class="center-text">{{ 'paper_details_table_expected_answer'|trans:{}:'ujm_sequence' }}</th>
             <th class="center-text">{{ 'paper_details_table_comment'|trans:{}:'ujm_sequence' }}</th>
         </tr>
@@ -9,7 +9,7 @@
     <tbody>
         <tr data-ng-repeat="label in correctionMatchCtrl.question.secondSet">
             <!-- student answer -->
-            <td class="center-text" data-ng-if="correctionMatchCtrl.player">
+            <td class="center-text" data-ng-if="!correctionMatchCtrl.player">
                 <div class="panel" data-ng-class="correctionMatchCtrl.checkAnswerValidity(label) ? 'panel-success':'panel-danger'">
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title pull-left">
