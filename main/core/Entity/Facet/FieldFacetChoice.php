@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="Claroline\CoreBundle\Repository\FieldFacetChoiceRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="claro_field_facet_choice")
  */
 class FieldFacetChoice
@@ -74,5 +74,15 @@ class FieldFacetChoice
     public function getFieldFacet()
     {
         return $this->fieldFacet;
+    }
+
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

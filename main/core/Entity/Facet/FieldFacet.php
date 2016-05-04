@@ -232,4 +232,9 @@ class FieldFacet
     {
         return $this->isEditableByOwner;
     }
+
+    public function getFieldFacetChoices()
+    {
+        return $this->fieldFacetChoices;
+    }
 }

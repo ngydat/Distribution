@@ -8,13 +8,13 @@
             <form class="form-horizontal" name="fieldForm">
                 <form-field field="fmc.form.fields[0]" ng-model="fmc.model.name"></form-field>
                 <form-field field="fmc.form.fields[1]" ng-model="fmc.model.type"></form-field>
-                <div ng-if="fmc.model.type === 4 || fmc.model.type === 5 || fmc.model.type === 6">
+                <div ng-if="(fmc.model.type === 4 || fmc.model.type === 5 || fmc.model.type === 6)">
                     <div ng-repeat="(key, choice) in fmc.model.field_facet_choices track by choice.id">
                         <form-field field="['choice', 'text']" ng-model="choice.name"></form-field>
-                        <button class="btn btn-primary btn-xs" ng-click="fmc.remove(choice)">x</button>
+                        <button class="btn btn-primary btn-xs" ng-click="fmc.removeChoice(choice)">x</button>
                     </div>
                     <div>
-                        <form-field field="['choice', 'text']" ng-model="fmc.newChoice"></form-field>
+                        <form-field field="['choice', 'text']" ng-model="fmc.newChoice.name"></form-field>
                         <button ng-click="fmc.addChoice()" class="btn btn-primary btn-xs">+</button>
                     </div>
                 </div>

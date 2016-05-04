@@ -116,7 +116,6 @@ class FacetController extends FOSRestController
     public function createFacetPanelAction(Facet $facet)
     {
         $panel = $this->request->request->get('panel');
-
         //there should be a facet validation here
 
         return $this->facetManager->addPanel($facet, $panel['name'], isset($panel['is_default_collapsed']));
@@ -124,18 +123,25 @@ class FacetController extends FOSRestController
 
     /**
      * @View(serializerGroups={"api_facet_admin"})
-     * @Post("facet/{facet}/field/choice", name="post_facet_field_choice", options={ "method_prefix" = false })
+     * @Post("facet/panel/field/{field}/choice", name="post_facet_field_choice", options={ "method_prefix" = false })
      */
-    public function createFieldOptionsAction(Facet $facet)
+    public function createFieldOptionsAction(FieldFacet $field)
     {
+        $option = $this->request->request->get('choice');
+        //there should be a facet validation here
+
+        return $this->facetManager->addFacetFieldChoice($option['name'], $field);
     }
 
     /**
      * @View(serializerGroups={"api_facet_admin"})
-     * @Delete("facet/field/choice/{choice}", name="post_facet_field_choice", options={ "method_prefix" = false })
+     * @Delete("facet/field/choice/{choice}", name="delete_facet_field_choice", options={ "method_prefix" = false })
      */
     public function deleteFieldOptionsAction(FieldFacetChoice $choice)
     {
+        $this->facetManager->removeFieldFacetChoice($choice);
+
+        return [];
     }
 
     /**
@@ -172,13 +178,21 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->addField(
+        $fiendEntity = $this->facetManager->addField(
             $panel,
             $field['name'],
             $field['type'],
             isset($field['is_visible_by_owner']),
             isset($field['is_editable_by_owner'])
         );
+
+        if (isset($field['field_facet_choices'])) {
+            foreach ($field['field_facet_choices'] as $choice) {
+                $this->facetManager->addFacetFieldChoice($choice['name'], $fiendEntity);
+            }
+        }
+
+        return $fiendEntity;
     }
 
     /**

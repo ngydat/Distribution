@@ -675,16 +675,38 @@ class FacetManager
             ->findBy(array('forceCreationForm' => true));
     }
 
-    public function addFacetFieldChoice($name)
+    public function addFacetFieldChoice($name, FieldFacet $field)
     {
         $choice = new FieldFacetChoice();
+        $choice->setFieldFacet($field);
         $choice->setName($name);
         $choice->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\FieldFacetChoice'));
         $this->om->persist($choice);
         $this->om->flush();
+
+        return $choice;
     }
 
     public function removeFieldFacetChoice(FieldFacetChoice $choice)
     {
+        $field = $choice->getFieldFacet();
+        $this->om->remove($choice);
+        //first flush is required altough bad
+        $this->om->flush();
+        $this->reorderChoices($field);
+    }
+
+    public function reorderChoices(FieldFacet $field)
+    {
+        $choices = $field->getFieldFacetChoices();
+        $order = 0;
+
+        foreach ($choices as $choice) {
+            $field->setPosition($order);
+            ++$order;
+            $this->om->persist($choice);
+        }
+
+        $this->om->flush();
     }
 }
