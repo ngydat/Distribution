@@ -25,6 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Claroline\CoreBundle\Entity\Facet\Facet;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacet;
+use Claroline\CoreBundle\Entity\Facet\FieldFacetChoice;
 use Claroline\CoreBundle\Persistence\ObjectManager;
 
 /**
@@ -119,6 +120,22 @@ class FacetController extends FOSRestController
         //there should be a facet validation here
 
         return $this->facetManager->addPanel($facet, $panel['name'], isset($panel['is_default_collapsed']));
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Post("facet/{facet}/field/choice", name="post_facet_field_choice", options={ "method_prefix" = false })
+     */
+    public function createFieldOptionsAction(Facet $facet)
+    {
+    }
+
+    /**
+     * @View(serializerGroups={"api_facet_admin"})
+     * @Delete("facet/field/choice/{choice}", name="post_facet_field_choice", options={ "method_prefix" = false })
+     */
+    public function createFieldOptionsAction(FieldFacetChoice $choice)
+    {
     }
 
     /**

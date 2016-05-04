@@ -20,6 +20,7 @@ use Claroline\CoreBundle\Entity\Facet\Facet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacetValue;
 use Claroline\CoreBundle\Entity\Facet\FieldFacetRole;
+use Claroline\CoreBundle\Entity\Facet\FieldFacetChoice;
 use Claroline\CoreBundle\Entity\Facet\GeneralFacetPreference;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
 use Claroline\CoreBundle\Persistence\ObjectManager;
@@ -672,5 +673,18 @@ class FacetManager
     {
         return $this->om->getRepository('ClarolineCoreBundle:Facet\Facet')
             ->findBy(array('forceCreationForm' => true));
+    }
+
+    public function addFacetFieldChoice($name)
+    {
+        $choice = new FieldFacetChoice();
+        $choice->setName($name);
+        $choice->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\FieldFacetChoice'));
+        $this->om->persist($choice);
+        $this->om->flush();
+    }
+
+    public function removeFieldFacetChoice(FieldFacetChoice $choice)
+    {
     }
 }
