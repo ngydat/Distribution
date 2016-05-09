@@ -82,7 +82,7 @@ export default class FacetController {
       ]
     }
 
-    this.formFieldRole = {
+    this.formPanelRole = {
       translation_domain: 'platform',
       fields: [
         ['can_open', 'checkbox', {label: ''}],
@@ -471,26 +471,26 @@ export default class FacetController {
     )
   }
 
-  onSetFieldRoles (field) {
+  onSetPanelRoles (panel) {
     const modalInstance = this.$uibModal.open({
-      template: require('../Partial/field_roles_form.html'),
-      controller: 'FieldRolesController',
+      template: require('../Partial/panel_roles_form.html'),
+      controller: 'PanelRolesController',
       controllerAs: 'firc',
       resolve: {
-        field: () => {
-          return field},
+        panel: () => {
+          return panel},
         platformRoles: () => {
           return this.platformRoles},
         form: () => {
-          return this.formFieldRole}
+          return this.formPanelRole}
       }
     })
 
-    modalInstance.result.then(field => {
-      const data = this.FormBuilderService.formSerialize('roles', field.field_facets_role)
+    modalInstance.result.then(panel => {
+      const data = this.FormBuilderService.formSerialize('roles', panel.panel_facets_role)
 
       this.$http.put(
-        Routing.generate('api_put_field_roles', {field: field.id}),
+        Routing.generate('api_put_panel_roles', {panel: panel.id}),
         data,
         {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
       ).then(

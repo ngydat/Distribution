@@ -19,7 +19,7 @@ use Claroline\CoreBundle\Entity\Role;
 use Claroline\CoreBundle\Entity\Facet\Facet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacet;
 use Claroline\CoreBundle\Entity\Facet\FieldFacetValue;
-use Claroline\CoreBundle\Entity\Facet\FieldFacetRole;
+use Claroline\CoreBundle\Entity\Facet\PanelFacetRole;
 use Claroline\CoreBundle\Entity\Facet\FieldFacetChoice;
 use Claroline\CoreBundle\Entity\Facet\GeneralFacetPreference;
 use Claroline\CoreBundle\Entity\Facet\PanelFacet;
@@ -61,7 +61,7 @@ class FacetManager
         $this->authorization = $authorization;
         $this->panelRepo = $om->getRepository('ClarolineCoreBundle:Facet\PanelFacet');
         $this->fieldRepo = $om->getRepository('ClarolineCoreBundle:Facet\FieldFacet');
-        $this->fieldRoleRepo = $om->getRepository('ClarolineCoreBundle:Facet\FieldFacetRole');
+        $this->panelRoleRepo = $om->getRepository('ClarolineCoreBundle:Facet\PanelFacetRole');
     }
 
     /**
@@ -154,9 +154,6 @@ class FacetManager
         $fieldFacet->setName($name);
         $fieldFacet->setType($type);
         $fieldFacet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\FieldFacet'));
-        $fieldFacet->setIsVisibleByOwner($visible);
-        $fieldFacet->setIsEditableByOwner($editable);
-        $this->initFieldPermissions($fieldFacet);
         $this->om->persist($fieldFacet);
         $this->om->endFlushSuite();
 
@@ -178,6 +175,7 @@ class FacetManager
         $panelFacet->setFacet($facet);
         $panelFacet->setIsDefaultCollapsed($collapse);
         $panelFacet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\PanelFacet'));
+        $this->initPanelPermissions($panelFacet);
         $this->om->persist($panelFacet);
         $this->om->flush();
 
@@ -437,15 +435,15 @@ class FacetManager
         return $facet;
     }
 
-    public function initFieldPermissions(FieldFacet $field)
+    public function initPanelPermissions(PanelFacet $panel)
     {
         $this->om->startFlushSuite();
-        $roles = $field->getPanelFacet()->getFacet()->getRoles();
+        $roles = $panel->getFacet()->getRoles();
 
         foreach ($roles as $role) {
-            $ffr = new FieldFacetRole();
+            $ffr = new PanelFacetRole();
             $ffr->setRole($role);
-            $ffr->setFieldFacet($field);
+            $ffr->setPanelFacet($field);
             $ffr->setCanOpen(true);
             $ffr->setCanEdit(false);
             $this->om->persist($ffr);
@@ -454,20 +452,20 @@ class FacetManager
         $this->om->endFlushSuite();
     }
 
-    public function setFieldFacetRole(FieldFacet $fieldFacet, Role $role, $canOpen, $canEdit)
+    public function setPanelFacetRole(PanelFacet $panelFacet, Role $role, $canOpen, $canEdit)
     {
-        $fieldFacetRole = $this->fieldRoleRepo->findOneBy(array('role' => $role, 'fieldFacet' => $fieldFacet));
+        $panelFacetRole = $this->panelRoleRepo->findOneBy(array('role' => $role, 'panelFacet' => $panelFacet));
 
-        if (!$fieldFacetRole) {
-            $fieldFacetRole = new FieldFacetRole();
-            $fieldFacetRole->setRole($role);
-            $fieldFacetRole->setFieldFacet($fieldFacet);
+        if (!$panelFacetRole) {
+            $panelFacetRole = new PanelFacetRole();
+            $panelFacetRole->setRole($role);
+            $panelFacetRole->setPanelFacet($panelFacet);
         }
 
-        $fieldFacetRole->setCanEdit($canEdit);
-        $fieldFacetRole->setCanOpen($canOpen);
+        $panelFacetRole->setCanEdit($canEdit);
+        $panelFacetRole->setCanOpen($canOpen);
 
-        $this->om->persist($fieldFacetRole);
+        $this->om->persist($panelFacetRole);
         $this->om->flush();
     }
 

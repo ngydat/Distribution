@@ -82,11 +82,11 @@ class Role implements RoleInterface
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacetRole",
+     *     targetEntity="Claroline\CoreBundle\Entity\Facet\PanelFacetRole",
      *     mappedBy="role"
      * )
      */
-    protected $fieldFacetsRole;
+    protected $panelFacetsRole;
 
     /**
      * @ORM\OneToMany(
@@ -183,7 +183,7 @@ class Role implements RoleInterface
         $this->resourceContext = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->facets = new ArrayCollection();
-        $this->fieldFacetsRoles = new ArrayCollection();
+        $this->panelFacetsRole = new ArrayCollection();
         $this->toolRights = new ArrayCollection();
         $this->pwsToolConfig = new ArrayCollection();
         $this->profileProperties = new ArrayCollection();

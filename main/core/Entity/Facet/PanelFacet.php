@@ -71,9 +71,19 @@ class PanelFacet
      */
     protected $isDefaultCollapsed = false;
 
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Claroline\CoreBundle\Entity\Facet\PanelFacetRole",
+     *     mappedBy="panelFacet"
+     * )
+     * @Groups({"api_facet_admin"})
+     */
+    protected $panelFacetsRole;
+
     public function __construct()
     {
         $this->fieldsFacet = new ArrayCollection();
+        $this->panelFacetsRole = new ArrayCollection();
     }
 
     public function getId()
@@ -139,5 +149,10 @@ class PanelFacet
     public function isCollapsed()
     {
         return $this->isDefaultCollapsed ? 'true' : 'false';
+    }
+
+    public function getPanelFacetsRole()
+    {
+        return $this->panelFacetsRole;
     }
 }

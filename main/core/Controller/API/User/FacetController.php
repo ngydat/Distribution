@@ -227,9 +227,9 @@ class FacetController extends FOSRestController
 
     /**
      * @View(serializerGroups={"api_facet_admin"})
-     * @Put("facet/panel/field/{field}/roles", name="put_field_roles", options={ "method_prefix" = false })
+     * @Put("facet/panel/{panel}/roles", name="put_panel_roles", options={ "method_prefix" = false })
      */
-    public function putFieldsRoleAction(FieldFacet $field)
+    public function putPanelRoleAction(PanelFacet $panel)
     {
         $params = $this->request->request->all();
         $this->om->startFlushSuite();
@@ -238,12 +238,12 @@ class FacetController extends FOSRestController
             $role = $this->om->getRepository('ClarolineCoreBundle:Role')->find($param['role']['id']);
             $canOpen = $param['can_open'] === 'true' ? true : false;
             $canEdit = $param['can_edit'] === 'true' ? true : false;
-            $this->facetManager->setFieldFacetRole($field, $role, $canOpen, $canEdit);
+            $this->facetManager->setPanelFacetRole($panel, $role, $canOpen, $canEdit);
         }
 
         $this->om->endFlushSuite();
 
-        return $field;
+        return $panel;
     }
 
     /**

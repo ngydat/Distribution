@@ -77,27 +77,6 @@ class FieldFacet
     protected $position;
 
     /**
-     * @ORM\OneToMany(
-     *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacetRole",
-     *     mappedBy="fieldFacet"
-     * )
-     * @Groups({"api_facet_admin"})
-     */
-    protected $fieldFacetsRole;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin"})
-     */
-    protected $isVisibleByOwner = true;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin"})
-     */
-    protected $isEditableByOwner = false;
-
-    /**
      * @Groups({"api_facet_admin"})
      * @Accessor(getter="getInputType")
      */
@@ -115,7 +94,6 @@ class FieldFacet
     public function __construct()
     {
         $this->fieldsFacetValue = new ArrayCollection();
-        $this->fieldFacetsRole = new ArrayCollection();
         $this->fieldFacetChoices = new ArrayCollection();
     }
 
@@ -206,31 +184,6 @@ class FieldFacet
             case self::COUNTRY_TYPE: return 'country';
             default: return 'error';
         }
-    }
-
-    public function getFieldFacetsRole()
-    {
-        return $this->fieldFacetsRole;
-    }
-
-    public function setIsVisibleByOwner($boolean)
-    {
-        $this->isVisibleByOwner = $boolean;
-    }
-
-    public function getIsVisibleByOwner()
-    {
-        return $this->isVisibleByOwner;
-    }
-
-    public function setIsEditableByOwner($boolean)
-    {
-        $this->isEditableByOwner = $boolean;
-    }
-
-    public function getIsEditableByOwner()
-    {
-        return $this->isEditableByOwner;
     }
 
     public function getFieldFacetChoices()

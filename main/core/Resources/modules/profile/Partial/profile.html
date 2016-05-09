@@ -1,3 +1,46 @@
-<div>
-    yololol
+<div class="panel-body">
+  <ul class="nav nav-tabs">
+      <li class="active">
+          <a href="#general-profile" data-toggle="tab">{{ 'general'|trans:{}:'platform' }}</a>
+      </li>
+  </ul>
+  <div id="facet-pane" class="tab-content">
+      <div class="tab-pane active" id="general-profile">
+          <div class="panel-body">
+              <div class="row">
+                  <aside class="col-md-2 profile_aside" role="complementary">
+                      <div class="avatar">
+                          <img ng-if="pc.user.picture" src="{{ 'uploads/pictures/' +  pc.user.picture|asset }}"
+                               class="profile_picture img-circle"
+                               alt="{{ pc.user.lastName + ' ' + pc.user.firstName }}"
+                               width="150px"
+                               height="150px"
+                          >
+                          <h1 ng-if="!pc.user.picture" class="profile_picture_placeholder"><i class="fa fa-user"></i></h1>
+                      </div>
+                      <div class="informations">
+                          <p class="text-center text-muted">
+                              {{ 'registered'|trans:{}:'platform' }} {{ pc.user.creationDate }}
+                          </p>
+                      </div>
+                  </aside>
+                  <div class="col-md-6 profile_informations">
+                      <h2>{{ pc.user.lastName }}  {{ pc.user.firstName }} </h2>
+                      <p><span class="fa fa-envelope"> <a href="mailto:{{ pc.user.mail }}" title="{{ pc.user.mail }}">{{ pc.user.mail }}</a></span></p>
+                      <p ng-if="pc.user.phone"><span class="fa fa-phone"></span> pc.{{ user.phone }}</p>
+                      <p ng-repeat="(key, link) in pc.arLinks"><a href="{{ link.url }}">
+                          {{ link.name|trans:{}: 'resource' }}
+                      </a></p>
+                      <div ng-if="pc.user.description" class="description_block">
+                          <p class="lead">Description de {{ pc.user.lastName + ' ' + pc.user.firstName }}</p>
+                          <div class="description">
+                              {{ pc.user.description }}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
 </div>

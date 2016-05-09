@@ -68,6 +68,7 @@
                                             <i class="fa fa-cog pointer-hand" data-toggle="dropdown"></i>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li role="presentation"><a href="#" ng-click="fc.onEditPanelFormRequest(panel)">{{ "edit"|trans:{}:'platform' }}</a></li>
+                                                <li role="presentation"><a href="#" ng-click="fc.onSetPanelRoles(panel)"> {{ "roles"|trans:{}:'platform' }} </a>
                                                 <li role="presentation"><a ng-click="fc.onAddFieldFormRequest(panel)" class="add-field-to-panel">{{ 'add_field_to_panel'|trans:{}:'platform' }}</a></li>
                                             </ul>
                                         </div>
@@ -84,8 +85,7 @@
                                 >
                                     <div class="panel-body pointer" dragula='"field-bag"' dragula-scope="$parent" dragula-model="panel.fields">
                                         <div ng-repeat="(key, field) in panel.fields" class="list-group-item" data-panel-id="{{ panel.id }}}">
-                                            <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a> -
-                                            <a href="#" ng-click="fc.onSetFieldRoles(field)"> {{ "roles"|trans:{}:'platform' }} </a>
+                                            <a ng-click="fc.onEditFieldFormRequest(field)" href="#">{{ field.name }} ({{ field.translation_key|trans:{}:'platform' }})</a>
                                             <a class="close" ng-click="fc.onDeleteField(field)" href="#" aria-hidden="true">&times;</a>
                                         </div>
                                     </div>
