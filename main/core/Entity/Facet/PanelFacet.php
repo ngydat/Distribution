@@ -27,14 +27,14 @@ class PanelFacet
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $id;
 
     /**
      * @ORM\Column
      * @Assert\NotBlank()
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $name;
 
@@ -54,20 +54,20 @@ class PanelFacet
      *     cascade={"persist"}
      * )
      * @ORM\OrderBy({"position" = "ASC"})
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      * @SerializedName("fields")
      */
     protected $fieldsFacet;
 
     /**
      * @ORM\Column(type="integer", name="position")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $position;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $isDefaultCollapsed = false;
 

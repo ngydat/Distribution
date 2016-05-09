@@ -123,24 +123,7 @@ class ProfileController extends Controller
      */
     public function viewAction(Request $request, User $loggedUser)
     {
-        $facets = $this->facetManager->getPrivateVisibleFacets();
-        $fieldFacetValues = $this->facetManager->getFieldValuesByUser($loggedUser);
-        $fieldFacets = $this->facetManager->getPrivateVisibleFields();
-        $profileLinksEvent = new ProfileLinksEvent($loggedUser, $request->getLocale());
-        $this->get('event_dispatcher')->dispatch(
-            'profile_link_event',
-            $profileLinksEvent
-        );
-
-        $links = $profileLinksEvent->getLinks();
-
-        return array(
-            'user' => $loggedUser,
-            'facets' => $facets,
-            'fieldFacetValues' => $fieldFacetValues,
-            'fieldFacets' => $fieldFacets,
-            'links' => $links,
-        );
+        return array('user' => $loggedUser);
     }
 
     /**

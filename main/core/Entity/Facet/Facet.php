@@ -30,20 +30,20 @@ class Facet
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $id;
 
     /**
      * @ORM\Column(unique=true)
      * @Assert\NotBlank()
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="integer", name="position")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $position;
 
@@ -54,7 +54,7 @@ class Facet
      *     cascade={"persist"}
      * )
      * @ORM\OrderBy({"position" = "ASC"})
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      * @SerializedName("panels")
      */
     protected $panelFacets;
@@ -73,13 +73,13 @@ class Facet
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $isVisibleByOwner = true;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $forceCreationForm = false;
 
@@ -111,6 +111,11 @@ class Facet
     public function getPanelFacets()
     {
         return $this->panelFacets;
+    }
+
+    public function resetPanelFacets()
+    {
+        $this->panelFacets = new ArrayCollection();
     }
 
     public function setPosition($position)

@@ -130,7 +130,7 @@ class FacetController extends FOSRestController
         $option = $this->request->request->get('choice');
         //there should be a facet validation here
 
-        return $this->facetManager->addFacetFieldChoice($option['name'], $field);
+        return $this->facetManager->addFacetFieldChoice($option['label'], $field);
     }
 
     /**
@@ -181,14 +181,12 @@ class FacetController extends FOSRestController
         $fiendEntity = $this->facetManager->addField(
             $panel,
             $field['name'],
-            $field['type'],
-            isset($field['is_visible_by_owner']),
-            isset($field['is_editable_by_owner'])
+            $field['type']
         );
 
         if (isset($field['field_facet_choices'])) {
             foreach ($field['field_facet_choices'] as $choice) {
-                $this->facetManager->addFacetFieldChoice($choice['name'], $fiendEntity);
+                $this->facetManager->addFacetFieldChoice($choice['label'], $fiendEntity);
             }
         }
 
@@ -205,13 +203,25 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->editField(
+        $this->om->startFlushSuite();
+
+        if (isset($data['field_facet_choices'])) {
+            foreach ($data['field_facet_choices'] as $choice) {
+                $this->facetManager->editFacetFieldChoice($choice, $field);
+            }
+        }
+
+        $field = $this->facetManager->editField(
             $field,
             $data['name'],
             $data['type'],
             isset($data['is_visible_by_owner']),
             isset($data['is_editable_by_owner'])
         );
+
+        $this->om->endFlushSuite();
+
+        return $field;
     }
 
     /**

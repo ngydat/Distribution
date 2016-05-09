@@ -14,6 +14,7 @@ namespace Claroline\CoreBundle\Entity\Facet;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity()
@@ -25,14 +26,15 @@ class FieldFacetChoice
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     private $id;
 
     /**
      * @ORM\Column
      * @Assert\NotBlank()
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
+     * @SerializedName("label")
      */
     private $name;
 
@@ -47,7 +49,7 @@ class FieldFacetChoice
 
     /**
      * @ORM\Column(type="integer", name="position")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $position;
 
@@ -56,12 +58,12 @@ class FieldFacetChoice
         return $this->id;
     }
 
-    public function setName($name)
+    public function setLabel($label)
     {
-        $this->name = $name;
+        $this->name = $label;
     }
 
-    public function getName()
+    public function getLabel()
     {
         return $this->name;
     }

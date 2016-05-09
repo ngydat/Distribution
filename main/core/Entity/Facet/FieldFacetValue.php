@@ -26,7 +26,7 @@ class FieldFacetValue
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_user"})
+     * @Groups({"api_user", "api_profile"})
      */
     protected $id;
 
@@ -66,7 +66,7 @@ class FieldFacetValue
     protected $fieldFacet;
 
     /**
-     * @Groups({"api_user"})
+     * @Groups({"api_user", "api_profile"})
      * @Accessor(getter="getValue")
      */
     protected $value;

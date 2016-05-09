@@ -13,6 +13,7 @@ namespace Claroline\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Claroline\CoreBundle\Entity\User;
 
 class FacetRepository extends EntityRepository
 {
@@ -47,5 +48,23 @@ class FacetRepository extends EntityRepository
         }
 
         return $query->getResult();
+    }
+
+    public function findByUser(User $user, $showAll = false)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->leftJoin('f.panelFacets', 'pf')
+            ->leftJoin('pf.fieldsFacet', 'ff')
+            ->leftJoin('ff.fieldsFacetValue', 'ffv');
+
+        if (!$showAll) {
+            $qb->andWhere('f.roles in (:roles)')
+               ->join('pf.panelFacetsRole', 'pfr')
+               ->andWhere('pfr.role in (:role)')
+               ->andWhere('pfr.isVisible = true')
+               ->setParameter('roles', $user->getEntityRoles());
+        }
+
+        return $qb->getQuery()->getResult();
     }
 }

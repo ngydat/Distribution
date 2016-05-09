@@ -89,7 +89,7 @@ class ProfilePanelFieldsType extends AbstractType
                             )
                         );
                         break;
-                case FieldFacet::RADIO_TYPE || FieldFacet::SELECT_TYPE || FieldFacet::CHECKBOX_TYPE:
+                case FieldFacet::RADIO_TYPE || FieldFacet::SELECT_TYPE || FieldFacet::CHECKBOXES_TYPE:
                     $choices = $field->getFieldFacetChoices();
 
                     $attrs = [];
@@ -106,7 +106,7 @@ class ProfilePanelFieldsType extends AbstractType
                             $multiple = false;
                             $expanded = false;
                             break;
-                        case FieldFacet::CHECKBOX_TYPE:
+                        case FieldFacet::CHECKBOXES_TYPE:
                             $multiple = true;
                             $expanded = true;
                             break;

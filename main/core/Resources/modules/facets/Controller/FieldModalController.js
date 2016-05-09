@@ -33,7 +33,7 @@ export default class ModalController {
           )
       } else {
           if (!this.model.field_facet_choices) this.model.field_facet_choices = []
-          this.model.field_facet_choices.push({name: this.newChoice.name, id: this.idChoice})
+          this.model.field_facet_choices.push({label: this.newChoice.label, id: this.idChoice})
           this.idChoice++
       }
 

@@ -72,13 +72,11 @@ export default class FacetController {
               { value: 3, label: 'date'},
               { value: 4, label: 'radio'},
               { value: 5, label: 'select'},
-              { value: 6, label: 'checkbox'},
+              { value: 6, label: 'checkboxes'},
               { value: 7, label: 'country'}
             ]
           }
-        ],
-        ['is_visible_by_owner', 'checkbox', { label: 'visible'}],
-        ['is_editable_by_owner', 'checkbox', { label: 'editable'}]
+        ]
       ]
     }
 

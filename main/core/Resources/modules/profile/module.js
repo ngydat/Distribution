@@ -13,7 +13,8 @@ angular.module('UserProfile', [
   'ui.bootstrap',
   'ui.translation',
   'ClarolineAPI',
-  'ui.asset'
+  'ui.asset',
+  'FormBuilder'
 ])
   .directive('userProfile', () => new ProfileDirective)
   .config(Interceptors)

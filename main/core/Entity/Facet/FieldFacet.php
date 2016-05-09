@@ -28,27 +28,27 @@ class FieldFacet
     const DATE_TYPE = 3;
     const RADIO_TYPE = 4;
     const SELECT_TYPE = 5;
-    const CHECKBOX_TYPE = 6;
+    const CHECKBOXES_TYPE = 6;
     const COUNTRY_TYPE = 7;
 
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $id;
 
     /**
      * @ORM\Column
      * @Assert\NotBlank()
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $name;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $type;
 
@@ -72,12 +72,12 @@ class FieldFacet
 
     /**
      * @ORM\Column(type="integer", name="position")
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $position;
 
     /**
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      * @Accessor(getter="getInputType")
      */
     protected $translationKey;
@@ -87,9 +87,15 @@ class FieldFacet
      *     targetEntity="Claroline\CoreBundle\Entity\Facet\FieldFacetChoice",
      *     mappedBy="fieldFacet"
      * )
-     * @Groups({"api_facet_admin"})
+     * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $fieldFacetChoices;
+
+    /**
+     * @Groups({"api_facet_admin", "api_profile"})
+     * @Accessor(getter="getUserFieldValue")
+     */
+    protected $userFieldValue;
 
     public function __construct()
     {
@@ -166,7 +172,7 @@ class FieldFacet
             case self::STRING_TYPE: return 'text';
             case self::RADIO_TYPE: return 'radio';
             case self::SELECT_TYPE: return 'select';
-            case self::CHECKBOX_TYPE: return 'checkbox';
+            case self::CHECKBOXES_TYPE: return 'checkbox';
             case self::COUNTRY_TYPE: return 'country';
             default: return 'error';
         }
@@ -180,7 +186,7 @@ class FieldFacet
             case self::STRING_TYPE: return 'text';
             case self::RADIO_TYPE: return 'radio';
             case self::SELECT_TYPE: return 'select';
-            case self::CHECKBOX_TYPE: return 'checkbox';
+            case self::CHECKBOXES_TYPE: return 'checkbox';
             case self::COUNTRY_TYPE: return 'country';
             default: return 'error';
         }
@@ -189,5 +195,21 @@ class FieldFacet
     public function getFieldFacetChoices()
     {
         return $this->fieldFacetChoices;
+    }
+
+    /**
+     * For serialization in user profile. It's easier that way.
+     */
+    public function setUserFieldValue(FieldFacetValue $val)
+    {
+        $this->userFieldValue = $val;
+    }
+
+    /**
+     * For serialization in user profile. It's easier that way.
+     */
+    public function getUserFieldValue()
+    {
+        return $this->userFieldValue ? $this->userFieldValue->getValue() : null;
     }
 }
