@@ -1,9 +1,8 @@
-export default class SelectController {
+import FieldController from '../FieldController'
+
+export default class SelectController extends FieldController {
   constructor () {
+      super()
       this._ngModel = this.ngModel
-      this.name = this.field[0]
-      this.options = this.field[2] || {}
-      this.label = this.options.label !== undefined ? this.options.label: this.name
-      this.domainTranslation = this.field.domain_translation | 'platform'
   }
 }

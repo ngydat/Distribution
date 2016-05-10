@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Accessor;
 
 /**
  * @ORM\Entity()
@@ -53,6 +54,12 @@ class FieldFacetChoice
      */
     protected $position;
 
+    /**
+     * @Groups({"api_profile"})
+     * @Accessor(getter="getValue")
+     */
+    protected $value;
+
     public function getId()
     {
         return $this->id;
@@ -86,5 +93,11 @@ class FieldFacetChoice
     public function getPosition()
     {
         return $this->position;
+    }
+
+    //for the api form select field.
+    public function getValue()
+    {
+        return $this->name;
     }
 }
