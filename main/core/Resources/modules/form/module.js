@@ -8,6 +8,7 @@ import './Field/Text/module'
 import './Field/Radio/module'
 import './Field/Number/module'
 import './Field/Country/module'
+import './Field/Date/module'
 
 import FormDirective from './FormDirective'
 import FormBuilderService from './FormBuilderService'
@@ -21,7 +22,8 @@ angular.module('FormBuilder', [
   'FieldText',
   'FieldRadio',
   'FieldNumber',
-  'FieldCountry'
+  'FieldCountry',
+  'FieldDate'
 ])
   .directive('formbuilder', () => new FormDirective)
   .directive('formField', () => new FieldDirective)

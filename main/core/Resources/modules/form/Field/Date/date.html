@@ -1,0 +1,16 @@
+<div>
+    <p class="input-group">
+        <input
+            type="text"
+            class="form-control"
+            uib-datepicker-popup="{{ dc.getDateFormat() }}"
+            ng-model="dc.ngModel"
+            is-open="dc.opened"
+            datepicker-options="dc.options"
+            close-text="Close"
+         />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="dc.open()"><i class="fa fa-calendar"></i></button>
+        </span>
+    </p>
+</div>
