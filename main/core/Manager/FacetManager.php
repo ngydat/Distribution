@@ -71,11 +71,12 @@ class FacetManager
      *
      * @param $name
      */
-    public function createFacet($name, $forceCreationForm = false)
+    public function createFacet($name, $forceCreationForm = false, $isMain = false)
     {
         $this->om->startFlushSuite();
         $facet = new Facet();
         $facet->setName($name);
+        $facet->setIsMain($isMain);
         $facet->setForceCreationForm($forceCreationForm);
         $facet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\Facet'));
         $this->initFacetPermissions($facet);
@@ -97,10 +98,11 @@ class FacetManager
         $this->reorderFacets();
     }
 
-    public function editFacet(Facet $facet, $name, $forceCreationForm = false)
+    public function editFacet(Facet $facet, $name, $forceCreationForm = false, $isMain = false)
     {
         $facet->setName($name);
         $facet->setForceCreationForm($forceCreationForm);
+        $facet->setIsMain($isMain);
         $this->om->persist($facet);
         $this->om->flush();
 

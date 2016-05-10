@@ -75,13 +75,13 @@ class Facet
      * @ORM\Column(type="boolean")
      * @Groups({"api_facet_admin", "api_profile"})
      */
-    protected $isVisibleByOwner = true;
+    protected $forceCreationForm = false;
 
     /**
      * @ORM\Column(type="boolean")
      * @Groups({"api_facet_admin", "api_profile"})
      */
-    protected $forceCreationForm = false;
+    protected $isMain = false;
 
     public function __construct()
     {
@@ -166,5 +166,15 @@ class Facet
     public function getForceCreationForm()
     {
         return $this->forceCreationForm;
+    }
+
+    public function setIsMain($boolean)
+    {
+        $this->isMain = $boolean;
+    }
+
+    public function isMain()
+    {
+        return $this->isMain;
     }
 }

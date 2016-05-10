@@ -43,7 +43,8 @@ export default class FacetController {
           'text',
           {validators: [new NotBlank()]}
         ],
-        ['force_creation_form', 'checkbox', {label: 'display_at_registration' }]
+        ['force_creation_form', 'checkbox', {label: 'display_at_registration' }],
+        ['is_main', 'checkbox', {label: 'is_main' }]
       ]
     }
 

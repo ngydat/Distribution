@@ -68,7 +68,7 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->createFacet($facet['name'], isset($facet['force_creation_form']));
+        return $this->facetManager->createFacet($facet['name'], isset($facet['force_creation_form']), isset($data['is_main']));
     }
 
     /**
@@ -81,7 +81,7 @@ class FacetController extends FOSRestController
 
         //there should be a facet validation here
 
-        return $this->facetManager->editFacet($facet, $data['name'], isset($data['force_creation_form']));
+        return $this->facetManager->editFacet($facet, $data['name'], isset($data['force_creation_form']), isset($data['is_main']));
     }
 
     /**

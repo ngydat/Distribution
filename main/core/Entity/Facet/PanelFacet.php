@@ -72,12 +72,6 @@ class PanelFacet
     protected $isDefaultCollapsed = false;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Groups({"api_facet_admin", "api_profile"})
-     */
-    protected $isMainTab = false;
-
-    /**
      * @ORM\OneToMany(
      *     targetEntity="Claroline\CoreBundle\Entity\Facet\PanelFacetRole",
      *     mappedBy="panelFacet"
