@@ -58,28 +58,7 @@ class FacetVoter
 
     private function fieldFacetVote(FieldFacet $fieldFacet, TokenInterface $token, $attribute)
     {
-        $fieldFacetsByRole = $this->container->get('claroline.manager.facet_manager')->getVisibleFieldFacets();
-        $canEdit = false;
-        $canOpen = false;
-
-        foreach ($fieldFacetsByRole as $field) {
-            if ($field['id'] === $fieldFacet->getId()) {
-                $canEdit = $field['canEdit'];
-                $canOpen = $field['canOpen'];
-            }
-        }
-
-        if (strtolower($attribute) === 'edit') {
-            return $fieldFacet->getIsEditableByOwner() | $canEdit ?
-                VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-        }
-
-        if (strtolower($attribute) === 'open') {
-            return $fieldFacet->getIsVisibleByOwner() | $canOpen ?
-                VoterInterface::ACCESS_GRANTED : VoterInterface::ACCESS_DENIED;
-        }
-
-        return VoterInterface::ACCESS_DENIED;
+        return VoterInterface::ACCESS_GRANTED;
     }
 
     public function supportsAttribute($attribute)

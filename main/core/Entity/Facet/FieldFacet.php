@@ -212,4 +212,13 @@ class FieldFacet
     {
         return $this->userFieldValue ? $this->userFieldValue->getValue() : null;
     }
+
+    public function getPrettyName()
+    {
+        $string = str_replace(' ', '-', $this->name); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+        $string = preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+
+        return strtolower($string);
+    }
 }

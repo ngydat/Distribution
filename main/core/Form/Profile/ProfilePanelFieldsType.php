@@ -39,7 +39,7 @@ class ProfilePanelFieldsType extends AbstractType
             switch ($field->getType()) {
                 case FieldFacet::STRING_TYPE:
                     $builder->add(
-                        $field->getName(),
+                        $field->getPrettyName(),
                         'text',
                         array(
                             'label' => $this->translator->trans($field->getName(), array(), 'platform'),
@@ -51,7 +51,7 @@ class ProfilePanelFieldsType extends AbstractType
                     break;
                 case FieldFacet::DATE_TYPE:
                     $builder->add(
-                        $field->getName(),
+                        $field->getPrettyName(),
                         'datepicker',
                         array(
                             'label' => $this->translator->trans($field->getName(), array(), 'platform'),
@@ -67,7 +67,7 @@ class ProfilePanelFieldsType extends AbstractType
                     break;
                 case FieldFacet::FLOAT_TYPE:
                     $builder->add(
-                        $field->getName(),
+                        $field->getPrettyName(),
                         'number',
                         array(
                             'label' => $this->translator->trans($field->getName(), array(), 'platform'),
@@ -79,7 +79,7 @@ class ProfilePanelFieldsType extends AbstractType
                     break;
                 case FieldFacet::COUNTRY_TYPE:
                         $builder->add(
-                            $field->getName(),
+                            $field->getPrettyName(),
                             'country',
                             array(
                                 'label' => $this->translator->trans($field->getName(), array(), 'platform'),
@@ -89,12 +89,12 @@ class ProfilePanelFieldsType extends AbstractType
                             )
                         );
                         break;
-                case FieldFacet::RADIO_TYPE || FieldFacet::SELECT_TYPE || FieldFacet::CHECKBOXES_TYPE:
+                default:
                     $choices = $field->getFieldFacetChoices();
 
                     $attrs = [];
                     foreach ($choices as $choice) {
-                        $attrs[$choice->getName()] = true;
+                        $attrs[$choice->getLabel()] = $choice->getLabel();
                     }
 
                     switch ($field->getType()) {
@@ -113,7 +113,7 @@ class ProfilePanelFieldsType extends AbstractType
                     }
 
                     $builder->add(
-                        $field->getName(),
+                        $field->getPrettyName(),
                         'choice',
                         array(
                             'choices' => $attrs,

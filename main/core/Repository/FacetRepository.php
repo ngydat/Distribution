@@ -58,10 +58,12 @@ class FacetRepository extends EntityRepository
             ->leftJoin('ff.fieldsFacetValue', 'ffv');
 
         if (!$showAll) {
-            $qb->andWhere('f.roles in (:roles)')
+            $qb
+               ->join('f.roles', 'frole')
                ->join('pf.panelFacetsRole', 'pfr')
-               ->andWhere('pfr.role in (:role)')
-               ->andWhere('pfr.isVisible = true')
+               ->andWhere('frole in (:roles)')
+               ->andWhere('pfr.role in (:roles)')
+               ->andWhere('pfr.canOpen = true')
                ->setParameter('roles', $user->getEntityRoles());
         }
 
