@@ -206,7 +206,7 @@ class FieldFacet
     }
 
     /**
-     * For serialization in user profile. It's easier that way.
+     * For serialization in user profile. It's easier that way. Otherwise we'll retrieve every value and it's not what we want.
      */
     public function getUserFieldValue()
     {

@@ -53,5 +53,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        window.userId = {{ app.security.token.user.id }}
+    </script>
     <script src="{{ hotAsset('dist/claroline-distribution-main-core-profile-management.js')}}"></script>
 {% endblock %}

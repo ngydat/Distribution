@@ -17,8 +17,11 @@ use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
 use Claroline\CoreBundle\Manager\FacetManager;
 use FOS\RestBundle\Controller\Annotations\Get;
+use FOS\RestBundle\Controller\Annotations\Put;
 use Claroline\CoreBundle\Event\Profile\ProfileLinksEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Claroline\CoreBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @NamePrefix("api_")
@@ -28,29 +31,32 @@ class ProfileController extends FOSRestController
     /**
      * @DI\InjectParams({
      *     "facetManager" = @DI\Inject("claroline.manager.facet_manager"),
-     *     "tokenStorage" = @DI\Inject("security.token_storage")
+     *     "tokenStorage" = @DI\Inject("security.token_storage"),
+     *     "request"      = @DI\Inject("request")
      * })
      */
     public function __construct(
         FacetManager $facetManager,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        Request $request
     ) {
         $this->facetManager = $facetManager;
         $this->tokenStorage = $tokenStorage;
+        $this->request = $request;
     }
 
     /**
-     * @Get("/profile/private/facets", name="get_profile_private_facet", options={ "method_prefix" = false })
+     * @Get("/profile/{user}/facets", name="get_profile_facets", options={ "method_prefix" = false })
      * @View(serializerGroups={"api_profile"})
      */
-    public function getPrivateFacetsAction()
+    public function getFacetsAction(User $user)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $facets = $this->facetManager->getPrivateFacets($user);
+        //add check access
+        $facets = $this->facetManager->getFacetsByUser($user);
         $ffvs = $this->facetManager->getFieldValuesByUser($user);
 
         foreach ($facets as $facet) {
+            //add check accessess
             foreach ($facet->getPanelFacets() as $panelFacet) {
                 foreach ($panelFacet->getFieldsFacet() as $field) {
                     foreach ($ffvs as $ffv) {
@@ -67,11 +73,12 @@ class ProfileController extends FOSRestController
     }
 
     /**
-     * @Get("/profile/links", name="get_profile_links", options={ "method_prefix" = false })
+     * @Get("/profile/{user}/links", name="get_profile_links", options={ "method_prefix" = false })
      */
-    public function getProfileLinksAction()
+    public function getProfileLinksAction(User $user)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
+        //add check access
+
         $request = $this->get('request');
         $profileLinksEvent = new ProfileLinksEvent($user, $request->getLocale());
         $this->get('event_dispatcher')->dispatch(
@@ -80,5 +87,24 @@ class ProfileController extends FOSRestController
         );
 
         return $profileLinksEvent->getLinks();
+    }
+
+    /**
+     * @Put("/profile/{user}/fields", name="put_profile_fields", options={ "method_prefix" = false })
+     * @View(serializerGroups={"api_profile"})
+     */
+    public function putFieldsAction(User $user)
+    {
+        //add check access
+
+        $fields = $this->request->request->get('fields');
+
+        foreach ($fields as $field) {
+            $fieldEntity = $this->facetManager->getFieldFacet($field['id']);
+            $value = isset($field['user_field_value']) ? $field['user_field_value'] : null;
+            $this->facetManager->setFieldValue($user, $fieldEntity, $value);
+        }
+
+        return $user;
     }
 }

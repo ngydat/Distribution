@@ -9,8 +9,8 @@ export default class DateDirective {
     this.controller = DateController
     this.controllerAs = 'dc'
     this.bindToController = {
-        field: '=',
-        ngModel: '='
+      field: '=',
+      ngModel: '='
     }
   }
 }

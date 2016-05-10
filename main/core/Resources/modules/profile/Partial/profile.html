@@ -42,7 +42,7 @@
           </div>
       </div>
       <div class="tab-pane" id="facet-{{ facet.id }}" ng-repeat="(key, facet) in pc.facets">
-          <form id="form-facet-{{ facet.id }}" role="form" class="form-horizontal">
+          <form id="form-facet-{{ facet.id }}" role="form" class="form-horizontal" ng-submit="pc.onSubmit(facet)">
               <div class="panel-body">
                   <div class="panel-group" id="panel-facet-{{ facet.id }}" role="tablist">
                       <div class="panel panel-default" ng-repeat="(key, panel) in facet.panels">
@@ -64,7 +64,7 @@
                   </div>
               </div>
               <div class="panel-footer">
-                  <button class="btn btn-primary submit-facet-edit-form" aria-hidden="true"> {{ 'edit'|trans:{}:'platform' }}</button>
+                  <input type="submit" class="btn btn-primary submit-facet-edit-form" aria-hidden="true" value="{{ 'edit'|trans:{}:'platform' }}"></input>
               </div>
           </form>
       </div>

@@ -250,6 +250,7 @@ class FacetManager
      */
     public function setFieldValue(User $user, FieldFacet $field, $value, $force = false)
     {
+        //the voter should be updated
         if (!$this->authorization->isGranted('edit', $field) && !$force) {
             throw new AccessDeniedException();
         }
@@ -266,30 +267,24 @@ class FacetManager
         switch ($field->getType()) {
             case FieldFacet::DATE_TYPE:
                 $date = is_string($value) ?
-                    \DateTime::createFromFormat(
-                        $this->translator->trans('date_form_datepicker_php', array(), 'platform'),
-                        $value
-                    ) :
+                    new \DateTime($value) :
                     $value;
                 $fieldFacetValue->setDateValue($date);
                 break;
             case FieldFacet::FLOAT_TYPE:
                 $fieldFacetValue->setFloatValue($value);
                 break;
-            case FieldFacet::STRING_TYPE || FieldFacet::COUNTRY_TYPE:
-                $fieldFacetValue->setStringValue($value);
+            case FieldFacet::CHECKBOXES_TYPE:
+                $fieldFacetValue->setArrayValue($value);
                 break;
             default:
-                throw new \Exception('The facet type '.$field->getType().' is unknown.');
+                $fieldFacetValue->setStringValue($value);
         }
 
         $this->om->persist($fieldFacetValue);
         $this->om->flush();
     }
 
-    /**
-     * @deprecated
-     */
     public function getFieldValuesByUser(User $user)
     {
         return $this->om->getRepository('ClarolineCoreBundle:Facet\FieldFacetValue')
@@ -396,8 +391,11 @@ class FacetManager
 
     /**
      * Get the ordered fields of facet.
+     * unused.
      *
      * @param Facet $facet
+     *
+     * @deprecated
      */
     public function getFields(Facet $facet)
     {
@@ -482,11 +480,19 @@ class FacetManager
         return $this->om->getRepository('ClarolineCoreBundle:Facet\FieldFacet')->findAll();
     }
 
+    /**
+     * Unused.
+     */
     public function getFieldFacetValuesByUser(User $user)
     {
         $ffvs = $this->fieldValueRepo->findByUser(array('user' => $user));
     }
 
+    /**
+     * Used by public profile application.
+     *
+     * @deprecated ?
+     */
     public function getVisibleFacets($max = null)
     {
         $token = $this->tokenStorage->getToken();
@@ -512,7 +518,8 @@ class FacetManager
             case FieldFacet::FLOAT_TYPE: return $ffv->getFloatValue();
             case FieldFacet::DATE_TYPE:
                 return $ffv->getDateValue()->format($this->translator->trans('date_form_datepicker_php', array(), 'platform'));
-            case FieldFacet::STRING_TYPE: return $ffv->getStringValue();
+            case FieldFacet::STRING_TYPE || FieldFacet::COUNTRY_TYPE || FieldFacet::SELECT_TYPE || FieldFacet::RADIO_TYPE: return $ffv->getStringValue();
+            case FieldFacet::CHECKBOXES_TYPE: return $ffv->getArrayValue();
             default: return 'error';
         }
     }
@@ -545,7 +552,7 @@ class FacetManager
         return $this->om->getRepository('ClarolineCoreBundle:Facet\GeneralFacetPreference')->findAll();
     }
 
-    public function getPrivateFacets(User $user)
+    public function getFacetsByUser(User $user)
     {
         return $this->facetRepo->findByUser($user, $this->authorization->isGranted('ROLE_ADMIN'));
     }
@@ -563,6 +570,9 @@ class FacetManager
             ->getAdminPublicProfilePreferenceByRole($roles);
     }
 
+    /**
+     * @deprecated
+     */
     public function getAdminPublicPreference()
     {
         return $this->om->getRepository('ClarolineCoreBundle:Facet\GeneralFacetPreference')->findAll();

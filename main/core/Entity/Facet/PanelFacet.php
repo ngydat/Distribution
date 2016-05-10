@@ -43,7 +43,7 @@ class PanelFacet
      *      targetEntity="Claroline\CoreBundle\Entity\Facet\Facet",
      *      inversedBy="panelFacets"
      * )
-     * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
+     * @ORM\JoinColumn(onDelete="CASCADE", nullable=true)
      */
     protected $facet;
 
@@ -70,6 +70,12 @@ class PanelFacet
      * @Groups({"api_facet_admin", "api_profile"})
      */
     protected $isDefaultCollapsed = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Groups({"api_facet_admin", "api_profile"})
+     */
+    protected $isMainTab = false;
 
     /**
      * @ORM\OneToMany(

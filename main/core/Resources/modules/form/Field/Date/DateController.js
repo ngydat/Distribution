@@ -9,15 +9,11 @@ export default class DateController extends FieldController {
     }
 
     getDateFormat() {
-        return 'dd.MM.yyyy'
+        return Translator.trans('date_form_format', {}, 'platform')
     }
 
     parseNgModel() {
-        if (!this.ngModel) {
-            this.ngModel = new Date()
-        } else {
-            //parse to date
-        }
+        this.ngModel = !this.ngModel ? new Date(): new Date(this.ngModel)
     }
 
     open() {

@@ -46,6 +46,11 @@ class FieldFacetValue
     protected $dateValue;
 
     /**
+     * @ORM\Column(type="json_array", nullable=true)
+     */
+    protected $arrayValue;
+
+    /**
      * @ORM\ManyToOne(
      *     targetEntity="Claroline\CoreBundle\Entity\User",
      *     inversedBy="fieldsFacetValue",
@@ -122,6 +127,16 @@ class FieldFacetValue
         return $this->stringValue;
     }
 
+    public function setArrayValue(array $arrayValue)
+    {
+        $this->arrayValue = $arrayValue;
+    }
+
+    public function getArrayValue()
+    {
+        return $this->arrayValue;
+    }
+
     /**
      * @param User $user
      */
@@ -143,8 +158,8 @@ class FieldFacetValue
         switch ($this->getFieldFacet()->getType()) {
             case FieldFacet::FLOAT_TYPE: return $this->getFloatValue();
             case FieldFacet::DATE_TYPE: return $this->getDateValue();
-            case FieldFacet::STRING_TYPE || FieldFacet::COUNTRY_TYPE: return $this->getStringValue();
-            default: return 'error';
+            case FieldFacet::CHECKBOXES_TYPE: return $this->getArrayValue();
+            default: return $this->getStringValue();
         }
     }
 }
