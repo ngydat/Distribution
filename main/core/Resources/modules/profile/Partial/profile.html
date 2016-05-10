@@ -56,14 +56,14 @@
                           <div id="panel-{{ panel.id }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-{{ panel.id }}">
                               <div class="panel-body">
                                   <div class="form-group row" ng-repeat="(key, field) in panel.fields">
-                                     <form-field field="[field.name, pc.fieldTypes[field.type - 1], { values: field.field_facet_choices}]" ng-model="field.user_field_value"></form-field>
+                                     <form-field field="[field.name, pc.fieldTypes[field.type - 1], { values: field.field_facet_choices, disabled: pc.disabled}]" ng-model="field.user_field_value"></form-field>
                                   </div>
                               </div>
                           </div>
                       </div>
                   </div>
               </div>
-              <div class="panel-footer">
+              <div ng-if="!pc.disabled" class="panel-footer">
                   <input type="submit" class="btn btn-primary submit-facet-edit-form" aria-hidden="true" value="{{ 'edit'|trans:{}:'platform' }}"></input>
               </div>
           </form>

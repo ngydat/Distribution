@@ -21,11 +21,9 @@ use Claroline\CoreBundle\Manager\FacetManager;
 use Claroline\CoreBundle\Manager\ProfilePropertyManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Claroline\CoreBundle\Entity\User;
-use Claroline\CoreBundle\Entity\ProfileProperty;
 use Claroline\CoreBundle\Entity\Facet\Facet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @DI\Tag("security.secure_service")
@@ -117,19 +115,6 @@ class FacetController extends Controller
             'labels' => $labels,
             'properties' => $properties,
         );
-    }
-
-    /**
-     * @EXT\Route("/property/{property}/invert",
-     *      name="claro_admin_invert_user_properties_edition",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function invertPropertiesEditableAction(ProfileProperty $property)
-    {
-        $this->profilePropertyManager->invertProperty($property);
-
-        return new JsonResponse(array(), 200);
     }
 
     /**

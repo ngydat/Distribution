@@ -1,6 +1,6 @@
 <div>
     <div ng-repeat="(key, value) in chc.field[2].values">
-        <input type="checkbox" checklist-model="chc.ngModel" checklist-value="value.value">
+        <input type="checkbox" checklist-model="chc.ngModel" checklist-value="value.value" ng-disabled="{{ chc.disabled }}">
         <label class="control-label"> {{ value.label }} </label>
     </div>
 </div>

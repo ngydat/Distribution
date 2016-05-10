@@ -2,7 +2,7 @@ export default class CountryController {
   constructor () {
     this.countryField = angular.copy(this.field)
     this.countryField[1] = 'select'
-    this.countryField[2] = {'values': this.getCountryList()}
+    this.countryField[2].values = this.getCountryList()
   }
 
   getCountryList () {

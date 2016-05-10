@@ -6,6 +6,7 @@ export default class ProfileController {
     this.arLinks = []
     this.facets = []
     this.userId = window['userId']
+    this.disabled = window['disabled']
 
     $http.get(Routing.generate('api_get_connected_user')).then(d => this.user = d.data)
     $http.get(Routing.generate('api_get_profile_links', {user: this.userId})).then(d => this.arLinks = d.data)
