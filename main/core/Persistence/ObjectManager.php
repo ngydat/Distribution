@@ -328,12 +328,6 @@ class ObjectManager extends ObjectManagerDecorator
         $this->showFlushLevel = false;
     }
 
-    /*
-    public function detach($object)
-    {
-        $this->wrapped->detach($object);
-    }*/
-
     private function logFlushLevel()
     {
         $stack = debug_backtrace();
