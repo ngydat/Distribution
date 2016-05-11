@@ -1575,7 +1575,7 @@ class UserManager
         $i = 0;
         $detach = [];
 
-        while ($offset + $limit < $countUsers) {
+        while ($offset < $countUsers) {
             $users = $this->userRepo->findBy(array(), null, $limit, $offset);
 
             foreach ($users as $user) {
@@ -1596,6 +1596,9 @@ class UserManager
 
                         $detach = [];
                     }
+                } else {
+                    $this->log("Organization for user {$user->getUsername()} already exists");
+                    $this->objectManager->detach($user);
                 }
             }
 
