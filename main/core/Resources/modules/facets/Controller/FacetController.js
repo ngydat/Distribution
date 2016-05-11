@@ -38,11 +38,7 @@ export default class FacetController {
     // form definitions
     this.formFacet = {
       fields: [
-        [
-          'name',
-          'text',
-          {validators: [new NotBlank()]}
-        ],
+        ['name', 'text', {validators: [new NotBlank()]}],
         ['force_creation_form', 'checkbox', {label: 'display_at_registration' }],
         ['is_main', 'checkbox', {label: 'is_main' }]
       ]
@@ -50,18 +46,14 @@ export default class FacetController {
 
     this.formPanel = {
       fields: [
-        ['name', 'text'],
+        ['name', 'text', {validators: [new NotBlank()]}],
         ['is_default_collapsed', 'checkbox', {label: 'collapse'}]
       ]
     }
 
     this.formField = {
       fields: [
-        [
-          'name',
-          'text',
-          {validators: [new NotBlank()]}
-        ],
+        ['name', 'text', {validators: [new NotBlank()]}],
         [
           'type',
           'select',
@@ -75,7 +67,8 @@ export default class FacetController {
               { value: 5, label: 'select'},
               { value: 6, label: 'checkboxes'},
               { value: 7, label: 'country'}
-            ]
+            ],
+            default: 1
           }
         ]
       ]
@@ -167,7 +160,7 @@ export default class FacetController {
           d => {
           },
           d => {
-            alert('error handling')
+            alert(Translator.trans('an_error_happened', {}, 'platform'))
           }
         )
       }
@@ -204,9 +197,7 @@ export default class FacetController {
         d => {
           this.facets.push(d.data)
         },
-        d => {
-          alert('error handling')
-        }
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -242,7 +233,7 @@ export default class FacetController {
       ).then(
         d => {
         },
-        d => alert('an error occured')
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -285,11 +276,8 @@ export default class FacetController {
 
       this.$http.put(route).then(
         d => {
-          alert('ok')
         },
-        d => {
-          alert('pas ok')
-        }
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -325,7 +313,7 @@ export default class FacetController {
           if (!facet.panels) facet.panels = []
           facet.panels.push(d.data)
         },
-        d => alert('error')
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -363,7 +351,7 @@ export default class FacetController {
       ).then(
         d => {
         },
-        d => alert('an error occured')
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -413,7 +401,7 @@ export default class FacetController {
           if (!panel.fields) panel.fields = []
           panel.fields.push(d.data)
         },
-        d => alert('boom')
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -462,8 +450,7 @@ export default class FacetController {
     this.ClarolineAPIService.confirm(
       {url, method: 'DELETE'},
       function () {
-        alert('meh')
-      // this.ClarolineAPIService.removeElements(facet, this.facets)
+        field = {}
       }.bind(this),
       Translator.trans('delete_field', {}, 'platform'),
       Translator.trans('delete_field_confirm', 'platform')
@@ -494,11 +481,8 @@ export default class FacetController {
         {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
       ).then(
         d => {
-          alert('it worked !')
         },
-        d => {
-          alert('error handling')
-        }
+        d => alert(Translator.trans('an_error_happened', {}, 'platform'))
       )
     })
   }
@@ -512,11 +496,8 @@ export default class FacetController {
       {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
     ).then(
       d => {
-        alert('it worked !')
       },
-      d => {
-        alert('error handling')
-      }
+      d => alert(Translator.trans('an_error_happened', {}, 'platform'))
     )
   }
 }

@@ -18,7 +18,7 @@
                         <button ng-click="fmc.addChoice()" class="btn btn-primary btn-xs">+</button>
                     </div>
                 </div>
-                <input ng-click="fmc.onSubmit(fieldForm)" type="submit" class="btn btn-primary" aria-hidden="true" value="{{ fmc.submit|trans:{}:'platform' }}"> </input>
+                <input data-ng-disabled="!fieldForm.$valid" ng-click="fmc.onSubmit(fieldForm)" type="submit" class="btn btn-primary" aria-hidden="true" value="{{ fmc.submit|trans:{}:'platform' }}"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
             </form>
         </div>

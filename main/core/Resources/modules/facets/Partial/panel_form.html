@@ -7,7 +7,7 @@
         <div>
             <form class="form-horizontal" name="panelForm" ng-submit="mc.onSubmit(panelForm)">
                 <formbuilder form="mc.form" ng-model="mc.model" form-ctrl="panelForm"></formbuilder>
-                <input type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}"> </input>
+                <input data-ng-disabled="!panelForm.$valid" type="submit" class="btn btn-primary" aria-hidden="true" value="{{ mc.submit|trans:{}:'platform' }}"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
             </form>
         </div>
