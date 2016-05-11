@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <div>
-            <form class="form-horizontal" name="fieldForm">
+            <form name="fieldForm">
                 <form-field field="fmc.form.fields[0]" ng-model="fmc.model.name"></form-field>
                 <form-field field="fmc.form.fields[1]" ng-model="fmc.model.type"></form-field>
                 <div ng-if="(fmc.model.type === 4 || fmc.model.type === 5 || fmc.model.type === 6)">
@@ -18,8 +18,6 @@
                         <button ng-click="fmc.addChoice()" class="btn btn-primary btn-xs">+</button>
                     </div>
                 </div>
-                <form-field field="fmc.form.fields[2]" ng-model="fmc.model.is_visible_by_owner"></form-field>
-                <form-field field="fmc.form.fields[3]" ng-model="fmc.model.is_editable_by_owner"></form-field>
                 <input ng-click="fmc.onSubmit(fieldForm)" type="submit" class="btn btn-primary" aria-hidden="true" value="{{ fmc.submit|trans:{}:'platform' }}"> </input>
                 <button ng-click="$close()" class="btn btn-default" data-dismiss="modal" aria-hidden="true"> {{ 'cancel'|trans:{}:'platform '}} </button>
             </form>
