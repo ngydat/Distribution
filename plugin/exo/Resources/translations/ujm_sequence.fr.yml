@@ -1,5 +1,6 @@
 # a
 answer_zone: Zone de réponse
+answers_not_found: Texte à trouver - all answers not found
 
 # b
 btn_end_sequence_label: Terminer l'exercice
@@ -19,6 +20,7 @@ comment: Commentaire
 dropdown_step_navigate_choice_label: Etape n°%1% / %2%
 
 # g
+good_solution_found: Très bien, vous avez trouvé la solution
 graphic_setpoint_first: Positionner le(s) pointeur(s) ci-dessous (croix rouge) sur l'image. La position du centre du pointeur définit votre réponse.
 graphic_setpoint_second: Pour répondre, utiliser la technique du glisser/déposer.
 graphic_setpoint_third: Les bonnes réponses ne sont comptabilisées qu'une seule fois.
@@ -40,9 +42,16 @@ label_exercise_correction: Correction
 label_no_labels_associated: Pas de label(s) associé(s)
 label_manual_correction_needed: Correction manuelle nécessaire!
 
+# m
+max_attempts_reached: Le nombre maximum d'essais a été atteint
+
 # n
 need_correction: Cette réponse nécessite une correction manuelle
 note_question: Noter cette question
+
+# o
+one_answer_to_find: Il reste une bonne réponse à trouver
+one_try_left: Vous disposez encore d'un essai
 
 # p
 paper_list: Liste des copies
@@ -92,6 +101,9 @@ sequence_end_sequence_confirm: Êtes vous sûr de vouloir terminer l'exercice ? 
 sequence_play_leave_confirm: Êtes vous sûr de vouloir quitter l'application ?
 sequence_score: Score
 step_attempts_infos: Vous avez le droit à %1% essai(s) pour cette étape
+
+# t
+try_again: Essayez à nouveau
 
 # v
 validate: Valider

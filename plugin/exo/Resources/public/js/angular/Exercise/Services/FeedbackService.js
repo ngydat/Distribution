@@ -25,7 +25,14 @@ FeedbackService.prototype.config = {
      * Is feedback currently displayed ?
      * @type {boolean}
      */
-    visible: false
+    visible: false,
+    
+    /**
+     * The state of the feedback
+     * (0 : all found, 1 : partially found, 2 : error)
+     * @type {integer}
+     */
+    state: -1
 };
 
 /**
@@ -44,6 +51,25 @@ FeedbackService.prototype.callbacks = {
      * @type {Array}
      */
     hide: []
+};
+
+/**
+ * Get feedback state
+ * @return {integer}
+ */
+FeedbackService.prototype.getState = function getState() {
+    return this.config.state;
+};
+
+/**
+ * Set feedback state
+ * @param   {integer} state
+ * @returns {FeedbackService}
+ */
+FeedbackService.prototype.setState = function setState(state) {
+    this.config.state = state;
+    
+    return this;
 };
 
 /**

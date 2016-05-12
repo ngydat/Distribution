@@ -12,7 +12,8 @@ var QuestionShowDirective = function ExerciseDirective() {
         templateUrl: AngularApp.webDir + 'bundles/ujmexo/js/angular/Question/Partials/show.html',
         scope: {
             question: '=',
-            solutionShown: '='
+            solutionShown: '=',
+            currentStepTry: '='
         },
         bindToController: true
     };

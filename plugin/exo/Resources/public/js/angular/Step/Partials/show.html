@@ -1,12 +1,14 @@
 <div class="step-container">
     <h4 class="step-title">
         {{ 'step'|trans:{}:'ujm_exo' }} <span class="badge">{{ stepShowCtrl.stepIndex*1 + 1 }}</span> - 
-        {{ 'attempt_info3'|trans:{}:'ujm_exo' }}<span class="badge">{{ stepShowCtrl.currentStepTry }}/{{ stepShowCtrl.step.maxAttempts }}</span>
+        {{ 'attempt_info3'|trans:{}:'ujm_exo' }}<span class="badge">{{ stepShowCtrl.currentStepTry }}<span data-ng-if="stepShowCtrl.step.maxAttempts !== 0">/{{ stepShowCtrl.step.maxAttempts }}</span></span>
     </h4>
 
     <!-- Display items of the step -->
-    <question-show data-ng-repeat="item in stepShowCtrl.step.items" data-solution-shown="stepShowCtrl.solutionShown" data-question="item"></question-show>
+    <question-show data-ng-repeat="item in stepShowCtrl.step.items" data-current-step-try="stepShowCtrl.currentStepTry" data-solution-shown="stepShowCtrl.solutionShown" data-question="item"></question-show>
 
+    <span class="alert alert-info col-md-12" data-ng-if="stepShowCtrl.feedback.visible">{{ stepShowCtrl.getGenericSuiteFeedback()|trans:{}:'ujm_sequence' }}</span>
+    
     <!-- Display no item message -->
     <div class="alert alert-info" data-ng-if="0 === stepShowCtrl.step.items.length">
         <span class="fa fa-warning"></span>
