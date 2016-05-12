@@ -28,6 +28,7 @@
 </script>
 
 <div class="panel-body">
+  <button ng-click="pc.switchProfileMode()"> {{ pc.profileModeLabel }} </button>
   <ul class="nav nav-tabs">
       <li class="active"><a href="#general-profile" data-toggle="tab">{{ 'general'|trans:{}:'platform' }}</a> </li>
       <li ng-if="!facet.is_main" ng-repeat="(key, facet) in pc.facets"> <a href="#facet-{{ facet.id}}" data-toggle="tab"> {{ facet.name }}</a> </i>
@@ -62,9 +63,7 @@
                       </a></p>
                       <div ng-if="pc.user.description" class="description_block">
                           <p class="lead">Description de {{ pc.user.lastName + ' ' + pc.user.firstName }}</p>
-                          <div class="description">
-                              {{ pc.user.description }}
-                          </div>
+                          <div class="description"> {{ pc.user.description }} </div>
                       </div>
                   </div>
               </div>

@@ -113,20 +113,6 @@ class ProfileController extends Controller
 
     /**
      * @EXT\Route(
-     *     "/",
-     *      name="claro_profile_view"
-     * )
-     * @SEC\Secure(roles="ROLE_USER")
-     * @EXT\Template()
-     * @EXT\ParamConverter("loggedUser", options={"authenticatedUser" = true})
-     */
-    public function viewAction(Request $request, User $loggedUser)
-    {
-        return array('user' => $loggedUser);
-    }
-
-    /**
-     * @EXT\Route(
      *     "/{publicUrl}",
      *      name="claro_public_profile_view",
      *      options={"expose"=true}

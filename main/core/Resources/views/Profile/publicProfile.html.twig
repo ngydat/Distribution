@@ -3,11 +3,41 @@
 {% block title %}{{ user.getLastName() ~ ' ' ~ user.getFirstName() | striptags | raw }}{% endblock %}
 
 {% block content %}
-    <div class="panel panel-default panel-user">
-        <div class="panel-body">
-            <user-profile ng-app="UserProfile"></user-profile>
+<div class="panel panel-default panel-user">
+    <div class="panel-heading relative">
+        <!-- this is not supposed to be always shown -->
+        <div class="dropdown float-right-top">
+            <a data-toggle="dropdown" href="#" class="btn btn-xs btn-primary" role="button">
+                {{ 'actions' | trans({}, 'platform') }} <span class="fa fa-gear"></span> <i class="caret"></i>
+            </a>
+            <ul class="dropdown-menu pull-right" role="menu">
+                <li role="presentation" >
+                    <a role="menuitem" href="{{ path('claro_user_profile_edit') }}">
+                        {{ 'edit_profile'|trans({}, 'platform') }}
+                    </a>
+                </li>
+                <li role="presentation" >
+                    <a role="menuitem" href="{{ path('claro_user_password_edit', {'user': user.getId()}) }}">
+                        {{ 'edit_password'|trans({}, 'platform') }}
+                    </a>
+                </li>
+                {% if false == user.hasTunedPublicUrl %}
+                    <li role="presentation" >
+                        <a role="menuitem" href="{{ path('claro_user_public_url_edit') }}">
+                            {{ 'tune_your_public_profile_url'|trans({}, 'platform') }}
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
+        <h3 class="panel-title">
+            {{ 'user_profile'|trans({}, 'platform') }}
+        </h3>
     </div>
+    <div class="panel-body">
+        <user-profile ng-app="UserProfile"></user-profile>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

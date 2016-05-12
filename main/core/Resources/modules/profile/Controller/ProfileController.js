@@ -1,12 +1,14 @@
 export default class ProfileController {
-  constructor ($http, FormBuilderService) {
+  constructor ($http, $scope, FormBuilderService) {
     this.$http = $http
+    this.$scope = $scope
     this.FormBuilderService = FormBuilderService
     this.user = []
     this.arLinks = []
     this.facets = []
     this.userId = window['userId']
-    this.disabled = window['disabled']
+    this.disabled = true
+    this.profileModeLabel = Translator.trans('edit_profile', {}, 'platform');
 
     $http.get(Routing.generate('api_get_connected_user')).then(d => this.user = d.data)
     $http.get(Routing.generate('api_get_profile_links', {user: this.userId})).then(d => this.arLinks = d.data)
@@ -34,5 +36,15 @@ export default class ProfileController {
       },
       d => alert('an error occured')
     )
+  }
+
+  switchProfileMode() {
+    if (this.disabled) {
+        this.disabled = false
+        this.profileModeLabel = Translator.trans('display_mode', {}, 'platform')
+    } else {
+        this.disabled = true
+        this.profileModeLabel = Translator.trans('edit_mode', {}, 'platform')
+    }
   }
 }
