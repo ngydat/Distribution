@@ -9,7 +9,7 @@
             ng-options="option.label|trans:{}:'platform' for option in sc.field[2].values track by option.value"
             ng-init="sc._ngModel = {value: sc.ngModel}"
             ng-change="sc.ngModel= sc._ngModel.value"
-            ng-disabled="tc.field[2].disabled"
+            ng-disabled="sc.field[2].disabled"
         >
         </select>
         <help-block ng-model="sc.ngModel" field="sc.field"></help-block>

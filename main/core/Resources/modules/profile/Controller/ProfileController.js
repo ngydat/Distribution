@@ -38,6 +38,11 @@ export default class ProfileController {
     )
   }
 
+  isDisabled(panel)
+  {
+      return this.disabled && panel.is_editable
+  }
+
   switchProfileMode() {
     if (this.disabled) {
         this.disabled = false

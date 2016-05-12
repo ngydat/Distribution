@@ -92,10 +92,16 @@ class FieldFacet
     protected $fieldFacetChoices;
 
     /**
-     * @Groups({"api_facet_admin", "api_profile"})
+     * @Groups({"api_profile"})
      * @Accessor(getter="getUserFieldValue")
      */
     protected $userFieldValue;
+
+    /**
+     * @Groups({"api_profile"})
+     * @Accessor(getter="isEditable")
+     */
+    protected $isEditable;
 
     public function __construct()
     {
@@ -206,11 +212,27 @@ class FieldFacet
     }
 
     /**
-     * For serialization in user profile. It's easier that way. Otherwise we'll retrieve every value and it's not what we want.
+     * For serialization in user profile. It's easier that way.
      */
     public function getUserFieldValue()
     {
         return $this->userFieldValue ? $this->userFieldValue->getValue() : null;
+    }
+
+    /**
+     * For serialization in user profile. It's easier that way.
+     */
+    public function setIsEditable($boolean)
+    {
+        $this->isEditable = $boolean;
+    }
+
+    /**
+     * For serialization in user profile. It's easier that way.
+     */
+    public function isEditable()
+    {
+        return $this->isEditable;
     }
 
     public function getPrettyName()

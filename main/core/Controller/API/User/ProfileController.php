@@ -51,12 +51,11 @@ class ProfileController extends FOSRestController
      */
     public function getFacetsAction(User $user)
     {
-        //add check access
         $facets = $this->facetManager->getFacetsByUser($user);
         $ffvs = $this->facetManager->getFieldValuesByUser($user);
+        $userRoles = $this->tokenStorage->getToken()->getRoles();
 
         foreach ($facets as $facet) {
-            //add check accessess
             foreach ($facet->getPanelFacets() as $panelFacet) {
                 foreach ($panelFacet->getFieldsFacet() as $field) {
                     foreach ($ffvs as $ffv) {
@@ -65,6 +64,9 @@ class ProfileController extends FOSRestController
                             $field->setUserFieldValue($ffv);
                         }
                     }
+
+                    //for serialization
+                    $field->setIsEditable(true);
                 }
             }
         }

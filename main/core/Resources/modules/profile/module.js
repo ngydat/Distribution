@@ -1,8 +1,8 @@
 import 'angular/angular.min'
 
-import bootstrap from 'angular-bootstrap'
-import translation from 'angular-ui-translation/angular-translation'
-import asset from '../asset/module'
+import 'angular-bootstrap'
+import 'angular-ui-translation/angular-translation'
+import '../asset/module'
 
 import Interceptors from '../interceptorsDefault'
 import ProfileDirective from './Directive/ProfileDirective'
