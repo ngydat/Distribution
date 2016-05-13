@@ -104,6 +104,7 @@ class PanelFacet
     public function setFacet($facet)
     {
         $this->facet = $facet;
+        $facet->addPanelFacet($this);
     }
 
     public function getFacet()

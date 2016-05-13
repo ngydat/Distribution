@@ -116,30 +116,4 @@ class FacetController extends Controller
             'properties' => $properties,
         );
     }
-
-    /**
-     * @EXT\Route("/{facet}/up",
-     *      name="claro_admin_move_facet_up",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function moveFacetUpAction(Facet $facet)
-    {
-        $this->facetManager->moveFacetUp($facet);
-
-        return new Response('success', 204);
-    }
-
-    /**
-     * @EXT\Route("/{facet}/down",
-     *      name="claro_admin_move_facet_down",
-     *      options = {"expose"=true}
-     * )
-     */
-    public function moveFacetDownAction(Facet $facet)
-    {
-        $this->facetManager->moveFacetDown($facet);
-
-        return new Response('success', 204);
-    }
 }

@@ -40,6 +40,7 @@ class FacetManager
     private $authorization;
     private $panelRepo;
     private $fieldRepo;
+    private $container;
 
     /**
      * @InjectParams({
@@ -47,13 +48,15 @@ class FacetManager
      *     "translator"      = @Inject("translator"),
      *     "authorization"   = @Inject("security.authorization_checker"),
      *     "tokenStorage"    = @Inject("security.token_storage"),
+     *     "container"       = @Inject("service_container")
      * })
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorization,
         ObjectManager $om,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        $container
     ) {
         $this->om = $om;
         $this->translator = $translator;
@@ -64,6 +67,7 @@ class FacetManager
         $this->fieldValueRepo = $om->getRepository('ClarolineCoreBundle:Facet\FieldFacetValue');
         $this->panelRoleRepo = $om->getRepository('ClarolineCoreBundle:Facet\PanelFacetRole');
         $this->facetRepo = $om->getRepository('ClarolineCoreBundle:Facet\Facet');
+        $this->container = $container;
     }
 
     /**
@@ -79,7 +83,6 @@ class FacetManager
         $facet->setIsMain($isMain);
         $facet->setForceCreationForm($forceCreationForm);
         $facet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\Facet'));
-        $this->initFacetPermissions($facet);
         $this->om->persist($facet);
         $this->om->endFlushSuite();
 
@@ -179,7 +182,6 @@ class FacetManager
         $panelFacet->setFacet($facet);
         $panelFacet->setIsDefaultCollapsed($collapse);
         $panelFacet->setPosition($this->om->count('Claroline\CoreBundle\Entity\Facet\PanelFacet'));
-        $this->initPanelPermissions($panelFacet);
         $this->om->persist($panelFacet);
         $this->om->flush();
 
@@ -416,19 +418,6 @@ class FacetManager
             ->findBy(array(), array('position' => 'ASC'));
     }
 
-    public function initFacetPermissions(Facet $facet)
-    {
-        $userAdminTool = $this->om
-            ->getRepository('Claroline\CoreBundle\Entity\Tool\AdminTool')
-            ->findOneByName('user_management');
-
-        $roles = $this->om
-            ->getRepository('ClarolineCoreBundle:Role')
-            ->findByAdminTool($userAdminTool);
-
-        $facet->setRoles($roles);
-    }
-
     public function setFacetRoles(Facet $facet, array $roles)
     {
         $facet->setRoles($roles);
@@ -436,23 +425,6 @@ class FacetManager
         $this->om->flush();
 
         return $facet;
-    }
-
-    public function initPanelPermissions(PanelFacet $panel)
-    {
-        $this->om->startFlushSuite();
-        $roles = $panel->getFacet()->getRoles();
-
-        foreach ($roles as $role) {
-            $ffr = new PanelFacetRole();
-            $ffr->setRole($role);
-            $ffr->setPanelFacet($field);
-            $ffr->setCanOpen(true);
-            $ffr->setCanEdit(false);
-            $this->om->persist($ffr);
-        }
-
-        $this->om->endFlushSuite();
     }
 
     public function setPanelFacetRole(PanelFacet $panelFacet, Role $role, $canOpen, $canEdit)

@@ -86,6 +86,7 @@ class Facet
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->panelFacets = new ArrayCollection();
     }
 
     public function getId()

@@ -32,7 +32,7 @@ class PanelFacetRole
     /**
      * @ORM\ManyToOne(
      *     targetEntity="Claroline\CoreBundle\Entity\Role",
-     *     inversedBy="fieldFacetsRole"
+     *     inversedBy="panelFacetsRole"
      * )
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Groups({"api_facet_admin"})

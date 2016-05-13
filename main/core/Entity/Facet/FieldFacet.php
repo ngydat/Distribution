@@ -114,6 +114,7 @@ class FieldFacet
      */
     public function setPanelFacet(PanelFacet $panelFacet)
     {
+        $panelFacet->addFieldFacet($this);
         $this->panelFacet = $panelFacet;
     }
 
@@ -158,6 +159,11 @@ class FieldFacet
     public function addFieldFacet(FieldFacetValue $fieldFacetValue)
     {
         $this->fieldsFacetValue->add($fieldFacetValue);
+    }
+
+    public function addFieldChoice(FieldFacetChoice $choice)
+    {
+        $this->fieldFacetChoices->add($choice);
     }
 
     public function setPosition($position)

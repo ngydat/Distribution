@@ -13,6 +13,7 @@ namespace Claroline\CoreBundle\Controller\API\User;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as EXT;
+use JMS\SecurityExtraBundle\Annotation as SEC;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 use FOS\RestBundle\Controller\Annotations\NamePrefix;
@@ -30,6 +31,7 @@ use Claroline\CoreBundle\Persistence\ObjectManager;
 
 /**
  * @NamePrefix("api_")
+ * @SEC\PreAuthorize("canOpenAdminTool('user_management')")
  */
 class FacetController extends FOSRestController
 {
@@ -65,10 +67,10 @@ class FacetController extends FOSRestController
     public function createFacetAction()
     {
         $facet = $this->request->request->get('facet');
+        $forceCreationForm = isset($facet['force_creation_form']) ? $facet['force_creation_form'] : false;
+        $isMain = isset($facet['is_main']) ? $facet['is_main'] : false;
 
-        //there should be a facet validation here
-
-        return $this->facetManager->createFacet($facet['name'], isset($facet['force_creation_form']), isset($data['is_main']));
+        return $this->facetManager->createFacet($facet['name'], $forceCreationForm, $isMain);
     }
 
     /**
@@ -78,10 +80,10 @@ class FacetController extends FOSRestController
     public function editFacetAction(Facet $facet)
     {
         $data = $this->request->request->get('facet');
+        $forceCreationForm = isset($data['force_creation_form']) ? $data['force_creation_form'] : false;
+        $isMain = isset($data['is_main']) ? $data['is_main'] : false;
 
-        //there should be a facet validation here
-
-        return $this->facetManager->editFacet($facet, $data['name'], isset($data['force_creation_form']), isset($data['is_main']));
+        return $this->facetManager->editFacet($facet, $data['name'], $forceCreationForm, $isMain);
     }
 
     /**
@@ -116,9 +118,9 @@ class FacetController extends FOSRestController
     public function createFacetPanelAction(Facet $facet)
     {
         $panel = $this->request->request->get('panel');
-        //there should be a facet validation here
+        $collapse = isset($panel['is_default_collapsed']) ? $panel['is_default_collapsed'] : false;
 
-        return $this->facetManager->addPanel($facet, $panel['name'], isset($panel['is_default_collapsed']));
+        return $this->facetManager->addPanel($facet, $panel['name'], $collapse);
     }
 
     /**
@@ -151,10 +153,9 @@ class FacetController extends FOSRestController
     public function editFacetPanelAction(PanelFacet $panel)
     {
         $data = $this->request->request->get('panel');
+        $collapse = isset($data['is_default_collapsed']) ? $data['is_default_collapsed'] : false;
 
-        //there should be a facet validation here
-
-        return $this->facetManager->editPanel($panel, $data['name'], isset($data['is_default_collapsed']));
+        return $this->facetManager->editPanel($panel, $data['name'], $collapse);
     }
 
     /**
@@ -211,14 +212,7 @@ class FacetController extends FOSRestController
             }
         }
 
-        $field = $this->facetManager->editField(
-            $field,
-            $data['name'],
-            $data['type'],
-            isset($data['is_visible_by_owner']),
-            isset($data['is_editable_by_owner'])
-        );
-
+        $field = $this->facetManager->editField($field, $data['name'], $data['type']);
         $this->om->endFlushSuite();
 
         return $field;

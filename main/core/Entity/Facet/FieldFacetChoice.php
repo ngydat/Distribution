@@ -78,6 +78,7 @@ class FieldFacetChoice
     public function setFieldFacet(FieldFacet $ff)
     {
         $this->fieldFacet = $ff;
+        $ff->addFieldChoice($this);
     }
 
     public function getFieldFacet()

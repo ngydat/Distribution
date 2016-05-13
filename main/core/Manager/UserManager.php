@@ -258,7 +258,6 @@ class UserManager
             $user = $this->getUserByUsername($username);
 
             foreach ($fields as $key => $field) {
-                var_dump($field);
                 $fieldFacet = $facetManager->getFieldFacetByName($field);
                 $facetManager->setFieldValue($user, $fieldFacet, $values[$key], true);
             }
