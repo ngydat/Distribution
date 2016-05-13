@@ -6,7 +6,6 @@ export default class HelpBlockDirective {
     this.$compile = $compile
     this.$parse = $parse
     this.restrict = 'E'
-    this.template = require('./help_block.html')
     this.replace = true
     this.require = '^ngModel'
     this.controller = HelpBlockController

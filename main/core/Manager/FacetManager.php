@@ -477,6 +477,13 @@ class FacetManager
         return $this->om->getRepository('ClarolineCoreBundle:Facet\FieldFacet')->find($id);
     }
 
+    public function getFieldFacetByName($name)
+    {
+        var_dump($name);
+
+        return $this->om->getRepository('ClarolineCoreBundle:Facet\FieldFacet')->findOneByName($name);
+    }
+
     public function getFieldFacets()
     {
         return $this->om->getRepository('ClarolineCoreBundle:Facet\FieldFacet')->findAll();
